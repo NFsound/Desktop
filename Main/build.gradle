@@ -1,0 +1,40 @@
+plugins {
+    id 'java'
+    id 'org.jetbrains.kotlin.jvm'
+    id 'application'
+    id 'org.openjfx.javafxplugin' version '0.0.8'
+}
+
+group 'org.nfsound'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+}
+
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+    implementation 'no.tornado:tornadofx:+'
+    implementation(project(":Domain"))
+    implementation(project(":Data"))
+    implementation(project(":DI"))
+    implementation(project(":Presentation"))
+}
+javafx {
+    version = "15"
+
+    modules = [ 'javafx.controls', 'javafx.fxml' ]
+}
+compileKotlin {
+    kotlinOptions {
+        jvmTarget = "15"
+    }
+}
+compileTestKotlin {
+    kotlinOptions {
+        jvmTarget = "15"
+    }
+}

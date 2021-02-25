@@ -1,0 +1,8 @@
+
+.main-window-class{
+    /*colors*/
+    --alternative-color:#DB22DF;
+    /*----*/
+    -fx-background-color:black;
+    -fx-border-color: var(--alternative-color);
+}

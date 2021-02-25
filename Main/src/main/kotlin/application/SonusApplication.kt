@@ -1,5 +1,10 @@
-import tornadofx.*
+package application
 
-class SonusApplication: App() {
+import javafx.stage.Stage
+import tornadofx.*
+import view.MainView
+
+class SonusApplication: App(MainView::class) {
+
 
 }

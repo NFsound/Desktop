@@ -2,7 +2,8 @@ plugins {
     id 'java'
     id 'org.jetbrains.kotlin.jvm'
     id 'application'
-    id 'org.openjfx.javafxplugin' version '0.0.8'
+    id 'org.openjfx.javafxplugin'
+    id 'kotlin-kapt'
 }
 
 group 'org.nfsound'
@@ -12,22 +13,33 @@ repositories {
     mavenCentral()
     mavenLocal()
 }
-
-
-dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.12'
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
-    implementation 'no.tornado:tornadofx:+'
-    implementation(project(":Domain"))
-    implementation(project(":Data"))
-    implementation(project(":DI"))
-    implementation(project(":Presentation"))
-}
 javafx {
     version = "15"
-
     modules = [ 'javafx.controls', 'javafx.fxml' ]
 }
+kapt {
+    generateStubs = true
+}
+dependencies {
+    //base
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+    implementation 'no.tornado:tornadofx:1.7.20'
+
+    //dagger
+    implementation "com.google.dagger:dagger:2.32"
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.32'
+    kapt 'com.google.dagger:dagger-compiler:2.32'
+
+    //projects
+    implementation(project(":Domain"))
+    implementation(project(":Data"))
+    implementation(project(":Presentation"))
+    implementation(project(":DI"))
+
+    //test
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
+
 compileKotlin {
     kotlinOptions {
         jvmTarget = "15"

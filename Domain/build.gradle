@@ -1,6 +1,7 @@
 plugins {
     id 'java'
     id 'org.jetbrains.kotlin.jvm'
+    id 'kotlin-kapt'
 }
 
 group 'org.nfsound'
@@ -11,8 +12,18 @@ repositories {
 }
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib"
-    testCompile group: 'junit', name: 'junit', version: '4.12'
-    implementation "io.reactivex.rxjava3:rxjava:+"
 
+    //base
+    implementation "org.jetbrains.kotlin:kotlin-stdlib"
+
+    //dagger
+    implementation "com.google.dagger:dagger:2.32"
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.32'
+    kapt 'com.google.dagger:dagger-compiler:2.32'
+
+    //rx
+    implementation "io.reactivex.rxjava3:rxjava:3.0.10"
+
+    //test
+    testCompile group: 'junit', name: 'junit', version: '4.12'
 }

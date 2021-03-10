@@ -3,11 +3,12 @@ package application
 
 import di.components.ApplicationComponent
 import di.components.DaggerApplicationComponent
+import presentation.styles.MainWindowStyles
 import presentation.views.main.MainView
 import tornadofx.*
 import java.lang.IllegalStateException
 
-class SonusApplication : App(MainView::class) {
+class SonusApplication : App(MainView::class, MainWindowStyles::class) {
 
     var applicationComponent: ApplicationComponent
 
@@ -17,6 +18,7 @@ class SonusApplication : App(MainView::class) {
             .builder()
             .build()
         applicationComponent.inject(this)
+        reloadStylesheetsOnFocus()
     }
 
     companion object {

@@ -13,6 +13,7 @@ class MainWindowStyles():Stylesheet() {
         val leftMenuItemStyle by cssclass()
         val leftMenuStyle by cssclass()
         val leftMenuIconStyle by cssclass()
+        val iconStyle by cssclass()
         val leftMenuRectangleStyle by cssclass()
 
 
@@ -22,6 +23,9 @@ class MainWindowStyles():Stylesheet() {
         val bottomBarColor = c("#474040")
         val leftBarColor = c("#0D0C0C")
         val alternativeColor = c("#DB22DF")
+
+        //constants
+        val menuItemHeight = 30
     }
     init {
         bottomBarStyle {
@@ -45,16 +49,15 @@ class MainWindowStyles():Stylesheet() {
         }
 
         leftMenuIconStyle{
-            maxWidth = 5.px
-            maxHeight = 5.px
-            fill = alternativeColor
-            backgroundColor += alternativeColor
+            prefHeight = 30.px
+            prefWidth = 30.px
+            maxWidth = 60.px
+            maxHeight = 60.px
+            fill = white
         }
 
-        leftMenuRectangleStyle{
-            backgroundColor += alternativeColor
-            minWidth = 2.px
-            maxWidth = 2.px
+        iconStyle{
+            padding = box(10.px)
         }
 
     }

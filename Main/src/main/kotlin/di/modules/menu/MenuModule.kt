@@ -21,8 +21,8 @@ class MenuModule {
     @Provides
     fun provideMenu():Menu{
         val homeIconSVGPath = getSVGPath("Main/src/main/resources/icons/home_icon_path.txt")
-        val list = listOf(MenuItemImpl("Home", homeIconSVGPath))
-           // MenuItemImpl("Account","src/main/resources/icons/home.svg"))
+        val list = listOf(MenuItemImpl("Home", homeIconSVGPath),
+           MenuItemImpl("Account",homeIconSVGPath))
         return MenuList(list)
     }
 

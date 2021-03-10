@@ -1,6 +1,7 @@
 plugins {
     id 'org.jetbrains.kotlin.jvm' version '1.4.30'
     id 'org.openjfx.javafxplugin' version '0.0.9'
+
 }
 group 'org.nfsound'
 version '1.0-SNAPSHOT'

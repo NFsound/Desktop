@@ -11,11 +11,9 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/DI" />
             <option value="$PROJECT_DIR$/Data" />
             <option value="$PROJECT_DIR$/Domain" />
             <option value="$PROJECT_DIR$/Main" />
-            <option value="$PROJECT_DIR$/Presentation" />
           </set>
         </option>
       </GradleProjectSettings>

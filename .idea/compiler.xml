@@ -30,7 +30,6 @@
           <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains/annotations/13.0/919f0dfe192fb4e063e7dacadee7f8bb9a2672a9/annotations-13.0.jar" />
         </processorPath>
         <module name="Sonus.Data.main" />
-        <module name="Sonus.DI.main" />
         <module name="Sonus.Domain.main" />
         <module name="Sonus.Main.main" />
       </profile>

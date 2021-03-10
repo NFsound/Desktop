@@ -17,9 +17,7 @@ javafx {
     version = "15"
     modules = [ 'javafx.controls', 'javafx.fxml' ]
 }
-kapt {
-    generateStubs = true
-}
+apply plugin: 'kotlin-kapt'
 dependencies {
     //base
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
@@ -33,8 +31,6 @@ dependencies {
     //projects
     implementation(project(":Domain"))
     implementation(project(":Data"))
-    implementation(project(":Presentation"))
-    implementation(project(":DI"))
 
     //test
     testCompile group: 'junit', name: 'junit', version: '4.12'

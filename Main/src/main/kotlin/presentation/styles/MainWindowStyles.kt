@@ -10,11 +10,13 @@ class MainWindowStyles():Stylesheet() {
         //styles
         val bottomBarStyle by cssclass()
         val mainStyle by cssclass()
-        val leftMenuItemStyle by cssclass()
+
+        val leftMenuItemStyleDefault by cssclass()
+        val leftMenuItemStyleSelected by cssclass()
         val leftMenuStyle by cssclass()
         val leftMenuIconStyle by cssclass()
         val iconStyle by cssclass()
-        val leftMenuRectangleStyle by cssclass()
+        val leftMenuRectangleStyleSelected by cssclass()
 
 
         //colors
@@ -38,13 +40,17 @@ class MainWindowStyles():Stylesheet() {
             prefWidth = 800.px
         }
 
-        leftMenuItemStyle{
+        leftMenuItemStyleDefault{
             textFill = white
-
+            backgroundColor += leftBarColor
+        }
+        leftMenuItemStyleSelected{
+            backgroundColor.elements.removeAll { true }
+            backgroundColor += mainColor
         }
 
         leftMenuStyle{
-            textFill = alternativeColor
+            backgroundColor += leftBarColor
             prefWidth = 150.px
         }
 
@@ -58,6 +64,10 @@ class MainWindowStyles():Stylesheet() {
 
         iconStyle{
             padding = box(10.px)
+        }
+
+        leftMenuRectangleStyleSelected{
+            fill = alternativeColor
         }
 
     }

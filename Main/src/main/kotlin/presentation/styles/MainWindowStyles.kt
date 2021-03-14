@@ -17,7 +17,7 @@ class MainWindowStyles():Stylesheet() {
         val leftMenuIconStyle by cssclass()
         val iconStyle by cssclass()
         val leftMenuRectangleStyleSelected by cssclass()
-
+        val leftMenuRectangleStyleUnselected by cssclass()
 
         //colors
         val mainColor = c("#000000", opacity = 0.85)
@@ -27,47 +27,53 @@ class MainWindowStyles():Stylesheet() {
         val alternativeColor = c("#DB22DF")
 
         //constants
-        val menuItemHeight = 30
+        val menuItemHeight = 50
+        val menuItemWidth = 200
+        val bottomBarHeight = 40
+        val iconSize = 30
+        val rectangleWidth = 2
     }
     init {
         bottomBarStyle {
-            prefHeight = 40.px
+            prefHeight = bottomBarHeight.px
             backgroundColor += bottomBarColor
         }
         mainStyle{
             backgroundColor += mainColor
-            prefHeight = 600.px
-            prefWidth = 800.px
+            prefHeight = 650.px
+            prefWidth = 1200.px
         }
 
         leftMenuItemStyleDefault{
             textFill = white
+            fontSize = 18.px
             backgroundColor += leftBarColor
+            prefHeight = menuItemHeight.px
         }
         leftMenuItemStyleSelected{
             backgroundColor.elements.removeAll { true }
             backgroundColor += mainColor
+            prefHeight = menuItemHeight.px
         }
 
         leftMenuStyle{
             backgroundColor += leftBarColor
-            prefWidth = 150.px
+            prefWidth = menuItemWidth.px
         }
 
         leftMenuIconStyle{
-            prefHeight = 30.px
-            prefWidth = 30.px
+            prefHeight = menuItemHeight.px
+            prefWidth = menuItemWidth.px
             maxWidth = 60.px
             maxHeight = 60.px
             fill = white
         }
 
-        iconStyle{
-            padding = box(10.px)
-        }
-
         leftMenuRectangleStyleSelected{
             fill = alternativeColor
+        }
+        leftMenuRectangleStyleUnselected{
+            fill = leftBarColor
         }
 
     }

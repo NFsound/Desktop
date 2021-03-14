@@ -1,7 +1,11 @@
 package presentation.views.main
 
 import application.SonusApplication
+import javafx.geometry.Pos
+import javafx.geometry.VPos
+import javafx.scene.layout.BackgroundFill
 import javafx.scene.layout.HBox
+import javafx.scene.shape.Rectangle
 import presentation.menu.item.MenuItem
 import presentation.menu.list.Menu
 import presentation.styles.MainWindowStyles
@@ -27,28 +31,42 @@ class DrawerMenuView() : View() {
             addClass(MainWindowStyles.leftMenuStyle)
 
             val hBox = hbox {
-                addClass(MainWindowStyles.leftMenuStyle)
+                val indexL: Int = index
+                setOnMouseClicked {
+                    handleMenuClick(item, indexL)
+                }
 
                 rectangle {
-                    id = "selection_rectangle"
-                    width = 2.0
-                    height = 30.0
-                }
-
-                region {
-                    addClass(MainWindowStyles.leftMenuIconStyle)
-                    svgicon(item.svgPath, size = 30, MainWindowStyles.white) {
-                        addClass(MainWindowStyles.iconStyle)
-                    }
-                }
-
-                button(item.title) {
-                    addClass(MainWindowStyles.leftMenuItemStyleDefault)
-                    val indexL:Int = index
+                    id = "selection_rectangle${indexL}"
+                    width = MainWindowStyles.rectangleWidth.toDouble()
+                    height = MainWindowStyles.menuItemHeight.toDouble()
                     setOnMouseClicked {
                         handleMenuClick(item, indexL)
                     }
                 }
+
+                stackpane {
+                    svgicon(
+                        item.svgPath,
+                        size = MainWindowStyles.iconSize,
+                        color = MainWindowStyles.white
+                    ) {
+
+                        setOnMouseClicked {
+                            handleMenuClick(item, indexL)
+                        }
+                    }
+                    padding = insets(10)
+                }
+
+
+                button(item.title) {
+                    addClass(MainWindowStyles.leftMenuItemStyleDefault)
+                    setOnMouseClicked {
+                        handleMenuClick(item, indexL)
+                    }
+                }
+
             }
 
             menuBoxes.add(hBox)
@@ -57,12 +75,18 @@ class DrawerMenuView() : View() {
     }
 
     private fun handleMenuClick(menuItem: MenuItem, index: Int) {
-        val rectangle = menuBoxes[index].children.find { it -> it.id == "selection_rectangle" }
-        for (item in menuBoxes) {
-            item.addClass(MainWindowStyles.leftMenuItemStyleDefault)
+        val rectangle = menuBoxes[index].children.find {
+            it.id == "selection_rectangle${index}"
+        } as Rectangle
+        for (i in 0 until menuBoxes.size){
+            val curRect = menuBoxes[i].children.find {
+                it.id == "selection_rectangle${i}"
+            } as Rectangle
+            //curRect.addClass(MainWindowStyles.leftMenuRectangleStyleUnselected)
+            curRect.fill = MainWindowStyles.leftBarColor
         }
-        menuBoxes[index].addClass(MainWindowStyles.leftMenuItemStyleSelected)
-        rectangle!!.addClass(MainWindowStyles.leftMenuRectangleStyleSelected)
+        rectangle.fill = MainWindowStyles.alternativeColor
+        //rectangle.addClass(MainWindowStyles.leftMenuRectangleStyleSelected)
     }
 
 }

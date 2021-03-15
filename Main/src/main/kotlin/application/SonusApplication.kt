@@ -4,7 +4,7 @@ package application
 import di.components.ApplicationComponent
 import di.components.DaggerApplicationComponent
 import presentation.styles.MainWindowStyles
-import presentation.views.main.MainView
+import presentation.main_views.MainView
 import tornadofx.*
 import java.lang.IllegalStateException
 

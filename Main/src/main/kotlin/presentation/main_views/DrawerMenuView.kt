@@ -1,9 +1,6 @@
-package presentation.views.main
+package presentation.main_views
 
 import application.SonusApplication
-import javafx.geometry.Pos
-import javafx.geometry.VPos
-import javafx.scene.layout.BackgroundFill
 import javafx.scene.layout.HBox
 import javafx.scene.shape.Rectangle
 import presentation.menu.item.MenuItem
@@ -82,11 +79,9 @@ class DrawerMenuView() : View() {
             val curRect = menuBoxes[i].children.find {
                 it.id == "selection_rectangle${i}"
             } as Rectangle
-            //curRect.addClass(MainWindowStyles.leftMenuRectangleStyleUnselected)
             curRect.fill = MainWindowStyles.leftBarColor
         }
         rectangle.fill = MainWindowStyles.alternativeColor
-        //rectangle.addClass(MainWindowStyles.leftMenuRectangleStyleSelected)
     }
 
 }

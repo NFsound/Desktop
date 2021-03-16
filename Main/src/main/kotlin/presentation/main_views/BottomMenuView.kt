@@ -1,12 +1,19 @@
 package presentation.main_views
 
 import javafx.scene.Parent
+import presentation.styles.BottomViewStyles
+import presentation.styles.MainWindowStyles
 import tornadofx.*
 
 class BottomMenuView(): View() {
 
 
-    override val root: Parent = hbox {
+    init{
+
+    }
+
+    override val root = hbox {
+        addClass(BottomViewStyles.bottomBarStyle)
         var trackInfo = vbox{
 
         }

@@ -2,10 +2,10 @@ package presentation.main_views
 
 import application.SonusApplication
 import javafx.scene.layout.HBox
-import javafx.scene.shape.Rectangle
 import presentation.menu.item.MenuItem
 import presentation.menu.list.Menu
-import presentation.styles.MainWindowStyles
+import presentation.styles.Colors
+import presentation.styles.LeftMenuStyles
 import tornadofx.*
 import javax.inject.Inject
 
@@ -22,66 +22,72 @@ class DrawerMenuView() : View() {
 
     override var root = vbox {
         var index = 0
+        addClass(LeftMenuStyles.leftMenuStyle)
         menuBoxes = ArrayList(menu.menuList.size)
         menu.menuList.forEach { item ->
-
-            addClass(MainWindowStyles.leftMenuStyle)
-
-            val hBox = hbox {
-                val indexL: Int = index
-                setOnMouseClicked {
-                    handleMenuClick(item, indexL)
-                }
-
-                rectangle {
-                    id = "selection_rectangle${indexL}"
-                    width = MainWindowStyles.rectangleWidth.toDouble()
-                    height = MainWindowStyles.menuItemHeight.toDouble()
-                    setOnMouseClicked {
-                        handleMenuClick(item, indexL)
-                    }
-                }
-
-                stackpane {
-                    svgicon(
-                        item.svgPath,
-                        size = MainWindowStyles.iconSize,
-                        color = MainWindowStyles.white
-                    ) {
-
-                        setOnMouseClicked {
-                            handleMenuClick(item, indexL)
-                        }
-                    }
-                    padding = insets(10)
-                }
-
-
-                button(item.title) {
-                    addClass(MainWindowStyles.leftMenuItemStyleDefault)
-                    setOnMouseClicked {
-                        handleMenuClick(item, indexL)
-                    }
-                }
-
-            }
-
+            val hBox = makeHBox(item, index)
+            this@vbox.add(hBox)
             menuBoxes.add(hBox)
             index += 1
         }
     }
 
+
     private fun handleMenuClick(menuItem: MenuItem, index: Int) {
-        val rectangle = menuBoxes[index].children.find {
-            it.id == "selection_rectangle${index}"
-        } as Rectangle
-        for (i in 0 until menuBoxes.size){
-            val curRect = menuBoxes[i].children.find {
-                it.id == "selection_rectangle${i}"
-            } as Rectangle
-            curRect.fill = MainWindowStyles.leftBarColor
+        stackpane {
+            for (i in menuBoxes.minus(menuItem).indices) {
+                menuBoxes[i] = makeHBox(menu.menuList[i], i, false)
+            }
+            menuBoxes[index] = makeHBox(menu.menuList[index], index, true)
         }
-        rectangle.fill = MainWindowStyles.alternativeColor
+        root.clear()
+        root.children.addAll(menuBoxes)
+    }
+
+
+    private fun makeHBox(item: MenuItem, index: Int, isSelected: Boolean = false): HBox {
+        return hbox {
+            when (isSelected) {
+                true -> addClass(LeftMenuStyles.leftMenuItemStyleSelected)
+                false -> addClass(LeftMenuStyles.leftMenuItemStyleDefault)
+            }
+            setOnMouseClicked {
+                handleMenuClick(item, index)
+            }
+
+            rectangle {
+                width = LeftMenuStyles.rectangleWidth.toDouble()
+                height = LeftMenuStyles.menuItemHeight.toDouble()
+                when (isSelected) {
+                    true -> fill = Colors.alternativeColor
+                    false -> fill = Colors.leftBarColor
+                }
+            }
+
+            stackpane {
+                svgicon(
+                    item.svgPath,
+                    size = LeftMenuStyles.iconSize,
+                    color = Colors.whiteColor
+                ) {
+                    setOnMouseClicked {
+                        handleMenuClick(item, index)
+                    }
+                }
+                padding = insets(10)
+            }
+            button(item.title) {
+                when (isSelected) {
+                    true -> addClass(LeftMenuStyles.leftMenuButtonStyleSelected)
+                    false -> addClass(LeftMenuStyles.leftMenuButtonStyleDefault)
+                }
+                setOnMouseClicked {
+                    handleMenuClick(item, index)
+                }
+                padding = insets(10)
+            }
+
+        }
     }
 
 }

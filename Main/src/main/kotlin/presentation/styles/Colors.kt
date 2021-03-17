@@ -9,4 +9,5 @@ object Colors {
     val bottomBarColor = c("#474040")
     val leftBarColor = c("#0D0C0C")
     val alternativeColor = c("#DB22DF")
+    val topBarBorderColor = c("#C4C4C4")
 }

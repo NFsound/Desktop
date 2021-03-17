@@ -20,6 +20,7 @@ class BottomMenuView(): View() {
         var playerBox = vbox{
             hbox{
                 //icons play/pause next previous
+                
             }
             hbox{
                 //progress

@@ -12,6 +12,7 @@ import tornadofx.*
 import javax.inject.Inject
 
 class DrawerMenuView() : View() {
+
     @Inject
     lateinit var menu: Menu
 

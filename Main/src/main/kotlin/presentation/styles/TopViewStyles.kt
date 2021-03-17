@@ -23,11 +23,11 @@ class TopViewStyles : Stylesheet() {
         val iconWrapperSelectedStyle by cssclass()
 
         //constants
-        val topBarHeight = 48
-        val searchIconSize = 12
-        val windowIconSize = 20
-        val searchTextFieldWidth = 200
-        val searchTextFieldHeight = 32
+        const val topBarHeight = 48
+        const val searchIconSize = 12
+        const val windowIconSize = 18
+        const val searchTextFieldWidth = 200
+        const val searchTextFieldHeight = 32
     }
 
     init {
@@ -43,7 +43,8 @@ class TopViewStyles : Stylesheet() {
             prefHeight = topBarHeight.px
         }
         searchTextFieldStyle {
-            backgroundRadius = multi(box(16.px))
+            backgroundRadius = multi(box(18.px))
+            fontSize = 12.pt
             prefWidth = searchTextFieldWidth.px
             prefHeight = searchTextFieldHeight.px
             backgroundColor += whiteColor
@@ -52,6 +53,7 @@ class TopViewStyles : Stylesheet() {
 
         searchTextLabelStyle {
             textFill = grayTextColor
+            fontSize = 12.pt
             padding = box(5.px)
         }
 
@@ -64,11 +66,12 @@ class TopViewStyles : Stylesheet() {
         }
 
         iconWrapperStyle {
-            padding = box(5.px, 10.px)
+            padding = box(5.px, 12.px)
         }
         iconWrapperSelectedStyle {
             borderColor += box(topBarBorderColor)
-            padding = box(5.px, 10.px)
+            borderInsets = multi(box((-1).px))
+            padding = box(5.px, 12.px)
         }
 
     }

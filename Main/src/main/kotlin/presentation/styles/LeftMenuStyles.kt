@@ -20,10 +20,10 @@ class LeftMenuStyles:Stylesheet() {
         val leftMenuButtonStyleSelected by cssclass()
 
         //constants
-        val menuItemHeight = 50
-        val menuItemWidth = 200
-        val iconSize = 30
-        val rectangleWidth = 2
+        const val menuItemHeight = 50
+        const val menuItemWidth = 200
+        const val iconSize = 30
+        const val rectangleWidth = 3
     }
 
     init {

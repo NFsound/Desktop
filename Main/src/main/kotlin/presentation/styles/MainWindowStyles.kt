@@ -10,15 +10,21 @@ class MainWindowStyles():Stylesheet() {
     companion object{
         //styles
         val mainStyle by cssclass()
-
+        //constants
+        const val prefHeightMain = 650
+        const val prefWidthMain = 1200
+        const val minHeightMain = 600
+        const val minWidthMain = 800
     }
 
     init {
 
         mainStyle{
             backgroundColor += mainColor
-            prefHeight = 650.px
-            prefWidth = 1200.px
+            prefHeight = prefHeightMain.px
+            prefWidth = prefWidthMain.px
+            minWidth = minWidthMain.px
+            minHeight = minHeightMain.px
         }
 
     }

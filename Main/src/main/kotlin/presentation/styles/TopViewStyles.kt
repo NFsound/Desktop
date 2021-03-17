@@ -1,28 +1,61 @@
 package presentation.styles
 
 import presentation.styles.Colors.alternativeColor
+import presentation.styles.Colors.grayTextColor
+import presentation.styles.Colors.leftBarColor
 import presentation.styles.Colors.leftMenuItemSelectedColor
-import presentation.styles.Colors.mainColor
 import presentation.styles.Colors.topBarBorderColor
+import presentation.styles.Colors.whiteColor
 import tornadofx.*
-class TopViewStyles: Stylesheet() {
 
-    companion object{
+class TopViewStyles : Stylesheet() {
+
+    companion object {
+        //styles
         val topBarStyle by cssclass()
+        val topBarSettingsStyle by cssclass()
+        val searchTextFieldStyle by cssclass()
+        val searchTextFieldWrapperStyle by cssclass()
+        val searchTextLabelStyle by cssclass()
+        val searchIconStyle by cssclass()
 
         //constants
-        val topBarHeight = 40
+        val topBarHeight = 48
+        val searchIconSize = 12
+        val searchTextFieldWidth = 200
+        val searchTextFieldHeight = 32
     }
 
     init {
-        topBarStyle{
+        topBarStyle {
             prefHeight = topBarHeight.px
             backgroundColor += leftMenuItemSelectedColor
-            borderColor += box(leftMenuItemSelectedColor,
-                leftMenuItemSelectedColor,
-                topBarBorderColor,
-                leftMenuItemSelectedColor)
+            borderColor += box(topBarBorderColor)
+            borderWidth += box(0.px,0.px,1.px,0.px)
         }
+        topBarSettingsStyle {
+            backgroundColor += leftBarColor
+            prefWidth = LeftMenuStyles.menuItemWidth.px
+            prefHeight = topBarHeight.px
+        }
+        searchTextFieldStyle {
+            backgroundRadius = multi(box(16.px))
+            prefWidth = searchTextFieldWidth.px
+            prefHeight = searchTextFieldHeight.px
+            backgroundColor += whiteColor
+        }
+        searchTextLabelStyle{
+            textFill = grayTextColor
+            padding = box(5.px)
+        }
+        searchIconStyle{
+            padding = box(5.px)
+        }
+
+        searchTextFieldWrapperStyle{
+            padding = box(8.px)
+        }
+
     }
 
 }

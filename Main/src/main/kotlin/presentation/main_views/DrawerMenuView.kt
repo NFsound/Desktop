@@ -1,7 +1,9 @@
 package presentation.main_views
 
 import application.SonusApplication
+import javafx.scene.control.Button
 import javafx.scene.layout.HBox
+import javafx.scene.shape.Rectangle
 import presentation.menu.item.MenuItem
 import presentation.menu.list.Menu
 import presentation.styles.Colors
@@ -32,16 +34,37 @@ class DrawerMenuView() : View() {
         }
     }
 
+    private fun manageItemViewSelection(index: Int, isSelected: Boolean) {
+        val button = menuBoxes[index].children.find {
+            it.id == "button${index}"
+        } as Button
+        val rectangle = menuBoxes[index].children.find {
+            it.id == "rect${index}"
+        } as Rectangle
+        when (isSelected) {
+            true -> {
+                menuBoxes[index].removeClass(LeftMenuStyles.leftMenuItemStyleDefault)
+                menuBoxes[index].addClass(LeftMenuStyles.leftMenuItemStyleSelected)
+                button.removeClass(LeftMenuStyles.leftMenuButtonStyleDefault)
+                button.addClass(LeftMenuStyles.leftMenuButtonStyleSelected)
+                rectangle.fill = Colors.alternativeColor
+            }
+            false->{
+                menuBoxes[index].removeClass(LeftMenuStyles.leftMenuItemStyleSelected)
+                menuBoxes[index].addClass(LeftMenuStyles.leftMenuItemStyleDefault)
+                button.removeClass(LeftMenuStyles.leftMenuButtonStyleSelected)
+                button.addClass(LeftMenuStyles.leftMenuButtonStyleDefault)
+                rectangle.fill = Colors.leftBarColor
+            }
+        }
+    }
 
     private fun handleMenuClick(menuItem: MenuItem, index: Int) {
-        stackpane {
-            for (i in menuBoxes.minus(menuItem).indices) {
-                menuBoxes[i] = makeHBox(menu.menuList[i], i, false)
-            }
-            menuBoxes[index] = makeHBox(menu.menuList[index], index, true)
+        for (i in menuBoxes.minus(menuItem).indices) {
+            manageItemViewSelection(i,false)
         }
-        root.clear()
-        root.children.addAll(menuBoxes)
+        manageItemViewSelection(index,true)
+        root.applyCss()
     }
 
 
@@ -56,6 +79,7 @@ class DrawerMenuView() : View() {
             }
 
             rectangle {
+                id = "rect$index"
                 width = LeftMenuStyles.rectangleWidth.toDouble()
                 height = LeftMenuStyles.menuItemHeight.toDouble()
                 when (isSelected) {
@@ -77,6 +101,7 @@ class DrawerMenuView() : View() {
                 padding = insets(10)
             }
             button(item.title) {
+                id = "button$index"
                 when (isSelected) {
                     true -> addClass(LeftMenuStyles.leftMenuButtonStyleSelected)
                     false -> addClass(LeftMenuStyles.leftMenuButtonStyleDefault)

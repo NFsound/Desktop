@@ -15,6 +15,7 @@ javafx {
 dependencies {
     //base
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+
 }
 compileKotlin {
     kotlinOptions {

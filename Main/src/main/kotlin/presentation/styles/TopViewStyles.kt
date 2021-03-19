@@ -48,7 +48,7 @@ class TopViewStyles : Stylesheet() {
             prefWidth = searchTextFieldWidth.px
             prefHeight = searchTextFieldHeight.px
             backgroundColor += whiteColor
-            alignment = Pos.CENTER
+            alignment = Pos.CENTER_LEFT
         }
 
         searchTextLabelStyle {

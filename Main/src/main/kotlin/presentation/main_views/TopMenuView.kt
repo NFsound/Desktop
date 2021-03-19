@@ -1,8 +1,14 @@
 package presentation.main_views
 
 import application.SonusApplication
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.schedulers.Schedulers
+import io.reactivex.rxjava3.subjects.PublishSubject
 import javafx.application.Platform
 import javafx.geometry.Pos
+import javafx.scene.Node
+import javafx.scene.control.TextField
+import javafx.scene.layout.HBox
 import javafx.scene.layout.Priority
 import javafx.scene.layout.StackPane
 import presentation.main_views.states.CustomState
@@ -14,6 +20,7 @@ import presentation.styles.MainWindowStyles
 import presentation.styles.TopViewStyles
 import tornadofx.*
 import utils.IconsProvider
+import java.util.concurrent.TimeUnit
 
 
 class TopMenuView : View() {
@@ -26,6 +33,9 @@ class TopMenuView : View() {
     private lateinit var minimizePane: StackPane
     private lateinit var maximizePane: StackPane
     private lateinit var closePane: StackPane
+
+    private var searchText: PublishSubject<String>
+    private lateinit var box: HBox
 
     companion object {
         const val searchIconFilePath: String = SonusApplication.resourcePath + "icons/search_icon_path.txt"
@@ -42,6 +52,7 @@ class TopMenuView : View() {
                 MainWindowStyles.prefHeightMain.toDouble()
             )
         )
+        searchText = PublishSubject.create()
     }
 
     override val root = hbox {
@@ -55,7 +66,7 @@ class TopMenuView : View() {
             textfield {
 
                 addClass(TopViewStyles.searchTextFieldStyle)
-                hbox {
+                box = hbox {
                     stackpane {
                         addClass(TopViewStyles.searchIconStyle)
                         svgicon(
@@ -65,9 +76,21 @@ class TopMenuView : View() {
                     }
                     label {
                         addClass(TopViewStyles.searchTextLabelStyle)
-                        text = "search"
+                        text = "Search"
                     }
                 }
+                this.textProperty().onChange {
+                    searchText.onNext(it)
+                }
+                searchText.subscribeOn(Schedulers.computation())
+                    .debounce(500, TimeUnit.MILLISECONDS)
+                    .subscribe {
+                        onSearchBarTextChanged(it)
+                    }
+                searchText
+                    .subscribe {
+                        manageSearchBarVisibility(it)
+                    }
             }
         }
 
@@ -126,6 +149,16 @@ class TopMenuView : View() {
                 mouseClickListener()
             }
         }
+    }
+
+
+    private fun onSearchBarTextChanged(text: String) {
+        println(text)
+
+    }
+
+    private fun manageSearchBarVisibility(text: String) {
+        box.isVisible = text.isEmpty()
     }
 
     fun onCloseIconClicked() {

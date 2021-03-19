@@ -22,6 +22,7 @@ class MainView() : View() {
     override fun onBeforeShow() {
         super.onBeforeShow()
         ResizeHelper.addResizeListener(primaryStage)
+
     }
 
     init {

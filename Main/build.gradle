@@ -28,6 +28,9 @@ dependencies {
     annotationProcessor 'com.google.dagger:dagger-compiler:2.32'
     kapt 'com.google.dagger:dagger-compiler:2.32'
 
+    //rx
+    implementation "io.reactivex.rxjava3:rxjava:3.0.10"
+
     //projects
     implementation(project(":Domain"))
     implementation(project(":Data"))

@@ -25,6 +25,7 @@ hs_err_pid*
 #build
 *.iml
 .gradle
+.gradle/
 /local.properties
 /.idea/caches
 /.idea/libraries

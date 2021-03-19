@@ -7,6 +7,7 @@ import io.reactivex.rxjava3.subjects.PublishSubject
 import javafx.application.Platform
 import javafx.geometry.Pos
 import javafx.scene.Node
+import javafx.scene.control.Label
 import javafx.scene.control.TextField
 import javafx.scene.layout.HBox
 import javafx.scene.layout.Priority
@@ -35,7 +36,7 @@ class TopMenuView : View() {
     private lateinit var closePane: StackPane
 
     private var searchText: PublishSubject<String>
-    private lateinit var box: HBox
+    private lateinit var box: Label
 
     companion object {
         const val searchIconFilePath: String = SonusApplication.resourcePath + "icons/search_icon_path.txt"
@@ -60,37 +61,44 @@ class TopMenuView : View() {
             addClass(TopViewStyles.topBarSettingsStyle)
         }
         addClass(TopViewStyles.topBarStyle)
+
         //searchbar
         vbox {
             addClass(TopViewStyles.searchTextFieldWrapperStyle)
-            textfield {
+            hbox {
 
                 addClass(TopViewStyles.searchTextFieldStyle)
-                box = hbox {
-                    stackpane {
-                        addClass(TopViewStyles.searchIconStyle)
-                        svgicon(
-                            IconsProvider.getSVGPath(searchIconFilePath),
-                            size = TopViewStyles.searchIconSize
-                        )
-                    }
-                    label {
-                        addClass(TopViewStyles.searchTextLabelStyle)
-                        text = "Search"
-                    }
+                //icon
+                stackpane {
+                    addClass(TopViewStyles.searchIconStyle)
+                    svgicon(
+                        IconsProvider.getSVGPath(searchIconFilePath),
+                        size = TopViewStyles.searchIconSize
+                    )
                 }
-                this.textProperty().onChange {
-                    searchText.onNext(it)
+                textfield {
+                    addClass(TopViewStyles.textFieldStyle)
+                    hbox {
+                        box = label {
+                            this.alignment = Pos.BOTTOM_LEFT
+                            addClass(TopViewStyles.searchTextLabelStyle)
+                            text = "Search"
+                        }
+                    }
+                    this.textProperty().onChange {
+                        searchText.onNext(it)
+                    }
+                    searchText.subscribeOn(Schedulers.computation())
+                        .debounce(500, TimeUnit.MILLISECONDS)
+                        .subscribe {
+                            onSearchBarTextChanged(it)
+                        }
+                    searchText
+                        .subscribe {
+                            manageSearchBarVisibility(it)
+                        }
                 }
-                searchText.subscribeOn(Schedulers.computation())
-                    .debounce(500, TimeUnit.MILLISECONDS)
-                    .subscribe {
-                        onSearchBarTextChanged(it)
-                    }
-                searchText
-                    .subscribe {
-                        manageSearchBarVisibility(it)
-                    }
+
             }
         }
 

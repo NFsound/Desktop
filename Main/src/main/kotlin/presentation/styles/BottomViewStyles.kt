@@ -1,5 +1,6 @@
 package presentation.styles
 
+import presentation.styles.Colors.alternativeColor
 import presentation.styles.Colors.bottomBarColor
 import tornadofx.*
 
@@ -11,7 +12,7 @@ class BottomViewStyles: Stylesheet() {
 
         //styles
         val bottomBarStyle by cssclass()
-
+        val playerStyle by cssclass()
 
         //constants
         val bottomBarHeight = 68
@@ -22,6 +23,9 @@ class BottomViewStyles: Stylesheet() {
         bottomBarStyle {
             prefHeight = bottomBarHeight.px
             backgroundColor += bottomBarColor
+        }
+        playerStyle {
+            backgroundColor += alternativeColor
         }
 
     }

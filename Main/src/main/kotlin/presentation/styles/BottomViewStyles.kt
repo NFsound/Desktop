@@ -16,7 +16,8 @@ class BottomViewStyles: Stylesheet() {
 
         //constants
         val bottomBarHeight = 68
-
+        val imageSize = 52.0
+        val imagePadding = 8.0
     }
 
     init {

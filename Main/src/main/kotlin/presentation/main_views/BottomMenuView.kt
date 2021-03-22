@@ -6,24 +6,27 @@ import javafx.geometry.HPos
 import javafx.geometry.Pos
 import javafx.geometry.VPos
 import javafx.scene.Parent
+import javafx.scene.image.ImageView
 //import models.main.Track
 import presentation.styles.BottomViewStyles
 import presentation.styles.Colors.whiteColor
 import presentation.styles.MainWindowStyles
 import tornadofx.*
 import utils.IconsProvider
+import utils.ImageProvider
 import javax.sound.midi.Track
 
 
+class BottomMenuView() : View() {
 
-class BottomMenuView(): View() {
+    lateinit var currentTrack: Track
+    lateinit var trackImageView: ImageView
 
-    //var currentTrack: Track
-    init{
-      //  MediaPlayer
+    init {
+        //  MediaPlayer
     }
 
-    companion object{
+    companion object {
         const val backwardIconFilePath: String =
             SonusApplication.resourcePath + "/icons/backward_icon_path.txt"
         const val forwardIconFilePath: String =
@@ -40,41 +43,61 @@ class BottomMenuView(): View() {
             SonusApplication.resourcePath + "/icons/pause_icon_path.txt"
     }
 
-    override val root =  borderpane {
+    override val root = gridpane {
         addClass(BottomViewStyles.bottomBarStyle)
-        left = vbox{
-            svgicon(IconsProvider.getSVGPath(playlistIconFilePath), size = 30,
-                color = whiteColor)
+
+        trackImageView = imageview {
+            gridpaneConstraints {
+                rowIndex = 0
+                columnIndex = 0
+            }
+            fitHeight = BottomViewStyles.imageSize
+            fitWidth = BottomViewStyles.imageSize
+            paddingAll = BottomViewStyles.imagePadding
+            image = ImageProvider.getImage("img/manul.jpg")
         }
 
-        center = vbox{
+        vbox {
+            gridpaneConstraints {
+                rowIndex = 0
+                columnIndex = 2
+            }
             addClass(BottomViewStyles.playerStyle)
-            hbox{
+            hbox {
                 //icons play/pause next previous
-                svgicon(IconsProvider.getSVGPath(repeatIconFilePath), size = 16,
-                    color = whiteColor)
-                svgicon(IconsProvider.getSVGPath(shuffleIconFilePath), size = 16,
-                    color = whiteColor)
-                svgicon(IconsProvider.getSVGPath(backwardIconFilePath), size = 16,
-                    color = whiteColor)
-                svgicon(IconsProvider.getSVGPath(playIconFilePath), size = 16,
-                    color = whiteColor)
-                svgicon(IconsProvider.getSVGPath(forwardIconFilePath), size = 16,
-                    color = whiteColor)
+                svgicon(
+                    IconsProvider.getSVGPath(repeatIconFilePath), size = 16,
+                    color = whiteColor
+                )
+                svgicon(
+                    IconsProvider.getSVGPath(shuffleIconFilePath), size = 16,
+                    color = whiteColor
+                )
+                svgicon(
+                    IconsProvider.getSVGPath(backwardIconFilePath), size = 16,
+                    color = whiteColor
+                )
+                svgicon(
+                    IconsProvider.getSVGPath(playIconFilePath), size = 16,
+                    color = whiteColor
+                )
+                svgicon(
+                    IconsProvider.getSVGPath(forwardIconFilePath), size = 16,
+                    color = whiteColor
+                )
 
             }
-            hbox{
+            hbox {
                 //progress
-                svgicon(IconsProvider.getSVGPath(repeatIconFilePath), size = 16,
-                    color = whiteColor)
+                svgicon(
+                    IconsProvider.getSVGPath(repeatIconFilePath), size = 16,
+                    color = whiteColor
+                )
             }
         }
 
-        right = vbox {
-            svgicon(IconsProvider.getSVGPath(playlistIconFilePath), size = 30,
-                color = whiteColor)
-        }
-        var volumeIcon = svgpath{
+
+        var volumeIcon = svgpath {
 
         }
     }

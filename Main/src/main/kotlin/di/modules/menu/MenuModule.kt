@@ -15,10 +15,14 @@ class MenuModule {
     fun provideMenu():Menu{
 
         val homeIconSVGPath = IconsProvider.getSVGPath(SonusApplication.resourcePath + "icons/home_icon_path.txt")
-        val list = listOf(MenuItemImpl("Feed", homeIconSVGPath),
+        val feedIconSVGPath = IconsProvider.getSVGPath(SonusApplication.resourcePath + "icons/feed_icon_path.txt")
+        val accountIconSVGPath = IconsProvider.getSVGPath(SonusApplication.resourcePath + "icons/account_icon_path.txt")
+        val soundIconSVGPath = IconsProvider.getSVGPath(SonusApplication.resourcePath + "icons/sound_icon_path.txt")
+
+        val list = listOf(MenuItemImpl("News", feedIconSVGPath),
            MenuItemImpl("Home",homeIconSVGPath),
-            MenuItemImpl("Account",homeIconSVGPath),
-            MenuItemImpl("My music",homeIconSVGPath)
+            MenuItemImpl("Music",soundIconSVGPath),
+            MenuItemImpl("Account",accountIconSVGPath)
             )
         return MenuList(list)
     }

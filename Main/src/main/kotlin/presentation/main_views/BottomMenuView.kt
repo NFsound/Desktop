@@ -2,8 +2,12 @@ package presentation.main_views
 
 //import models.main.Track
 import application.SonusApplication
+import javafx.geometry.Pos
 import javafx.scene.control.Label
+import javafx.scene.control.ProgressBar
+import javafx.scene.control.Slider
 import javafx.scene.image.ImageView
+import javafx.scene.layout.StackPane
 import presentation.styles.BottomViewStyles
 import presentation.styles.Colors.whiteColor
 import tornadofx.*
@@ -22,9 +26,12 @@ class BottomMenuView() : View() {
     lateinit var trackNameLabel: Label
     lateinit var totalLengthLabel: Label
     lateinit var passedTimeLabel: Label
+    lateinit var trackProgressBar: ProgressBar
+    lateinit var slider: Slider
 
     init {
         //  MediaPlayer
+
     }
 
     companion object {
@@ -44,68 +51,69 @@ class BottomMenuView() : View() {
             SonusApplication.resourcePath + "/icons/pause_icon_path.txt"
     }
 
+
+    fun makePlayerIcon(iconFilePath: String, iconSize:Int = BottomViewStyles.playerIconSize/*, clickListener: ()->Unit*/): StackPane {
+        return stackpane {
+            svgicon(
+                IconsProvider.getSVGPath(iconFilePath),
+                size = iconSize,
+                color = whiteColor
+            )
+            padding = insets(0,BottomViewStyles.iconsPadding,0,BottomViewStyles.iconsPadding)
+        }
+    }
+
+
     override val root = gridpane {
         addClass(BottomViewStyles.bottomBarStyle)
 
-        trackImageView = imageview {
+        //track info (left)
+        hbox {
+            addClass(BottomViewStyles.trackInfoStyle)
             gridpaneConstraints {
                 rowIndex = 0
                 columnIndex = 0
+                rowSpan = 2
             }
-            fitHeight = BottomViewStyles.imageSize
-            fitWidth = BottomViewStyles.imageSize
-            paddingAll = BottomViewStyles.imagePadding
-            image = ImageProvider.getImage("img/manul.jpg")
+            //track image
+            trackImageView = imageview {
+
+                fitHeight = BottomViewStyles.imageSize
+                fitWidth = BottomViewStyles.imageSize
+                paddingAll = BottomViewStyles.imagePadding
+                image = ImageProvider.getImage("img/manul.jpg")
+            }
+
+            //track info
+            vbox {
+                trackNameLabel = label {
+                    text = "NameNAMENAME"
+                    addClass(BottomViewStyles.textLabelStyle)
+                }
+                trackAuthorLabel = label {
+                    text = "Author text"
+                    addClass(BottomViewStyles.authorTextLabelStyle)
+                }
+            }
         }
 
-        //track info
-        vbox{
+        //player (center)
+        vbox {
             gridpaneConstraints {
                 rowIndex = 0
                 columnIndex = 1
                 rowSpan = 2
             }
-            trackNameLabel = label {
-                text = "Name"
-            }
-            trackAuthorLabel = label {
-                text = "Author text"
-            }
-        }
-
-
-        vbox {
-            gridpaneConstraints {
-                rowIndex = 0
-                columnIndex = 2
-                rowSpan = 2
-            }
             addClass(BottomViewStyles.playerStyle)
-            hbox {
-                //icons play/pause next previous
-                svgicon(
-                    IconsProvider.getSVGPath(repeatIconFilePath), size = 16,
-                    color = whiteColor
-                ){
-
+            stackpane {
+                hbox(alignment = Pos.CENTER) {
+                    //icons play/pause next previous
+                    this.add(makePlayerIcon(shuffleIconFilePath))
+                    this.add(makePlayerIcon(backwardIconFilePath))
+                    this.add(makePlayerIcon(playIconFilePath, BottomViewStyles.playerIconSize + 12))
+                    this.add(makePlayerIcon(forwardIconFilePath))
+                    this.add(makePlayerIcon(repeatIconFilePath))
                 }
-                svgicon(
-                    IconsProvider.getSVGPath(shuffleIconFilePath), size = 16,
-                    color = whiteColor
-                )
-                svgicon(
-                    IconsProvider.getSVGPath(backwardIconFilePath), size = 16,
-                    color = whiteColor
-                )
-                svgicon(
-                    IconsProvider.getSVGPath(playIconFilePath), size = 16,
-                    color = whiteColor
-                )
-                svgicon(
-                    IconsProvider.getSVGPath(forwardIconFilePath), size = 16,
-                    color = whiteColor
-                )
-
             }
 
             //progress
@@ -113,18 +121,25 @@ class BottomMenuView() : View() {
                 addClass(BottomViewStyles.progressBoxStyle)
                 passedTimeLabel = label {
                     addClass(BottomViewStyles.timeLabelStyle)
-                    text= "0:05"
+                    text = "0:05"
                 }
-                progressbar {
-                    addClass(BottomViewStyles.progressBarStyle)
-                    progress = 0.5
+                stackpane {
+                    trackProgressBar = progressbar {
+                        addClass(BottomViewStyles.progressBarStyle)
+                        progress = 0.5
+                    }
+                    slider = slider(max = 1, min = 0.0, value = 0) {
+                        addClass(BottomViewStyles.sliderStyle)
+                    }
+                    trackProgressBar.progressProperty().bind(slider.valueProperty())
                 }
                 totalLengthLabel = label {
                     addClass(BottomViewStyles.timeLabelStyle)
-                    text= "3:05"
+                    text = "3:05"
                 }
             }
         }
+
 
 
         var volumeIcon = svgpath {

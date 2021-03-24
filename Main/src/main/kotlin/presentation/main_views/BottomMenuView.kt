@@ -1,16 +1,11 @@
 package presentation.main_views
 
-import application.SonusApplication
-import com.sun.media.jfxmedia.MediaPlayer
-import javafx.geometry.HPos
-import javafx.geometry.Pos
-import javafx.geometry.VPos
-import javafx.scene.Parent
-import javafx.scene.image.ImageView
 //import models.main.Track
+import application.SonusApplication
+import javafx.scene.control.Label
+import javafx.scene.image.ImageView
 import presentation.styles.BottomViewStyles
 import presentation.styles.Colors.whiteColor
-import presentation.styles.MainWindowStyles
 import tornadofx.*
 import utils.IconsProvider
 import utils.ImageProvider
@@ -20,7 +15,13 @@ import javax.sound.midi.Track
 class BottomMenuView() : View() {
 
     lateinit var currentTrack: Track
+
+    //ui components
     lateinit var trackImageView: ImageView
+    lateinit var trackAuthorLabel: Label
+    lateinit var trackNameLabel: Label
+    lateinit var totalLengthLabel: Label
+    lateinit var passedTimeLabel: Label
 
     init {
         //  MediaPlayer
@@ -57,10 +58,27 @@ class BottomMenuView() : View() {
             image = ImageProvider.getImage("img/manul.jpg")
         }
 
+        //track info
+        vbox{
+            gridpaneConstraints {
+                rowIndex = 0
+                columnIndex = 1
+                rowSpan = 2
+            }
+            trackNameLabel = label {
+                text = "Name"
+            }
+            trackAuthorLabel = label {
+                text = "Author text"
+            }
+        }
+
+
         vbox {
             gridpaneConstraints {
                 rowIndex = 0
                 columnIndex = 2
+                rowSpan = 2
             }
             addClass(BottomViewStyles.playerStyle)
             hbox {
@@ -68,7 +86,9 @@ class BottomMenuView() : View() {
                 svgicon(
                     IconsProvider.getSVGPath(repeatIconFilePath), size = 16,
                     color = whiteColor
-                )
+                ){
+
+                }
                 svgicon(
                     IconsProvider.getSVGPath(shuffleIconFilePath), size = 16,
                     color = whiteColor
@@ -87,12 +107,22 @@ class BottomMenuView() : View() {
                 )
 
             }
+
+            //progress
             hbox {
-                //progress
-                svgicon(
-                    IconsProvider.getSVGPath(repeatIconFilePath), size = 16,
-                    color = whiteColor
-                )
+                addClass(BottomViewStyles.progressBoxStyle)
+                passedTimeLabel = label {
+                    addClass(BottomViewStyles.timeLabelStyle)
+                    text= "0:05"
+                }
+                progressbar {
+                    addClass(BottomViewStyles.progressBarStyle)
+                    progress = 0.5
+                }
+                totalLengthLabel = label {
+                    addClass(BottomViewStyles.timeLabelStyle)
+                    text= "3:05"
+                }
             }
         }
 

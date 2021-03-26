@@ -11,6 +11,6 @@ object Colors {
     val alternativeColor = c("#DB22DF")
     val topBarBorderColor = c("#C4C4C4")
     val grayTextColor = c("#C4C4C4")
-    val someTextColor = c("#B3B3B3")
+    val alternativeWhiteColor = c("#B3B3B3")
 
 }

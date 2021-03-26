@@ -4,7 +4,7 @@ import javafx.scene.paint.Color
 import presentation.styles.Colors.alternativeColor
 import presentation.styles.Colors.bottomBarColor
 import presentation.styles.Colors.mainColor
-import presentation.styles.Colors.someTextColor
+import presentation.styles.Colors.alternativeWhiteColor
 import presentation.styles.Colors.whiteColor
 import tornadofx.*
 
@@ -24,13 +24,18 @@ class BottomViewStyles: Stylesheet() {
         val trackInfoStyle by cssclass()
         val textLabelStyle by cssclass()
         val authorTextLabelStyle by cssclass()
+        val rightIconStyle by cssclass()
+        val volumeLevelStyle by cssclass()
+        val volumeSlider by cssclass()
         //constants
         val bottomBarHeight = 68
         val imageSize = 52.0
         val imagePadding = 8.0
         val iconsPadding = 16.0
         val progressBarPrefWidth = 600
+        val volumeBarPrefWidth = 90
         val playerIconSize = 16
+        val rightIconSize = 22
     }
 
     init {
@@ -78,17 +83,47 @@ class BottomViewStyles: Stylesheet() {
         }
         authorTextLabelStyle{
             fontSize = 10.pt
-            textFill = someTextColor
+            textFill = alternativeWhiteColor
             padding = box(2.px)
         }
 
         timeLabelStyle{
             padding = box(4.px)
             fontSize = 10.pt
-            textFill = someTextColor
+            textFill = alternativeWhiteColor
+            minWidth = 36.px
         }
         progressBoxStyle{
             padding = box(0.px)
+        }
+
+        rightIconStyle{
+            padding = box(12.px)
+        }
+
+        volumeLevelStyle{
+            accentColor = alternativeColor
+            prefHeight = 6.px
+            prefWidth = volumeBarPrefWidth.px
+            padding = box(0.px)
+            bar{
+                backgroundInsets = multi(box(0.px))
+                backgroundRadius = multi(box(6.px))
+                padding = box(0.px)
+            }
+            track{
+                backgroundColor += mainColor
+                backgroundInsets = multi(box(0.px))
+                backgroundRadius = multi(box(6.px))
+                padding = box(0.px)
+            }
+        }
+
+        volumeSlider{
+            prefWidth = volumeBarPrefWidth.px
+            track {
+                backgroundColor = MultiValue(arrayOf(Color.TRANSPARENT))
+            }
         }
 
     }

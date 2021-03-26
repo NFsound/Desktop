@@ -2,13 +2,18 @@ package presentation.main_views
 
 //import models.main.Track
 import application.SonusApplication
+import javafx.geometry.Insets
 import javafx.geometry.Pos
+import javafx.scene.Node
 import javafx.scene.control.Label
 import javafx.scene.control.ProgressBar
 import javafx.scene.control.Slider
 import javafx.scene.image.ImageView
-import javafx.scene.layout.StackPane
+import javafx.scene.layout.*
+import javafx.scene.shape.Shape
 import presentation.styles.BottomViewStyles
+import presentation.styles.Colors
+import presentation.styles.Colors.alternativeWhiteColor
 import presentation.styles.Colors.whiteColor
 import tornadofx.*
 import utils.IconsProvider
@@ -28,6 +33,19 @@ class BottomMenuView() : View() {
     lateinit var passedTimeLabel: Label
     lateinit var trackProgressBar: ProgressBar
     lateinit var slider: Slider
+    lateinit var volumeSlider: Slider
+    lateinit var volumeProgressBar: ProgressBar
+    //icons
+    lateinit var playIcon: SVGIcon
+    lateinit var pauseIcon: SVGIcon
+    lateinit var volumeIcon: SVGIcon
+    lateinit var playListIcon: SVGIcon
+    lateinit var forwardIcon: SVGIcon
+    lateinit var backwardIcon: SVGIcon
+    lateinit var repeatIcon: SVGIcon
+    lateinit var shuffleIcon: SVGIcon
+
+    var isPaused:Boolean = true
 
     init {
         //  MediaPlayer
@@ -49,18 +67,63 @@ class BottomMenuView() : View() {
             SonusApplication.resourcePath + "/icons/shuffle_icon_path.txt"
         const val pauseIconFilePath: String =
             SonusApplication.resourcePath + "/icons/pause_icon_path.txt"
+        const val volumeIconFilePath: String =
+            SonusApplication.resourcePath + "/icons/volume_icon_path.txt"
+    }
+
+    fun setMouseEnterBackground(icon:SVGIcon){
+        icon.setOnMouseEntered {
+            icon.background = Background(BackgroundFill(whiteColor,
+                CornerRadii.EMPTY, Insets.EMPTY))
+        }
+    }
+
+    fun setMouseLeaveBackground(icon:SVGIcon){
+        icon.setOnMouseExited {
+            icon.background = Background(BackgroundFill(alternativeWhiteColor,
+                CornerRadii.EMPTY, Insets.EMPTY))
+        }
     }
 
 
-    fun makePlayerIcon(iconFilePath: String, iconSize:Int = BottomViewStyles.playerIconSize/*, clickListener: ()->Unit*/): StackPane {
-        return stackpane {
-            svgicon(
-                IconsProvider.getSVGPath(iconFilePath),
-                size = iconSize,
-                color = whiteColor
-            )
-            padding = insets(0,BottomViewStyles.iconsPadding,0,BottomViewStyles.iconsPadding)
+    fun makePlayerIcon(
+        root:Node,
+        iconFilePath: String,
+        iconSize: Int = BottomViewStyles.playerIconSize,
+        clickListener: ()->Unit = {}
+    ): SVGIcon {
+        val icon = svgicon(
+            IconsProvider.getSVGPath(iconFilePath),
+            size = iconSize,
+            color = alternativeWhiteColor
+        )
+        setMouseEnterBackground(icon)
+        setMouseLeaveBackground(icon)
+        icon.setOnMouseClicked {
+            clickListener()
         }
+        val pane = stackpane {
+            this.add(icon)
+            padding = insets(0, BottomViewStyles.iconsPadding, 0, BottomViewStyles.iconsPadding)
+        }
+        root.add(pane)
+        return icon
+    }
+
+    fun onPauseClick(){
+        if (isPaused) {
+            playIcon.isVisible = false
+            pauseIcon.isVisible = true
+            isPaused = false
+            pauseIcon.parent.toFront()
+        }
+        else{
+            playIcon.isVisible = true
+            pauseIcon.isVisible = false
+            isPaused = true
+            playIcon.parent.toFront()
+        }
+
     }
 
 
@@ -108,11 +171,27 @@ class BottomMenuView() : View() {
             stackpane {
                 hbox(alignment = Pos.CENTER) {
                     //icons play/pause next previous
-                    this.add(makePlayerIcon(shuffleIconFilePath))
-                    this.add(makePlayerIcon(backwardIconFilePath))
-                    this.add(makePlayerIcon(playIconFilePath, BottomViewStyles.playerIconSize + 12))
-                    this.add(makePlayerIcon(forwardIconFilePath))
-                    this.add(makePlayerIcon(repeatIconFilePath))
+                    shuffleIcon = makePlayerIcon(this, shuffleIconFilePath)
+                    backwardIcon = makePlayerIcon(this, backwardIconFilePath)
+                    stackpane {
+
+                        pauseIcon = makePlayerIcon(this@stackpane, pauseIconFilePath,
+                            BottomViewStyles.playerIconSize + 12)
+                        playIcon = makePlayerIcon(
+                            this@stackpane, playIconFilePath,
+                            BottomViewStyles.playerIconSize + 12)
+                        pauseIcon.isVisible = false
+
+                        setMouseEnterBackground(pauseIcon)
+                        setMouseLeaveBackground(playIcon)
+                        setMouseEnterBackground(pauseIcon)
+                        setMouseLeaveBackground(playIcon)
+                        setOnMouseClicked {
+                            this@BottomMenuView.onPauseClick()
+                        }
+                    }
+                    forwardIcon = makePlayerIcon(this, forwardIconFilePath)
+                    repeatIcon = makePlayerIcon(this, repeatIconFilePath)
                 }
             }
 
@@ -140,10 +219,49 @@ class BottomMenuView() : View() {
             }
         }
 
-
-
-        var volumeIcon = svgpath {
-
+        stackpane {
+            addClass(BottomViewStyles.rightIconStyle)
+            gridpaneConstraints {
+                rowIndex = 0
+                columnIndex = 2
+                rowSpan = 2
+            }
+            playListIcon = svgicon(
+                IconsProvider.getSVGPath(playlistIconFilePath),
+                color = whiteColor, size = BottomViewStyles.rightIconSize
+            )
         }
+
+        stackpane {
+            addClass(BottomViewStyles.rightIconStyle)
+            gridpaneConstraints {
+                rowIndex = 0
+                columnIndex = 3
+                rowSpan = 2
+            }
+            volumeIcon = svgicon(
+                IconsProvider.getSVGPath(volumeIconFilePath),
+                color = whiteColor, size = BottomViewStyles.rightIconSize
+            )
+        }
+
+        stackpane {
+            gridpaneConstraints {
+                rowIndex = 0
+                columnIndex = 4
+                rowSpan = 2
+            }
+            volumeProgressBar = progressbar {
+                addClass(BottomViewStyles.volumeLevelStyle)
+                progress = 0.5
+            }
+            volumeSlider = slider(max = 1, min = 0.0, value = 0) {
+                addClass(BottomViewStyles.volumeSlider)
+            }
+            volumeProgressBar.progressProperty().bind(volumeSlider.valueProperty())
+        }
+
+
+
     }
 }

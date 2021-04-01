@@ -1,4 +1,6 @@
 package presentation.sections.account
 
-interface AccountView {
+import presentation.sections.SectionView
+
+interface AccountView: SectionView {
 }

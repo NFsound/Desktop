@@ -1,4 +1,6 @@
 package presentation.sections.music
 
-interface MusicView {
+import presentation.sections.SectionView
+
+interface MusicView: SectionView {
 }

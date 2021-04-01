@@ -1,4 +1,4 @@
 package presentation.presenters
 
-class FeedPresenter {
+class NewsPresenter {
 }

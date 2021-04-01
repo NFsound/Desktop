@@ -1,4 +1,6 @@
 package presentation.sections.home
 
-interface HomeView {
+import presentation.sections.SectionView
+
+interface HomeView: SectionView {
 }

@@ -1,4 +1,6 @@
 package presentation.sections.news
 
-interface NewsView {
+import presentation.sections.SectionView
+
+interface NewsView:SectionView {
 }

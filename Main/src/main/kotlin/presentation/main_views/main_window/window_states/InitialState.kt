@@ -1,8 +1,7 @@
-package presentation.main_views.states
+package presentation.main_views.main_window.window_states
 
 import javafx.geometry.Dimension2D
 import javafx.geometry.Point2D
-import javafx.stage.Stage
 
 class InitialState(x: Double, y: Double, width: Double, height: Double) : State {
     override fun changeState(windowState: WindowState): State {

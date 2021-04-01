@@ -1,21 +1,17 @@
 package presentation.main_views
 
 import application.SonusApplication
-import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import io.reactivex.rxjava3.subjects.PublishSubject
 import javafx.application.Platform
 import javafx.geometry.Pos
-import javafx.scene.Node
 import javafx.scene.control.Label
-import javafx.scene.control.TextField
-import javafx.scene.layout.HBox
 import javafx.scene.layout.Priority
 import javafx.scene.layout.StackPane
-import presentation.main_views.states.CustomState
-import presentation.main_views.states.InitialState
-import presentation.main_views.states.State
-import presentation.main_views.states.WindowState
+import presentation.main_views.main_window.window_states.CustomState
+import presentation.main_views.main_window.window_states.InitialState
+import presentation.main_views.main_window.window_states.State
+import presentation.main_views.main_window.window_states.WindowState
 import presentation.styles.Colors
 import presentation.styles.MainWindowStyles
 import presentation.styles.TopViewStyles

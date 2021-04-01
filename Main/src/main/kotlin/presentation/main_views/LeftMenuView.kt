@@ -11,7 +11,7 @@ import presentation.styles.LeftMenuStyles
 import tornadofx.*
 import javax.inject.Inject
 
-class DrawerMenuView() : View() {
+class LeftMenuView() : View() {
 
     @Inject
     lateinit var menu: Menu

@@ -75,6 +75,10 @@ class BottomViewStyles: Stylesheet() {
             track {
                 backgroundColor = MultiValue(arrayOf(Color.TRANSPARENT))
             }
+            thumb{
+                backgroundInsets = multi(box(0.px))
+                prefWidth = 0.px
+            }
         }
         textLabelStyle{
             fontSize = 12.pt
@@ -123,7 +127,9 @@ class BottomViewStyles: Stylesheet() {
             prefWidth = volumeBarPrefWidth.px
             track {
                 backgroundColor = MultiValue(arrayOf(Color.TRANSPARENT))
+
             }
+
         }
 
     }

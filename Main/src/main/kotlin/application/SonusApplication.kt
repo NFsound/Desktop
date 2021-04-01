@@ -3,16 +3,12 @@ package application
 
 import di.components.ApplicationComponent
 import di.components.DaggerApplicationComponent
-import javafx.geometry.Rectangle2D
-import javafx.stage.Screen
 import presentation.styles.MainWindowStyles
-import presentation.main_views.MainView
+import presentation.main_views.main_window.MainView
 import presentation.styles.BottomViewStyles
 import presentation.styles.LeftMenuStyles
 import presentation.styles.TopViewStyles
 import tornadofx.*
-import tornadofx.FX.Companion.primaryStage
-import java.lang.IllegalStateException
 
 class SonusApplication : App(
     MainView::class,

@@ -6,6 +6,7 @@ import javafx.scene.layout.HBox
 import javafx.scene.shape.Rectangle
 import presentation.menu.item.MenuItem
 import presentation.menu.list.Menu
+import presentation.presenters.main.MainPresenter
 import presentation.styles.Colors
 import presentation.styles.LeftMenuStyles
 import tornadofx.*
@@ -21,6 +22,7 @@ class LeftMenuView() : View() {
     init {
         SonusApplication.getInstance().applicationComponent.inject(this)
     }
+
 
 
     override var root = vbox {

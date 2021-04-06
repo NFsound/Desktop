@@ -4,7 +4,7 @@ package presentation.main_views.main_window
 import javafx.scene.layout.BorderPane
 import javafx.stage.StageStyle
 import presentation.main_views.BottomMenuView
-import presentation.main_views.CenterMenuPlacementView
+import presentation.main_views.center.CenterMenuPlacementView
 import presentation.main_views.LeftMenuView
 import presentation.main_views.TopMenuView
 import presentation.styles.MainWindowStyles

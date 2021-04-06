@@ -11,6 +11,8 @@ import utils.IconsProvider
 @Module
 class MenuModule {
 
+
+
     @Provides
     fun provideMenu():Menu{
 

@@ -1,20 +1,28 @@
 package presentation.sections.account
 
-import javafx.scene.Node
 import javafx.scene.Parent
-import javafx.scene.layout.GridPane
-import presentation.presenters.AccountPresenter
+import presentation.presenters.sections.AccountPresenter
+import presentation.presenters.sections.SectionPresenter
 import tornadofx.*
 import javax.inject.Inject
 
 class AccountViewImpl: View(), AccountView {
 
-    @Inject
-    lateinit var accountPresenter: AccountPresenter
+    override var sectionTitle = "Account"
+
+    override fun providePresenter(): SectionPresenter {
+        if (accountPresenter == null){
+            return AccountPresenter()
+        }
+        return accountPresenter!!
+    }
+
+
+    private var accountPresenter: AccountPresenter? = null
+
 
     override val root: Parent = vbox {
-        button{
-
+        button("account"){
         }
     }
 }

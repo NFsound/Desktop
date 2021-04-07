@@ -1,7 +1,6 @@
 plugins {
     id 'org.jetbrains.kotlin.jvm' version '1.4.30'
     id 'org.openjfx.javafxplugin' version '0.0.9'
-
 }
 group 'com.nfsound'
 version '2.0-SNAPSHOT'
@@ -15,7 +14,6 @@ javafx {
 dependencies {
     //base
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
-
 }
 compileKotlin {
     kotlinOptions {
@@ -27,6 +25,3 @@ compileTestKotlin {
         jvmTarget = "15"
     }
 }
-
-
-

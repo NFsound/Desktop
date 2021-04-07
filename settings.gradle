@@ -1,5 +1,12 @@
+pluginManagement {
+    repositories {
+        maven { url "https://plugins.gradle.org/m2/" }
+        gradlePluginPortal()
+    }
+}
 rootProject.name = 'Sonus'
 include 'Domain'
 include 'Data'
 include 'Client'
+
 

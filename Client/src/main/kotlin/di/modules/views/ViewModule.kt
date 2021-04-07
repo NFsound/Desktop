@@ -56,8 +56,8 @@ class ViewModule {
         private val newsSection = NewsViewImpl()
         private val accountSection = AccountViewImpl()
 
-        private val bottomMenuView = BottomMenuView()
-        private val leftMenuView = LeftMenuView()
-        private val topMenuView = TopMenuView()
+        private val bottomMenuView by lazy {BottomMenuView()}
+        private val topMenuView by lazy {TopMenuView()}
+        private val leftMenuView by lazy {LeftMenuView()}
     }
 }

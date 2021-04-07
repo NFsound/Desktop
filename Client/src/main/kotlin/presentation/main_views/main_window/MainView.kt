@@ -50,12 +50,7 @@ class MainView() : View() {
         ResizeHelper.addResizeListener(primaryStage)
     }
     //views
-    @Inject
-    lateinit var leftMenuView: LeftMenuView
-    @Inject
-    lateinit var topMenuView: TopMenuView
-    @Inject
-    lateinit var bottomMenuView: BottomMenuView
+
 
     init {
         SonusApplication.getInstance().applicationComponent.inject(this)
@@ -70,6 +65,12 @@ class MainView() : View() {
         }
         root.center<CenterMenuPlacementView>()
     }
+    @Inject
+    lateinit var leftMenuView: LeftMenuView
+    @Inject
+    lateinit var topMenuView: TopMenuView
+    @Inject
+    lateinit var bottomMenuView: BottomMenuView
 
 
 

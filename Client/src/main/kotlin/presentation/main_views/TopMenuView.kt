@@ -21,7 +21,7 @@ import utils.IconsProvider
 import java.util.concurrent.TimeUnit
 
 
-class TopMenuView : View(), SideView {
+class TopMenuView(): View(), SideView {
 
     private var xOffset: Double = 0.0
     private var yOffset: Double = 0.0

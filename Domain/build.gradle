@@ -4,7 +4,7 @@ plugins {
     id 'kotlin-kapt'
 }
 
-group 'org.nfsound'
+
 version '1.0-SNAPSHOT'
 
 repositories {
@@ -26,4 +26,7 @@ dependencies {
 
     //test
     testCompile group: 'junit', name: 'junit', version: '4.12'
+}
+jar{
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
 }

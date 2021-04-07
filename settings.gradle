@@ -1,5 +1,5 @@
 rootProject.name = 'Sonus'
 include 'Domain'
 include 'Data'
-include 'Main'
+include 'Client'
 

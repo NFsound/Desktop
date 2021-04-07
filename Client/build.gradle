@@ -6,8 +6,8 @@ plugins {
     id 'kotlin-kapt'
 }
 
-group 'org.nfsound'
 version '1.0-SNAPSHOT'
+
 
 repositories {
     mavenCentral()
@@ -15,7 +15,7 @@ repositories {
 }
 javafx {
     version = "15"
-    modules = [ 'javafx.controls', 'javafx.fxml', 'javafx.web']
+    modules = [ 'javafx.controls', 'javafx.fxml']
 }
 apply plugin: 'kotlin-kapt'
 dependencies {
@@ -30,6 +30,12 @@ dependencies {
 
     //rx
     implementation "io.reactivex.rxjava3:rxjava:3.0.10"
+
+    //retrofit
+    implementation "com.squareup.retrofit2:retrofit:2.9.0"
+    implementation "com.squareup.retrofit2:converter-gson:2.6.4"
+    implementation 'com.squareup.retrofit2:adapter-rxjava3:2.9.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.9.0'
 
     //projects
     implementation(project(":Domain"))
@@ -47,5 +53,14 @@ compileKotlin {
 compileTestKotlin {
     kotlinOptions {
         jvmTarget = "15"
+    }
+}
+def mainClassName = 'launch.Launch'
+jar {
+    manifest {
+        attributes "Main-Class": mainClassName
+    }
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
     }
 }

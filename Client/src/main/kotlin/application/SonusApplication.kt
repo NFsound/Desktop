@@ -37,6 +37,6 @@ class SonusApplication : App(
             return INSTANCE!!
         }
 
-        const val resourcePath = "Main/src/main/resources/"
+        const val resourcePath = "Client/src/main/resources/"
     }
 }

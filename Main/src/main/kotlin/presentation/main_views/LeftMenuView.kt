@@ -6,6 +6,7 @@ import javafx.scene.layout.HBox
 import javafx.scene.shape.Rectangle
 import presentation.menu.item.MenuItem
 import presentation.menu.list.Menu
+import presentation.presenters.main.CenterPresenter
 import presentation.presenters.main.MainPresenter
 import presentation.styles.Colors
 import presentation.styles.LeftMenuStyles
@@ -18,6 +19,13 @@ class LeftMenuView() : View() {
     lateinit var menu: Menu
 
     private lateinit var menuBoxes: MutableList<HBox>
+
+    fun provideMainPresenter(): CenterPresenter {
+        return mainPresenter?: MainPresenter()
+    }
+
+    private var mainPresenter: MainPresenter? = provideMainPresenter() as MainPresenter
+
 
     init {
         SonusApplication.getInstance().applicationComponent.inject(this)
@@ -68,6 +76,7 @@ class LeftMenuView() : View() {
         }
         manageItemViewSelection(index,true)
         root.applyCss()
+        mainPresenter?.selectSection(menuItem)
     }
 
 

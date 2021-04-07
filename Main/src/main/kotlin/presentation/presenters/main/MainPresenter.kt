@@ -19,7 +19,7 @@ class MainPresenter(): CenterPresenter {
         SonusApplication.getInstance().applicationComponent.inject(this)
     }
 
-    fun selectSection(menuItem: MenuItem){
+    override fun selectSection(menuItem: MenuItem){
         navigator.navigateTo(menuItem)
         viewState.selectSection(menuItem)
     }

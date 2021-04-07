@@ -5,4 +5,5 @@ interface MenuItem {
     var title: String
 
     var svgPath: String
+
 }

@@ -8,7 +8,4 @@ interface CenterView {
 
     fun selectSection(menuItem: MenuItem)
 
-    fun provideMainPresenter(): CenterPresenter
-
-
 }

@@ -26,7 +26,9 @@ class HomeViewImpl: View(),HomeView {
 
     override val root: Parent = vbox {
         button("home"){
+            prefWidth = 200.0
         }
+        button{ }
     }
 
 }

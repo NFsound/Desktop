@@ -10,6 +10,8 @@ import presentation.main_views.LeftMenuView
 import presentation.main_views.TopMenuView
 import presentation.menu.item.MenuItem
 import presentation.menu.list.Menu
+import presentation.presenters.main.CenterPresenter
+import presentation.presenters.main.MainPresenter
 import presentation.sections.SectionView
 import presentation.sections.account.AccountViewImpl
 import presentation.sections.home.HomeViewImpl
@@ -27,6 +29,13 @@ class MainView() : View() {
     @Inject
     lateinit var menu: Menu
 
+
+    private var mainPresenter: CenterPresenter? = provideMainPresenter()
+
+    fun provideMainPresenter(): CenterPresenter {
+        return mainPresenter?: MainPresenter()
+    }
+
     override val root: BorderPane = borderpane {
         primaryStage.title = "Sonus"
         addClass(MainWindowStyles.mainStyle)
@@ -41,12 +50,23 @@ class MainView() : View() {
         super.onBeforeShow()
         ResizeHelper.addResizeListener(primaryStage)
     }
+    //views
+    var leftMenuView = LeftMenuView()
+    var topMenuView = TopMenuView()
+    var bottomMenuView = BottomMenuView()
 
     init {
         SonusApplication.getInstance().applicationComponent.inject(this)
-        root.bottom<BottomMenuView>()
-        root.left<LeftMenuView>()
-        root.top<TopMenuView>()
+        root.bottom{
+            this.add(bottomMenuView)
+        }
+        root.left{
+            leftMenuView.mainPresenter = mainPresenter as MainPresenter
+            this.add(leftMenuView)
+        }
+        root.top {
+            this.add(topMenuView)
+        }
         root.center<CenterMenuPlacementView>()
     }
 

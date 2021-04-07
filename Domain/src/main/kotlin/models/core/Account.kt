@@ -1,4 +1,4 @@
-package models.main
+package models.core
 
 data class Account(
     val id: String,
@@ -6,5 +6,6 @@ data class Account(
     val surname: String,
     val nickname: String,
     val status: String,
+    val password: String
 ) {
 }

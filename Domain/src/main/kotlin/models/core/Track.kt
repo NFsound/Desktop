@@ -1,4 +1,4 @@
-package models.main
+package models.core
 
 import java.rmi.server.UID
 import java.util.*

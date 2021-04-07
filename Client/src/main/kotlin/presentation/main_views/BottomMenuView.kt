@@ -1,6 +1,6 @@
 package presentation.main_views
 
-//import models.main.Track
+//import models.core.Track
 import application.SonusApplication
 import javafx.geometry.Insets
 import javafx.geometry.Pos
@@ -11,6 +11,7 @@ import javafx.scene.control.Slider
 import javafx.scene.image.ImageView
 import javafx.scene.layout.*
 import javafx.scene.shape.Shape
+import presentation.presenters.main.CenterPresenter
 import presentation.styles.BottomViewStyles
 import presentation.styles.Colors
 import presentation.styles.Colors.alternativeWhiteColor
@@ -21,9 +22,17 @@ import utils.ImageProvider
 import javax.sound.midi.Track
 
 
-class BottomMenuView() : View() {
+class BottomMenuView() : View(), SideView {
 
-    lateinit var currentTrack: Track
+    /**
+     * shared presenter (общий)
+     */
+    private lateinit var mainPresenter:CenterPresenter
+
+
+    override fun setPresenter(centerPresenter: CenterPresenter) {
+        mainPresenter = centerPresenter
+    }
 
     //ui components
     lateinit var trackImageView: ImageView

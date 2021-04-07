@@ -13,18 +13,18 @@ import presentation.styles.LeftMenuStyles
 import tornadofx.*
 import javax.inject.Inject
 
-class LeftMenuView() : View() {
+class LeftMenuView() : View(), SideView {
 
     @Inject
     lateinit var menu: Menu
 
     private lateinit var menuBoxes: MutableList<HBox>
 
-    fun provideMainPresenter(): CenterPresenter {
-        return mainPresenter?: MainPresenter()
-    }
+    /**
+     * shared presenter (общий)
+     */
+    private lateinit var mainPresenter: CenterPresenter
 
-    private var mainPresenter: MainPresenter? = provideMainPresenter() as MainPresenter
 
 
     init {
@@ -125,6 +125,10 @@ class LeftMenuView() : View() {
             }
 
         }
+    }
+
+    override fun setPresenter(centerPresenter: CenterPresenter) {
+        mainPresenter = centerPresenter
     }
 
 }

@@ -12,6 +12,7 @@ import presentation.main_views.main_window.window_states.CustomState
 import presentation.main_views.main_window.window_states.InitialState
 import presentation.main_views.main_window.window_states.State
 import presentation.main_views.main_window.window_states.WindowState
+import presentation.presenters.main.CenterPresenter
 import presentation.styles.Colors
 import presentation.styles.MainWindowStyles
 import presentation.styles.TopViewStyles
@@ -20,13 +21,20 @@ import utils.IconsProvider
 import java.util.concurrent.TimeUnit
 
 
-class TopMenuView : View() {
+class TopMenuView : View(), SideView {
 
     private var xOffset: Double = 0.0
     private var yOffset: Double = 0.0
 
     private var state: State
 
+    /**
+     * shared presenter (общий)
+     */
+    private lateinit var mainPresenter: CenterPresenter
+
+
+    //views
     private lateinit var minimizePane: StackPane
     private lateinit var maximizePane: StackPane
     private lateinit var closePane: StackPane
@@ -175,6 +183,10 @@ class TopMenuView : View() {
 
     fun onMaximizeIconClicked() {
         state = state.changeState(WindowState.MAXIMIZED)
+    }
+
+    override fun setPresenter(centerPresenter: CenterPresenter) {
+        mainPresenter = centerPresenter
     }
 
 

@@ -1,7 +1,10 @@
-package di.modules.sections
+package di.modules.views
 
 import dagger.Module
 import dagger.Provides
+import presentation.main_views.BottomMenuView
+import presentation.main_views.LeftMenuView
+import presentation.main_views.TopMenuView
 import presentation.main_views.center.CenterMenuPlacementView
 import presentation.main_views.center.CenterView
 import presentation.sections.Sections
@@ -33,6 +36,15 @@ class ViewModule {
     fun provideMusicView(): MusicView = musicSection
 
     @Provides
+    fun provideBottomView(): BottomMenuView = bottomMenuView
+
+    @Provides
+    fun provideLeftMenuView(): LeftMenuView = leftMenuView
+
+    @Provides
+    fun provideTopMenuView(): TopMenuView = topMenuView
+
+    @Provides
     fun provideSections() = Sections(
         listOf(homeSection, musicSection, newsSection, accountSection)
     )
@@ -43,5 +55,9 @@ class ViewModule {
         private val musicSection = MusicViewImpl()
         private val newsSection = NewsViewImpl()
         private val accountSection = AccountViewImpl()
+
+        private val bottomMenuView = BottomMenuView()
+        private val leftMenuView = LeftMenuView()
+        private val topMenuView = TopMenuView()
     }
 }

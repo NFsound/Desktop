@@ -6,4 +6,9 @@ interface CenterPresenter {
 
     fun selectSection(menuItem: MenuItem)
 
+    fun pause()
+
+    fun play()
+
+
 }

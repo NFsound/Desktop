@@ -125,12 +125,14 @@ class BottomMenuView() : View(), SideView {
             pauseIcon.isVisible = true
             isPaused = false
             pauseIcon.parent.toFront()
+            mainPresenter.play()
         }
         else{
             playIcon.isVisible = true
             pauseIcon.isVisible = false
             isPaused = true
             playIcon.parent.toFront()
+            mainPresenter.pause()
         }
 
     }

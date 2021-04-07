@@ -29,7 +29,6 @@ class MainView() : View() {
     @Inject
     lateinit var menu: Menu
 
-
     private var mainPresenter: CenterPresenter? = provideMainPresenter()
 
     fun provideMainPresenter(): CenterPresenter {
@@ -51,9 +50,9 @@ class MainView() : View() {
         ResizeHelper.addResizeListener(primaryStage)
     }
     //views
-    var leftMenuView = LeftMenuView()
-    var topMenuView = TopMenuView()
-    var bottomMenuView = BottomMenuView()
+    var leftMenuView = LeftMenuView().apply {setPresenter(mainPresenter!!)}
+    var topMenuView = TopMenuView().apply {setPresenter(mainPresenter!!)}
+    var bottomMenuView = BottomMenuView().apply {setPresenter(mainPresenter!!)}
 
     init {
         SonusApplication.getInstance().applicationComponent.inject(this)
@@ -61,7 +60,6 @@ class MainView() : View() {
             this.add(bottomMenuView)
         }
         root.left{
-            leftMenuView.mainPresenter = mainPresenter as MainPresenter
             this.add(leftMenuView)
         }
         root.top {

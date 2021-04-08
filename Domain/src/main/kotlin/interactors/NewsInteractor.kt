@@ -1,13 +1,12 @@
 package interactors
 
+import io.reactivex.rxjava3.core.Single
 import models.core.News
 
 interface NewsInteractor {
 
-    fun getNews(): List<News>
+    fun getAllNews(): Single<List<News>>
 
-    fun filterNews(): List<News>
-
-
+    fun filterNews(text:String): List<News>
 
 }

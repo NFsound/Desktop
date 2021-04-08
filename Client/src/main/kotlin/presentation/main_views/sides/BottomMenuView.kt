@@ -17,6 +17,8 @@ import presentation.styles.Colors.whiteColor
 import tornadofx.*
 import utils.IconsProvider
 import utils.ImageProvider
+import java.awt.Image
+import java.awt.image.BufferedImage
 
 
 class BottomMenuView() : View(), SideView {
@@ -152,7 +154,7 @@ class BottomMenuView() : View(), SideView {
                 fitHeight = BottomViewStyles.imageSize
                 fitWidth = BottomViewStyles.imageSize
                 paddingAll = BottomViewStyles.imagePadding
-                image = ImageProvider.getImage("img/manul.jpg")
+                image = BufferedImage()//ImageProvider.getImage("img/manul.jpg")
             }
 
             //track info

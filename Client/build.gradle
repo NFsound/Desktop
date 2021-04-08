@@ -20,7 +20,7 @@ repositories {
 }
 javafx {
     version = "15"
-    modules = [ 'javafx.controls', 'javafx.fxml']
+    modules = [ 'javafx.controls', 'javafx.fxml', 'javafx.media', 'javafx.swing']
 }
 apply plugin: 'kotlin-kapt'
 dependencies {

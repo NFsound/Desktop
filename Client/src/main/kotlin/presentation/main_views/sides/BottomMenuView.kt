@@ -154,7 +154,7 @@ class BottomMenuView() : View(), SideView {
                 fitHeight = BottomViewStyles.imageSize
                 fitWidth = BottomViewStyles.imageSize
                 paddingAll = BottomViewStyles.imagePadding
-                image = BufferedImage()//ImageProvider.getImage("img/manul.jpg")
+                image = ImageProvider.getImage("img/manul.jpg")
             }
 
             //track info

@@ -12,6 +12,7 @@ import presentation.menu.item.MenuItem
 import presentation.navigation.Navigator
 import javax.inject.Inject
 import javafx.scene.media.MediaPlayer
+import java.nio.file.Paths
 
 class MainPresenter(): CenterPresenter {
 
@@ -34,7 +35,21 @@ class MainPresenter(): CenterPresenter {
 
     init {
         SonusApplication.getInstance().applicationComponent.inject(this)
+        setUpPlayer()
     }
+
+    fun setUpPlayer(){
+        val path = Paths.get(SonusApplication.resourcePath+"music/song.mp3").toUri().toString()
+        player = MediaPlayer(Media(path))
+        player.setOnEndOfMedia {
+            player = if(isRandom) {
+                MediaPlayer(Media(currentPlaylist.nextRandomTrack().resPath))
+            }else{
+                MediaPlayer(Media(currentPlaylist.nextTrack().resPath))
+            }
+        }
+    }
+
 
     lateinit var currentPlaylist: Playlist
 
@@ -52,11 +67,11 @@ class MainPresenter(): CenterPresenter {
 
     override fun onPreviousClicked() {
         if (isRandom){
-
+            currentTrack = currentPlaylist.nextRandomTrack()
         }else {
-            currentTrack = currentPlaylist.()
-            player = MediaPlayer(Media(currentTrack.resPath))
+            currentTrack = currentPlaylist.previousTrack()
         }
+        player = MediaPlayer(Media(currentTrack.resPath))
     }
 
     override fun onPlayClicked() {
@@ -69,18 +84,19 @@ class MainPresenter(): CenterPresenter {
 
     override fun onNextClicked() {
         if (isRandom){
-
+            currentTrack = currentPlaylist.nextRandomTrack()
         }else {
             currentTrack = currentPlaylist.nextTrack()
-            player = MediaPlayer(Media(currentTrack.resPath))
         }
+        player = MediaPlayer(Media(currentTrack.resPath))
     }
 
     override fun onCycleClicked() {
         if (isCycled){
             isCycled = false
         }else{
-
+            isCycled = true
+            //TODO some code
         }
     }
 

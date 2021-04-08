@@ -6,6 +6,8 @@ import presentation.presenters.main.MainPresenter
 
 interface CenterView {
 
-    fun selectSection(menuItem: MenuItem)
+    fun setSection(menuItem: MenuItem)
+
+    fun filter(text:String)
 
 }

@@ -2,9 +2,9 @@ package di.modules.views
 
 import dagger.Module
 import dagger.Provides
-import presentation.main_views.BottomMenuView
-import presentation.main_views.LeftMenuView
-import presentation.main_views.TopMenuView
+import presentation.main_views.sides.BottomMenuView
+import presentation.main_views.sides.LeftMenuView
+import presentation.main_views.sides.TopMenuView
 import presentation.main_views.center.CenterMenuPlacementView
 import presentation.main_views.center.CenterView
 import presentation.sections.Sections
@@ -55,9 +55,9 @@ class ViewModule {
         private val musicSection = MusicViewImpl()
         private val newsSection = NewsViewImpl()
         private val accountSection = AccountViewImpl()
-
-        private val bottomMenuView by lazy {BottomMenuView()}
-        private val topMenuView by lazy {TopMenuView()}
-        private val leftMenuView by lazy {LeftMenuView()}
+        //в них внутренние inject, поэтому lazy
+        private val bottomMenuView by lazy { BottomMenuView() }
+        private val topMenuView by lazy { TopMenuView() }
+        private val leftMenuView by lazy { LeftMenuView() }
     }
 }

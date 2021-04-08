@@ -5,9 +5,9 @@ import dagger.Component
 import di.modules.menu.MenuModule
 import di.modules.navigation.NavigationModule
 import di.modules.views.ViewModule
-import presentation.main_views.BottomMenuView
-import presentation.main_views.LeftMenuView
-import presentation.main_views.TopMenuView
+import presentation.main_views.sides.BottomMenuView
+import presentation.main_views.sides.LeftMenuView
+import presentation.main_views.sides.TopMenuView
 import presentation.main_views.center.CenterMenuPlacementView
 import presentation.main_views.main_window.MainView
 import presentation.navigation.NavigatorImpl

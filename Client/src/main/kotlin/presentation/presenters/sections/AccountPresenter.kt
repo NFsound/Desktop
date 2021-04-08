@@ -12,4 +12,8 @@ class AccountPresenter():SectionPresenter {
     init {
         SonusApplication.getInstance().applicationComponent.inject(this)
     }
+
+    override fun filter(text: String) {
+        viewState.filterView(text)
+    }
 }

@@ -17,6 +17,10 @@ class AccountViewImpl: View(), AccountView {
         return accountPresenter!!
     }
 
+    override fun filterView(text: String) {
+        println("from account $text")
+    }
+
 
     private var accountPresenter: AccountPresenter? = null
 

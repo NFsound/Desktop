@@ -4,11 +4,26 @@ import presentation.menu.item.MenuItem
 
 interface CenterPresenter {
 
-    fun selectSection(menuItem: MenuItem)
+    fun onSectionSelected(menuItem: MenuItem, index: Int)
 
-    fun pause()
+    fun onSearch(text: String)
 
-    fun play()
+    fun onPreviousClicked()
 
+    fun onPlayClicked()
+
+    fun onPauseClicked()
+
+    fun onNextClicked()
+
+    fun onCycleClicked()
+
+    fun onShuffleClicked()
+
+    var isCycled: Boolean
+
+    var isRandom: Boolean
+
+    fun onCurrentPlaylistClicked()
 
 }

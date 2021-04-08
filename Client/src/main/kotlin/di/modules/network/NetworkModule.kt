@@ -11,6 +11,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 @Module
 class NetworkModule {
+
     @Provides
     fun provideApiService():ApiService{
             val interceptor = HttpLoggingInterceptor()

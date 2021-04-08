@@ -1,4 +1,4 @@
-package presentation.main_views
+package presentation.main_views.sides
 
 import presentation.presenters.main.CenterPresenter
 

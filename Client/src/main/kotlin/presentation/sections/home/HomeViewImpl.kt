@@ -20,6 +20,9 @@ class HomeViewImpl: View(),HomeView {
         return homePresenter!!
     }
 
+    override fun filterView(text: String) {
+        println("from home $text")
+    }
 
     private var homePresenter: HomePresenter? = null
 

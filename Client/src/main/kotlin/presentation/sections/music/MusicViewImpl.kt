@@ -20,6 +20,9 @@ class MusicViewImpl(): View(), MusicView {
         return musicPresenter!!
     }
 
+    override fun filterView(text: String) {
+        println("from music $text")
+    }
 
     private var musicPresenter: MusicPresenter? = null
 

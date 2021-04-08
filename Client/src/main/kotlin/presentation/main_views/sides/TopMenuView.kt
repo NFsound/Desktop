@@ -1,4 +1,4 @@
-package presentation.main_views
+package presentation.main_views.sides
 
 import application.SonusApplication
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -95,7 +95,9 @@ class TopMenuView(): View(), SideView {
                     searchText.subscribeOn(Schedulers.computation())
                         .debounce(500, TimeUnit.MILLISECONDS)
                         .subscribe {
-                            onSearchBarTextChanged(it)
+                            if (it.isNotEmpty()) {
+                                onSearchBarTextChanged(it)
+                            }
                         }
                     searchText
                         .subscribe {
@@ -166,7 +168,7 @@ class TopMenuView(): View(), SideView {
 
     private fun onSearchBarTextChanged(text: String) {
         println(text)
-
+        mainPresenter.onSearch(text)
     }
 
     private fun manageSearchBarVisibility(text: String) {

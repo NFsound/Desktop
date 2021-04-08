@@ -1,4 +1,4 @@
-package presentation.main_views
+package presentation.main_views.sides
 
 import application.SonusApplication
 import javafx.scene.control.Button
@@ -7,7 +7,6 @@ import javafx.scene.shape.Rectangle
 import presentation.menu.item.MenuItem
 import presentation.menu.list.Menu
 import presentation.presenters.main.CenterPresenter
-import presentation.presenters.main.MainPresenter
 import presentation.styles.Colors
 import presentation.styles.LeftMenuStyles
 import tornadofx.*
@@ -70,13 +69,22 @@ class LeftMenuView() : View(), SideView {
         }
     }
 
-    private fun handleMenuClick(menuItem: MenuItem, index: Int) {
+    /**
+     * Вызывается презентером
+     */
+    fun setSection(menuItem: MenuItem, index:Int){
         for (i in menuBoxes.minus(menuItem).indices) {
             manageItemViewSelection(i,false)
         }
         manageItemViewSelection(index,true)
         root.applyCss()
-        mainPresenter?.selectSection(menuItem)
+    }
+
+    /**
+     * Сообщает презентеру о нажатии на меню
+     */
+    private fun handleMenuClick(menuItem: MenuItem, index: Int) {
+        mainPresenter.onSectionSelected(menuItem, index)
     }
 
 

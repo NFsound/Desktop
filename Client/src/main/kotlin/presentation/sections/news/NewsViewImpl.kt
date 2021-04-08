@@ -18,6 +18,10 @@ class NewsViewImpl(): View(),NewsView {
         return newsPresenter!!
     }
 
+    override fun filterView(text: String) {
+        println("from news $text")
+    }
+
 
     private var newsPresenter: NewsPresenter? = null
 

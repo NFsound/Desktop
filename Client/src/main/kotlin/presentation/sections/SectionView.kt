@@ -12,4 +12,6 @@ interface SectionView {
 
     fun providePresenter(): SectionPresenter
 
+    fun filterView(text:String)
+
 }

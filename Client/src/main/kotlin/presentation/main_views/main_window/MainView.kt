@@ -4,19 +4,13 @@ package presentation.main_views.main_window
 import application.SonusApplication
 import javafx.scene.layout.BorderPane
 import javafx.stage.StageStyle
-import presentation.main_views.BottomMenuView
+import presentation.main_views.sides.BottomMenuView
 import presentation.main_views.center.CenterMenuPlacementView
-import presentation.main_views.LeftMenuView
-import presentation.main_views.TopMenuView
-import presentation.menu.item.MenuItem
+import presentation.main_views.sides.LeftMenuView
+import presentation.main_views.sides.TopMenuView
 import presentation.menu.list.Menu
 import presentation.presenters.main.CenterPresenter
 import presentation.presenters.main.MainPresenter
-import presentation.sections.SectionView
-import presentation.sections.account.AccountViewImpl
-import presentation.sections.home.HomeViewImpl
-import presentation.sections.music.MusicViewImpl
-import presentation.sections.news.NewsViewImpl
 import presentation.styles.MainWindowStyles
 import tornadofx.*
 import utils.ImageProvider
@@ -64,6 +58,7 @@ class MainView() : View() {
             this.add(topMenuView.apply {setPresenter(mainPresenter!!)})
         }
         root.center<CenterMenuPlacementView>()
+        mainPresenter!!.onSectionSelected(menu.menuList[0],0)
     }
     @Inject
     lateinit var leftMenuView: LeftMenuView

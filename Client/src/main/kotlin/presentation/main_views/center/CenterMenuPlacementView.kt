@@ -42,11 +42,15 @@ class CenterMenuPlacementView(): View(), CenterView {
     }
 
 
-    override fun selectSection(menuItem: MenuItem) {
+    override fun setSection(menuItem: MenuItem) {
         val section = sections.sections.last {
             it.sectionTitle == menuItem.title }
         (placement).replaceWith(section as View)
         placement = section
+    }
+
+    override fun filter(text: String) {
+        (placement as SectionView).providePresenter().filter(text)
     }
 
 }

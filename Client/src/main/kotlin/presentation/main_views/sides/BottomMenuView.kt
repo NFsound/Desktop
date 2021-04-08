@@ -1,4 +1,4 @@
-package presentation.main_views
+package presentation.main_views.sides
 
 //import models.core.Track
 import application.SonusApplication
@@ -10,16 +10,13 @@ import javafx.scene.control.ProgressBar
 import javafx.scene.control.Slider
 import javafx.scene.image.ImageView
 import javafx.scene.layout.*
-import javafx.scene.shape.Shape
 import presentation.presenters.main.CenterPresenter
 import presentation.styles.BottomViewStyles
-import presentation.styles.Colors
 import presentation.styles.Colors.alternativeWhiteColor
 import presentation.styles.Colors.whiteColor
 import tornadofx.*
 import utils.IconsProvider
 import utils.ImageProvider
-import javax.sound.midi.Track
 
 
 class BottomMenuView() : View(), SideView {
@@ -125,14 +122,14 @@ class BottomMenuView() : View(), SideView {
             pauseIcon.isVisible = true
             isPaused = false
             pauseIcon.parent.toFront()
-            mainPresenter.play()
+            mainPresenter.onPlayClicked()
         }
         else{
             playIcon.isVisible = true
             pauseIcon.isVisible = false
             isPaused = true
             playIcon.parent.toFront()
-            mainPresenter.pause()
+            mainPresenter.onPauseClicked()
         }
 
     }

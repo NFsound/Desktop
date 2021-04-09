@@ -13,15 +13,23 @@ class HomeViewImpl: View(),HomeView {
     override var sectionTitle = "Home"
 
 
-    override fun providePresenter(): SectionPresenter {
+/*    override fun providePresenter(): SectionPresenter {
         if (homePresenter == null){
             return HomePresenter()
         }
         return homePresenter!!
-    }
+    }*/
 
     override fun filterView(text: String) {
         println("from home $text")
+    }
+
+    override fun setPresenter(presenter: SectionPresenter) {
+        TODO("Not yet implemented")
+    }
+
+    override fun getPresenter(): SectionPresenter {
+        TODO("Not yet implemented")
     }
 
     private var homePresenter: HomePresenter? = null

@@ -1,0 +1,17 @@
+GET http://172.20.10.3:80/get_all_users
+
+
+{
+  "list": [{
+    "id": "1",
+    "login": "caesiummm@yandex.ru",
+    "nickname": "caesiummm",
+    "password": "password123"
+  },
+  {
+    "id": "2",
+    "login": "zhekuson@gmail.com",
+    "nickname": "zhekuson",
+    "password": "zhekusonpassword"
+  }]
+}

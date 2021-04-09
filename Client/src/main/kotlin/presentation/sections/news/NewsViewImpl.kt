@@ -11,15 +11,18 @@ class NewsViewImpl(): View(),NewsView {
 
     override var sectionTitle = "News"
 
-    override fun providePresenter(): SectionPresenter {
-        if (newsPresenter == null){
-            return NewsPresenter()
-        }
-        return newsPresenter!!
-    }
+
 
     override fun filterView(text: String) {
         println("from news $text")
+    }
+
+    override fun setPresenter(presenter: SectionPresenter) {
+        TODO("Not yet implemented")
+    }
+
+    override fun getPresenter(): SectionPresenter {
+        TODO("Not yet implemented")
     }
 
 

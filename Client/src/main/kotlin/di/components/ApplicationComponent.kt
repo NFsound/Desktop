@@ -2,8 +2,11 @@ package di.components
 
 import application.SonusApplication
 import dagger.Component
+import di.modules.interactors.InteractorsModule
 import di.modules.menu.MenuModule
 import di.modules.navigation.NavigationModule
+import di.modules.network.NetworkModule
+import di.modules.repositories.RepoModule
 import di.modules.views.ViewModule
 import presentation.main_views.sides.BottomMenuView
 import presentation.main_views.sides.LeftMenuView
@@ -16,7 +19,11 @@ import presentation.presenters.sections.*
 
 @Component(modules = [MenuModule::class,
     ViewModule::class,
-    NavigationModule::class])
+    NavigationModule::class,
+    InteractorsModule::class,
+    RepoModule::class,
+    NetworkModule::class
+])
 interface ApplicationComponent {
     //center injection
     fun inject(sonusApplication: SonusApplication)

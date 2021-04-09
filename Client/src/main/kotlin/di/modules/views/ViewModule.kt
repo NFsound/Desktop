@@ -51,11 +51,12 @@ class ViewModule {
 
     companion object{
         //unique
-        private val homeSection = HomeViewImpl()
-        private val musicSection = MusicViewImpl()
-        private val newsSection = NewsViewImpl()
-        private val accountSection = AccountViewImpl()
         //в них внутренние inject, поэтому lazy
+        private val homeSection by lazy{HomeViewImpl()}
+        private val musicSection by lazy{MusicViewImpl()}
+        private val newsSection by lazy{NewsViewImpl()}
+        private val accountSection by lazy{AccountViewImpl()}
+
         private val bottomMenuView by lazy { BottomMenuView() }
         private val topMenuView by lazy { TopMenuView() }
         private val leftMenuView by lazy { LeftMenuView() }

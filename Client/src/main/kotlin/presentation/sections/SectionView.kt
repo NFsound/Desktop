@@ -10,8 +10,9 @@ interface SectionView {
 
     var sectionTitle:String
 
-    fun providePresenter(): SectionPresenter
-
     fun filterView(text:String)
 
+    fun setPresenter(presenter: SectionPresenter)
+
+    fun getPresenter():SectionPresenter
 }

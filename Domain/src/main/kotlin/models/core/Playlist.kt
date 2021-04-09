@@ -46,5 +46,9 @@ class Playlist (private val list:ArrayList<Track>, val image:PlaylistImage){
     fun getSize(): Int{
         return list.size
     }
+    companion object{
+
+        val emptyPlaylist = Playlist(arrayListOf(Track.emptyTrack()),PlaylistImage())
+    }
 
 }

@@ -2,6 +2,7 @@ package presentation.main_views.sides
 
 //import models.core.Track
 import application.SonusApplication
+import javafx.beans.binding.Bindings
 import javafx.geometry.Insets
 import javafx.geometry.Pos
 import javafx.scene.Node
@@ -10,6 +11,9 @@ import javafx.scene.control.ProgressBar
 import javafx.scene.control.Slider
 import javafx.scene.image.ImageView
 import javafx.scene.layout.*
+import javafx.scene.media.Media
+import javafx.scene.media.MediaPlayer
+import models.core.Track
 import presentation.presenters.main.CenterPresenter
 import presentation.styles.BottomViewStyles
 import presentation.styles.Colors.alternativeWhiteColor
@@ -17,8 +21,6 @@ import presentation.styles.Colors.whiteColor
 import tornadofx.*
 import utils.IconsProvider
 import utils.ImageProvider
-import java.awt.Image
-import java.awt.image.BufferedImage
 
 
 class BottomMenuView() : View(), SideView {
@@ -34,7 +36,7 @@ class BottomMenuView() : View(), SideView {
     }
 
     //ui components
-    lateinit var trackImageView: ImageView
+    lateinit var playlistImageView: ImageView
     lateinit var trackAuthorLabel: Label
     lateinit var trackNameLabel: Label
     lateinit var totalLengthLabel: Label
@@ -55,10 +57,6 @@ class BottomMenuView() : View(), SideView {
 
     var isPaused:Boolean = true
 
-    init {
-        //  MediaPlayer
-
-    }
 
     companion object {
         const val backwardIconFilePath: String =
@@ -136,6 +134,32 @@ class BottomMenuView() : View(), SideView {
 
     }
 
+    fun onShuffleClick(){
+        mainPresenter.onShuffleClicked()
+    }
+    fun onRepeatClick(){
+        mainPresenter.onCycleClicked()
+    }
+    fun onBackwardClick(){
+        mainPresenter.onPreviousClicked()
+    }
+    fun onForwardClick(){
+        mainPresenter.onNextClicked()
+    }
+
+    fun setTrackInfo(track: Track, player: MediaPlayer){
+        trackAuthorLabel.text = track.authorName
+        trackNameLabel.text = track.name
+        val media = Media(track.resPath)
+        totalLengthLabel.text = media.duration.toString()
+        media.markers
+        slider.maxProperty().bind(
+            Bindings.createDoubleBinding(
+                { player.totalDuration.toSeconds() },
+                player.totalDurationProperty()
+            ))
+    }
+
 
     override val root = gridpane {
         addClass(BottomViewStyles.bottomBarStyle)
@@ -149,7 +173,7 @@ class BottomMenuView() : View(), SideView {
                 rowSpan = 2
             }
             //track image
-            trackImageView = imageview {
+            playlistImageView = imageview {
 
                 fitHeight = BottomViewStyles.imageSize
                 fitWidth = BottomViewStyles.imageSize
@@ -181,8 +205,12 @@ class BottomMenuView() : View(), SideView {
             stackpane {
                 hbox(alignment = Pos.CENTER) {
                     //icons play/pause next previous
-                    shuffleIcon = makePlayerIcon(this, shuffleIconFilePath)
-                    backwardIcon = makePlayerIcon(this, backwardIconFilePath)
+                    shuffleIcon = makePlayerIcon(this, shuffleIconFilePath,
+                    clickListener = this@BottomMenuView::onShuffleClick
+                    )
+                    backwardIcon = makePlayerIcon(this, backwardIconFilePath,
+                        clickListener = this@BottomMenuView::onBackwardClick
+                        )
                     stackpane {
 
                         pauseIcon = makePlayerIcon(this@stackpane, pauseIconFilePath,
@@ -200,8 +228,12 @@ class BottomMenuView() : View(), SideView {
                             this@BottomMenuView.onPauseClick()
                         }
                     }
-                    forwardIcon = makePlayerIcon(this, forwardIconFilePath)
-                    repeatIcon = makePlayerIcon(this, repeatIconFilePath)
+                    forwardIcon = makePlayerIcon(this, forwardIconFilePath,
+                        clickListener = this@BottomMenuView::onForwardClick
+                        )
+                    repeatIcon = makePlayerIcon(this, repeatIconFilePath,
+                        clickListener = this@BottomMenuView::onRepeatClick
+                        )
                 }
             }
 

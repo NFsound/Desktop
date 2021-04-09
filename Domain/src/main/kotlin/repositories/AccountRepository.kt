@@ -14,4 +14,5 @@ interface AccountRepository {
 
     fun login(account: Account): Single<AccountInfo>
 
+    fun getAllUsers():Single<List<Account>>
 }

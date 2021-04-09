@@ -1,6 +1,7 @@
 package presentation.presenters.main
 
 import application.SonusApplication
+import javafx.beans.binding.Bindings
 import javafx.scene.media.Media
 import models.core.Playlist
 import models.core.Track
@@ -12,6 +13,7 @@ import presentation.menu.item.MenuItem
 import presentation.navigation.Navigator
 import javax.inject.Inject
 import javafx.scene.media.MediaPlayer
+import tornadofx.toProperty
 import java.nio.file.Paths
 
 class MainPresenter(): CenterPresenter {
@@ -76,6 +78,8 @@ class MainPresenter(): CenterPresenter {
 
     override fun onPlayClicked() {
         player.play()
+        var time =  (player.currentTime.toSeconds()/player.totalDuration.toSeconds()).toProperty()
+        bottomViewState.slider.valueProperty().bind(time)
     }
 
     override fun onPauseClicked() {

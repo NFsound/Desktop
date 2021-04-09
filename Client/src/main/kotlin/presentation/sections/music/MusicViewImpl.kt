@@ -13,15 +13,18 @@ class MusicViewImpl(): View(), MusicView {
 
     override var sectionTitle = "Music"
 
-    override fun providePresenter(): SectionPresenter {
-        if (musicPresenter == null){
-            return MusicPresenter()
-        }
-        return musicPresenter!!
-    }
+
 
     override fun filterView(text: String) {
         println("from music $text")
+    }
+
+    override fun setPresenter(presenter: SectionPresenter) {
+        TODO("Not yet implemented")
+    }
+
+    override fun getPresenter(): SectionPresenter {
+        TODO("Not yet implemented")
     }
 
     private var musicPresenter: MusicPresenter? = null

@@ -10,6 +10,7 @@ import presentation.menu.item.MenuItem
 import presentation.menu.list.Menu
 import presentation.presenters.main.CenterPresenter
 import presentation.presenters.main.MainPresenter
+import presentation.presenters.sections.AccountPresenter
 import presentation.presenters.sections.HomePresenter
 import presentation.presenters.sections.SectionPresenter
 import presentation.sections.SectionView
@@ -29,9 +30,13 @@ class CenterMenuPlacementView(): View(), CenterView {
 
     @Inject
     lateinit var sections: Sections
+    fun providePresenter(): SectionPresenter {
+        return AccountPresenter()
+    }
 
     init {
         SonusApplication.getInstance().applicationComponent.inject(this)
+        sections.sections[3].setPresenter(providePresenter())
     }
 
     var placement:View = sections.sections[0] as View
@@ -50,7 +55,7 @@ class CenterMenuPlacementView(): View(), CenterView {
     }
 
     override fun filter(text: String) {
-        (placement as SectionView).providePresenter().filter(text)
+        (placement as SectionView).getPresenter().filter(text)
     }
 
 }

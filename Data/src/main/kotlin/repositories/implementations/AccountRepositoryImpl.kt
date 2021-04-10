@@ -1,9 +1,9 @@
 package repositories.implementations
 
-import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
 import models.core.Account
-import models.wrappers.AccountInfo
+import models.wrappers.account.AccountInfo
+import models.wrappers.account.AccountRegistration
 import network.api.ApiService
 import repositories.AccountRepository
 import javax.inject.Inject
@@ -19,8 +19,10 @@ class AccountRepositoryImpl @Inject constructor(private val api:ApiService): Acc
 
 
 
-    override fun registerUser(): Single<Int> {
-        TODO("Not yet implemented")
+    override fun registerUser(accountRegistration: AccountRegistration): Single<Boolean> {
+        return api.registerUser(accountRegistration).map {
+            it.status.contentEquals("Ok!")
+        }
     }
 
     override fun login(account: Account): Single<AccountInfo> {

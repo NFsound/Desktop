@@ -3,6 +3,8 @@ package repositories
 import io.reactivex.rxjava3.core.Single
 import models.core.Account
 import models.wrappers.AccountInfo
+import models.wrappers.AccountRegistration
+import models.wrappers.RegistrationResult
 
 interface AccountRepository {
 
@@ -10,7 +12,7 @@ interface AccountRepository {
 
     fun getUser(nickName: String): Single<Account>
 
-    fun registerUser(): Single<Int>
+    fun registerUser(accountRegistration: AccountRegistration): Single<Boolean>
 
     fun login(account: Account): Single<AccountInfo>
 

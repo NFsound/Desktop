@@ -1,4 +1,0 @@
-package interactors
-
-interface PlayerInteractor {
-}

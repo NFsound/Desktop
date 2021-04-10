@@ -6,11 +6,10 @@ import models.wrappers.ListOfPlaylists
 
 interface PlaylistRepository {
 
-    fun getPlaylists(userId:Int): Single<ListOfPlaylists>
+    fun getPlaylists(userId:Int): Single<List<Playlist>>
 
-    fun getPlaylistByName(name:String): Single<ListOfPlaylists>
+    fun getPlaylistByName(name:String): Single<List<Playlist>>
 
     fun updatePlaylist(playlist: Playlist): Single<Boolean>
-
 
 }

@@ -5,7 +5,8 @@ import models.core.Account
 
 interface AccountInteractor {
 
-    fun registerAccount(): Single<Boolean>
+    fun registerAccount(nickName: String, login:String, password:String):
+            Single<Boolean>
 
     fun loginAccount(): Single<Boolean>
 

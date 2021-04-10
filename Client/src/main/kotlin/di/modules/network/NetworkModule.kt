@@ -1,5 +1,6 @@
 package di.modules.network
 
+import application.Config
 import dagger.Provides
 import dagger.Module
 import network.api.ApiService
@@ -23,7 +24,7 @@ class NetworkModule {
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
                 .client(client)
-                .baseUrl("http://172.20.10.3:80")
+                .baseUrl(Config.BASE_URL)
                 .build()
             return retrofit.create(ApiService::class.java)
     }

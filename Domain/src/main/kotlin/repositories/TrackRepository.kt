@@ -7,7 +7,7 @@ import models.wrappers.TrackList
 
 interface TrackRepository {
 
-    fun getAllTracks(accountId: Int): Single<TrackList>
+    fun getAllTracks(accountId: Int): Single<List<Track>>
 
     fun postTrack(track: Track): Single<Int>
 

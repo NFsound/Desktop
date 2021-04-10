@@ -24,12 +24,20 @@ class AccountPresenter():SectionPresenter {
     }
 
     fun onButtonClicked(){
-        accountInteractor.getAllUsers()
+        accountInteractor.registerAccount("aero",
+            "aero","aeroooooo")
+            .subscribe{
+                list->
+            Platform.runLater {
+                //viewState.printAllUsers(list)
+            }
+        }
+/*        accountInteractor.getAllUsers()
             .subscribe{
                 list->
                 Platform.runLater {
                     viewState.printAllUsers(list)
                 }
-            }
+            }*/
     }
 }

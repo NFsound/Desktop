@@ -1,4 +1,4 @@
-package models.wrappers
+package models.wrappers.account
 
 import models.core.Account
 

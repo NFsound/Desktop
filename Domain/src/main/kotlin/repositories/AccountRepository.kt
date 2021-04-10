@@ -2,19 +2,19 @@ package repositories
 
 import io.reactivex.rxjava3.core.Single
 import models.core.Account
-import models.wrappers.AccountInfo
-import models.wrappers.AccountRegistration
-import models.wrappers.RegistrationResult
+import models.core.AccountRegistration
+import models.core.UserInfo
+
 
 interface AccountRepository {
 
-    fun getUser(Id: Int): Single<Account>
+    fun getUser(Id: Int): Single<UserInfo>
 
-    fun getUser(nickName: String): Single<Account>
+    fun getUser(nickName: String): Single<UserInfo>
 
-    fun registerUser(accountRegistration: AccountRegistration): Single<Boolean>
+    fun registerUser(accountRegistration: AccountRegistration): Single<Int>
 
-    fun login(account: Account): Single<AccountInfo>
+    fun login(account: Account): Single<Int>
 
     fun getAllUsers():Single<List<Account>>
 }

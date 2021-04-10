@@ -1,4 +1,4 @@
 package models.core
 
-class News {
+class News(val title: String, var text:String) {
 }

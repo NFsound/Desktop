@@ -3,7 +3,6 @@ package repositories
 import io.reactivex.rxjava3.core.Single
 import models.core.GenerationParams
 import models.core.Track
-import models.wrappers.TrackList
 
 interface TrackRepository {
 

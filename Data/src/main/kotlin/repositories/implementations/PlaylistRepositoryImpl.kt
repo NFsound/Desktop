@@ -10,4 +10,12 @@ class PlaylistRepositoryImpl @Inject constructor(private val api: ApiService): P
     override fun getPlaylists(userId: Int): Single<List<Playlist>> {
         TODO("Not yet implemented")
     }
+
+    override fun getPlaylistByName(name: String): Single<List<Playlist>> {
+        TODO("Not yet implemented")
+    }
+
+    override fun updatePlaylist(playlist: Playlist): Single<Boolean> {
+        TODO("Not yet implemented")
+    }
 }

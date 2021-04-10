@@ -2,7 +2,6 @@ package repositories
 
 import io.reactivex.rxjava3.core.Single
 import models.core.Playlist
-import models.wrappers.ListOfPlaylists
 
 interface PlaylistRepository {
 

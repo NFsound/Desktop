@@ -1,13 +1,13 @@
 package network.api
 import io.reactivex.rxjava3.core.Single
-import models.core.Account
 import models.core.Playlist
 import models.core.Track
 import models.wrappers.account.AccountListWrapper
-import models.wrappers.account.AccountRegistration
-import models.wrappers.playlist.ListOfPlaylists
+import models.core.AccountRegistration
+import models.core.UserInfo
+import models.wrappers.account.LoginBody
 import models.wrappers.account.RegistrationResult
-import models.wrappers.account.UserInfo
+import models.wrappers.playlist.ListOfPlaylists
 import models.wrappers.playlist.PlaylistUpdateResult
 import retrofit2.http.*
 
@@ -28,6 +28,11 @@ interface ApiService {
     @GET("get_user")
     fun getUserByNick(@Body nickname: String):Single<UserInfo>
 
+    @GET("")
+    fun loginUser(@Body loginBody: LoginBody): Single<Int>
+
+
+
     //playlists
     @GET("get_user_playlists")
     fun getUsersPlaylists():Single<ListOfPlaylists>
@@ -37,6 +42,9 @@ interface ApiService {
 
     @POST()
     fun updatePlaylist(@Body playlist: Playlist): Single<PlaylistUpdateResult>
+
+
+
 
     //tracks
     @POST("get_track")

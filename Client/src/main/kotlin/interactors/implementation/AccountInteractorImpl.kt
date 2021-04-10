@@ -33,5 +33,19 @@ class AccountInteractorImpl @Inject constructor(
         return accountRepository.getAllUsers()
     }
 
+    override fun getCurrentAccount(): Single<Account> {
+        return Single.just(currentAccount)
+    }
+
+    override fun logOut(): Single<Boolean> {
+        currentAccount = Account(-1,"","","")
+        return Single.just(true)
+    }
+
+    init {
+        currentAccount = Account(3412,"Somebody",
+            "somebody@gmail.com", "Strong_password")
+
+    }
 
 }

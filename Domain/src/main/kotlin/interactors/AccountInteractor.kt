@@ -12,4 +12,7 @@ interface AccountInteractor {
 
     fun getAllUsers(): Single<List<Account>>
 
+    fun getCurrentAccount(): Single<Account>
+
+    fun logOut(): Single<Boolean>
 }

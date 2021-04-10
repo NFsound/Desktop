@@ -27,6 +27,7 @@ class AccountViewStyles() :  Stylesheet(){
             fontSize = 14.pt
             padding = box(10.px)
             textFill = Colors.alternativeWhiteColor
+            alignment = Pos.CENTER_LEFT
         }
         userInfoMainLabelStyle{
             fontSize = 16.pt
@@ -40,6 +41,7 @@ class AccountViewStyles() :  Stylesheet(){
             prefHeight = passwordFieldHeight.px
             padding = box(4.px)
             backgroundColor += Colors.whiteColor
+            alignment = Pos.BOTTOM_CENTER
         }
 
         defaultLabelStyle{

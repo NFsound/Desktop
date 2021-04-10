@@ -9,4 +9,7 @@ interface AccountView: SectionView {
 
     fun initializeUserInfo(account: Account)
 
+    fun hideAccountUI()
+
+    fun showAccountUI()
 }

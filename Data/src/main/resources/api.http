@@ -1,17 +1,19 @@
-GET http://172.20.10.3:80/get_all_users
-
+POST http://172.20.10.3:80/get_track
+Content-Type: application/json
 
 {
-  "list": [{
-    "id": "1",
-    "login": "caesiummm@yandex.ru",
-    "nickname": "caesiummm",
-    "password": "password123"
-  },
-  {
-    "id": "2",
-    "login": "zhekuson@gmail.com",
-    "nickname": "zhekuson",
-    "password": "zhekusonpassword"
-  }]
+"id": 3
 }
+
+###
+//GET http://172.20.10.3:80/get_all_users
+
+//GET http://172.20.10.3:80/get_tracks
+
+//POST http://172.20.10.3:80/get_track/
+
+
+
+
+
+GET http://0.0.0.0:80/get_all_users

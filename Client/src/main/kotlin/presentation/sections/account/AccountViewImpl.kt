@@ -4,8 +4,10 @@ import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import javafx.application.Platform
 import javafx.geometry.Pos
+import javafx.scene.Node
 import javafx.scene.Parent
 import javafx.scene.control.Label
+import javafx.scene.control.PasswordField
 import javafx.scene.control.TextField
 import javafx.stage.StageStyle
 import models.core.Account
@@ -25,10 +27,11 @@ import javax.swing.GroupLayout
 
 class AccountViewImpl : View(), AccountView {
 
-
     //views
     private lateinit var nickNameLabel: Label
-    private lateinit var passwordField: TextField
+    private lateinit var mainPasswordField: PasswordField
+    private lateinit var passwordField1: TextField
+    private lateinit var passwordField2: TextField
 
     override fun printAllUsers(list: List<Account>) {
         for (user in list) {
@@ -64,6 +67,8 @@ class AccountViewImpl : View(), AccountView {
 
 
     override val root: Parent = vbox {
+
+
         addClass(accountStyle)
 
         hbox {
@@ -76,6 +81,8 @@ class AccountViewImpl : View(), AccountView {
                 addClass(userInfoMainLabelStyle)
             }
         }
+
+
         hbox {
 
             label {
@@ -84,39 +91,56 @@ class AccountViewImpl : View(), AccountView {
                 addClass(userInfoLabelStyle)
             }
             alignment = Pos.CENTER_LEFT
-            passwordField = passwordfield {
+            mainPasswordField = passwordfield {
                 addClass(passwordFieldStyle)
                 alignment = Pos.CENTER
                 text = "fvsedgvd"
                 isEditable = false
             }
         }
+
+
         label {
             text = "Change your password:"
-            addClass(defaultLabelStyle)
+            addClass(userInfoLabelStyle)
         }
+
+
         vbox {
+            label("Print your new password") {
+                addClass(defaultLabelStyle)
+            }
+
             hbox {
-                passwordfield {
+                passwordField1 = passwordfield {
                     addClass(passwordFieldStyle)
                     alignment = Pos.CENTER
                     text = "fvsedgvd"
                 }
                 padding = insets(4)
             }
+            label("Repeat your new password") {
+                addClass(defaultLabelStyle)
+            }
+
             hbox {
+                padding = insets(4)
                 alignment = Pos.CENTER_LEFT
-                passwordfield {
+
+
+                passwordField2 = passwordfield {
                     addClass(passwordFieldStyle)
                     alignment = Pos.CENTER
                     text = "fvsedgvd"
                     padding = insets(4, 100, 4, 4)
                 }
+
+
                 label {
                     isVisible = false
                     text = "ff"
                 }
-                padding = insets(4)
+
                 button {
                     addClass(buttonDefaultStyle)
                     padding = insets(4)
@@ -128,7 +152,8 @@ class AccountViewImpl : View(), AccountView {
                             .andThen {
                                 removeClass(buttonClickedStyle)
                                 Platform.runLater {
-                                    openInternalWindow<MessageWindow>()
+                                    openInternalWindow<MessageWindow>(
+                                        owner = this.parent.parent.parent.parent.parent)
                                 }
                             }.subscribe {}
                     }
@@ -136,10 +161,6 @@ class AccountViewImpl : View(), AccountView {
             }
         }
 
-
     }
 
-    init {
-
-    }
 }

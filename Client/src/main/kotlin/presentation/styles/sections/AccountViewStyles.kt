@@ -43,7 +43,7 @@ class AccountViewStyles() :  Stylesheet(){
         }
 
         defaultLabelStyle{
-            fontSize = 12.pt
+            fontSize = 10.pt
             padding = box(10.px)
             textFill = Colors.alternativeWhiteColor
         }

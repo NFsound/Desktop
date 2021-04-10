@@ -1,7 +1,6 @@
-package presentation.styles
+package presentation.styles.sides
 
 import javafx.geometry.Pos
-import presentation.styles.Colors.alternativeColor
 import presentation.styles.Colors.grayTextColor
 import presentation.styles.Colors.leftBarColor
 import presentation.styles.Colors.leftMenuItemSelectedColor

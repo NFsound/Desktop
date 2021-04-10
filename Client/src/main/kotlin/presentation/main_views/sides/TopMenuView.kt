@@ -14,8 +14,8 @@ import presentation.main_views.main_window.window_states.State
 import presentation.main_views.main_window.window_states.WindowState
 import presentation.presenters.main.CenterPresenter
 import presentation.styles.Colors
-import presentation.styles.MainWindowStyles
-import presentation.styles.TopViewStyles
+import presentation.styles.sides.MainWindowStyles
+import presentation.styles.sides.TopViewStyles
 import tornadofx.*
 import utils.IconsProvider
 import java.util.concurrent.TimeUnit

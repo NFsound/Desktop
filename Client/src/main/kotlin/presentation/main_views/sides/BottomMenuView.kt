@@ -15,7 +15,7 @@ import javafx.scene.media.Media
 import javafx.scene.media.MediaPlayer
 import models.core.Track
 import presentation.presenters.main.CenterPresenter
-import presentation.styles.BottomViewStyles
+import presentation.styles.sides.BottomViewStyles
 import presentation.styles.Colors.alternativeWhiteColor
 import presentation.styles.Colors.whiteColor
 import tornadofx.*

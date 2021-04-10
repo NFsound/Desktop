@@ -8,7 +8,7 @@ import presentation.menu.item.MenuItem
 import presentation.menu.list.Menu
 import presentation.presenters.main.CenterPresenter
 import presentation.styles.Colors
-import presentation.styles.LeftMenuStyles
+import presentation.styles.sides.LeftMenuStyles
 import tornadofx.*
 import javax.inject.Inject
 

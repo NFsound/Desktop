@@ -40,4 +40,9 @@ class AccountPresenter():SectionPresenter {
                 }
             }*/
     }
+
+    fun onInitialLoad(){
+
+    }
+
 }

@@ -1,4 +1,4 @@
-package presentation.styles
+package presentation.styles.sides
 
 import javafx.scene.paint.Color
 import presentation.styles.Colors.alternativeColor

@@ -16,7 +16,7 @@ class MusicInteractorImpl @Inject constructor(
     private val utilsRepository: UtilsRepository
     ): MusicInteractor {
     override fun sendGenerationRequest(): Single<Boolean> {
-
+        TODO("Not yet implemented")
     }
 
     override fun createPlaylist(playlist: Playlist): Single<Boolean> {

@@ -1,10 +1,9 @@
-package presentation.styles
+package presentation.styles.sides
 
 import tornadofx.*
 import presentation.styles.Colors.alternativeColor
 import presentation.styles.Colors.leftBarColor
 import presentation.styles.Colors.leftMenuItemSelectedColor
-import presentation.styles.Colors.mainColor
 import presentation.styles.Colors.whiteColor
 
 

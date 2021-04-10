@@ -3,11 +3,12 @@ package application
 
 import di.components.ApplicationComponent
 import di.components.DaggerApplicationComponent
-import presentation.styles.MainWindowStyles
+import presentation.styles.sides.MainWindowStyles
 import presentation.main_views.main_window.MainView
-import presentation.styles.BottomViewStyles
-import presentation.styles.LeftMenuStyles
-import presentation.styles.TopViewStyles
+import presentation.styles.sections.AccountViewStyles
+import presentation.styles.sides.BottomViewStyles
+import presentation.styles.sides.LeftMenuStyles
+import presentation.styles.sides.TopViewStyles
 import tornadofx.*
 
 class SonusApplication : App(
@@ -15,7 +16,8 @@ class SonusApplication : App(
     MainWindowStyles::class,
     BottomViewStyles::class,
     LeftMenuStyles::class,
-    TopViewStyles::class
+    TopViewStyles::class,
+    AccountViewStyles::class
 ) {
 
     var applicationComponent: ApplicationComponent

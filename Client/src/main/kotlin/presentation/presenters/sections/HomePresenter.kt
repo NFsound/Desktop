@@ -41,41 +41,6 @@ class HomePresenter:SectionPresenter {
             ),
             "Some name of list",
             PlaylistImage()
-        ),
-        Playlist(
-            arrayListOf(
-                Track.emptyTrack()
-            ),
-            "Some name of list",
-            PlaylistImage()
-        ),
-        Playlist(
-            arrayListOf(
-                Track.emptyTrack()
-            ),
-            "Some name of list",
-            PlaylistImage()
-        ),
-        Playlist(
-            arrayListOf(
-                Track.emptyTrack()
-            ),
-            "Some name of list",
-            PlaylistImage()
-        ),
-        Playlist(
-            arrayListOf(
-                Track.emptyTrack()
-            ),
-            "Some name of list",
-            PlaylistImage()
-        ),
-        Playlist(
-            arrayListOf(
-                Track.emptyTrack()
-            ),
-            "Some name of list",
-            PlaylistImage()
         )
 
     )

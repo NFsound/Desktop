@@ -3,16 +3,14 @@ package presentation.sections.home
 import application.SonusApplication
 import javafx.geometry.Insets
 import javafx.geometry.Pos
-import javafx.scene.Node
 import javafx.scene.control.ScrollPane
+import javafx.scene.control.skin.ScrollPaneSkin
 import javafx.scene.layout.*
 import javafx.scene.text.TextAlignment
 import models.core.Playlist
-import presentation.main_views.sides.BottomMenuView
 import presentation.presenters.sections.HomePresenter
 import presentation.presenters.sections.SectionPresenter
 import presentation.styles.Colors
-import presentation.styles.sections.AccountViewStyles
 import presentation.styles.sections.HomeViewStyles
 import presentation.styles.sections.HomeViewStyles.Companion.blackSmokeStyle
 import presentation.styles.sections.HomeViewStyles.Companion.imagePlaylistStyle
@@ -20,7 +18,6 @@ import presentation.styles.sections.HomeViewStyles.Companion.playListStyle
 import presentation.styles.sections.HomeViewStyles.Companion.playlistLabelStyle
 import presentation.styles.sections.HomeViewStyles.Companion.titleLabelStyle
 import presentation.styles.sections.NewsViewStyles
-import presentation.styles.sides.BottomViewStyles
 import presentation.styles.sides.LeftMenuStyles.Companion.iconSize
 import tornadofx.*
 import utils.IconsProvider
@@ -44,7 +41,7 @@ class HomeViewImpl : View(), HomeView {
         }
     }
 
-    fun HBox.createOnePlaylistBox(playlist: Playlist):VBox{
+    fun HBox.createOnePlaylistBox(playlist: Playlist): VBox {
         return vbox {
             //playlist
             stackpane {
@@ -56,7 +53,7 @@ class HomeViewImpl : View(), HomeView {
                     fitHeight = HomeViewStyles.prefPlaylistSize.toDouble()
                     fitWidth = HomeViewStyles.prefPlaylistSize.toDouble()
                 }
-                vbox{
+                vbox {
                     addClass(blackSmokeStyle)
                     prefHeight = HomeViewStyles.prefPlaylistSize.toDouble()
                     prefWidth = HomeViewStyles.prefPlaylistSize.toDouble()
@@ -79,7 +76,7 @@ class HomeViewImpl : View(), HomeView {
                     setMouseLeaveBackground(playIcon)
                     pauseIcon.isVisible = false
                     setOnMouseClicked {
-                        onPlayListPlayPauseClicked(playlist,pauseIcon, playIcon)
+                        onPlayListPlayPauseClicked(playlist, pauseIcon, playIcon)
                     }
                 }
             }
@@ -129,6 +126,13 @@ class HomeViewImpl : View(), HomeView {
             addClass(NewsViewStyles.mainScrollViewStyle)
 
 
+            val initialInc = 100.0
+            val skin = ScrollPaneSkin(this)
+            skin.verticalScrollBar.unitIncrement = initialInc
+            skin.verticalScrollBar.blockIncrement = initialInc
+            this.skin = skin
+
+
             vbox {
                 addClass(NewsViewStyles.mainVBoxStyle)
                 label("Popular playlists") {
@@ -139,7 +143,7 @@ class HomeViewImpl : View(), HomeView {
                     isFitToHeight = true
                     addClass(NewsViewStyles.mainScrollViewStyle)
                     setOnScroll {
-                        it.consume()
+                        //it.consume()
                         popScroll.hvalue += it.deltaY / (4 * it.multiplierY)
                     }
                     popularPlaylistsBox = hbox {
@@ -157,7 +161,7 @@ class HomeViewImpl : View(), HomeView {
                     isFitToHeight = true
                     addClass(NewsViewStyles.mainScrollViewStyle)
                     setOnScroll {
-                        it.consume()
+                        //it.consume()
                         yourScroll.hvalue += it.deltaY / (4 * it.multiplierY)
                     }
                     yourPlaylistsHBox = hbox {
@@ -197,13 +201,12 @@ class HomeViewImpl : View(), HomeView {
         playlist: Playlist, pauseIcon: SVGIcon,
         playIcon: SVGIcon
     ) {
-        if (playIcon.isVisible){
+        if (playIcon.isVisible) {
             playIcon.isVisible = false
             pauseIcon.isVisible = true
             pauseIcon.parent.toFront()
             homePresenter.onPlayPlaylistClicked(playlist)
-        }
-        else {
+        } else {
             playIcon.isVisible = true
             pauseIcon.isVisible = false
             playIcon.parent.toFront()

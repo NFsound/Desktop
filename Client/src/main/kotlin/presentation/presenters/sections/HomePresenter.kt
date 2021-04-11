@@ -5,6 +5,7 @@ import interactors.HomeInteractor
 import models.core.Playlist
 import models.core.Track
 import models.utils.PlaylistImage
+import presentation.presenters.main.CenterPresenter
 import presentation.sections.account.AccountView
 import presentation.sections.home.HomeView
 import javax.inject.Inject
@@ -19,6 +20,8 @@ class HomePresenter:SectionPresenter {
     init {
         SonusApplication.getInstance().applicationComponent.inject(this)
     }
+
+    override lateinit var centerPresenter: CenterPresenter
 
     override fun filter(text: String) {
 
@@ -79,6 +82,14 @@ class HomePresenter:SectionPresenter {
 
     override fun onInitialLoad() {
         viewState.renderPopularPlaylists(testList)
+        viewState.renderAccountPlaylists(testList)
     }
 
+    fun onPlayPlaylistClicked(playlist: Playlist){
+        centerPresenter.onPlayPlaylistClicked(playlist)
+    }
+
+    fun onPausePlaylistClicked(playlist: Playlist){
+        centerPresenter.onPausePlaylistClicked(playlist)
+    }
 }

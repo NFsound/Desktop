@@ -1,5 +1,6 @@
 package presentation.presenters.main
 
+import models.core.Playlist
 import presentation.menu.item.MenuItem
 
 interface CenterPresenter {
@@ -26,4 +27,7 @@ interface CenterPresenter {
 
     fun onCurrentPlaylistClicked()
 
+    fun onPlayPlaylistClicked(playlist: Playlist)
+
+    fun onPausePlaylistClicked(playlist: Playlist)
 }

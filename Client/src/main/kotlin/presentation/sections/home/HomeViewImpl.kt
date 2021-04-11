@@ -38,55 +38,70 @@ class HomeViewImpl : View(), HomeView {
     override fun renderPopularPlaylists(listOfPlaylist: List<Playlist>) {
         popularPlaylistsBox.children.removeAll { true }
         for (playlist in listOfPlaylist) {
-            popularPlaylistsBox.vbox {
-                //playlist
+            popularPlaylistsBox.createOnePlaylistBox(playlist)
+        }
+    }
+
+    fun HBox.createOnePlaylistBox(playlist: Playlist):VBox{
+        return vbox {
+            //playlist
+            stackpane {
+                addClass(playListStyle)
+                usePrefWidth = true
+                usePrefHeight = true
+                imageview(ImageProvider.getImage(playlist.image)) {
+                    addClass(imagePlaylistStyle)
+                    fitHeight = HomeViewStyles.prefPlaylistSize.toDouble()
+                    fitWidth = HomeViewStyles.prefPlaylistSize.toDouble()
+                }
                 stackpane {
-                    addClass(playListStyle)
-                    usePrefWidth = true
-                    usePrefHeight = true
-                    imageview(ImageProvider.getImage(playlist.image)) {
-                        addClass(imagePlaylistStyle)
-                        fitHeight = HomeViewStyles.prefPlaylistSize.toDouble()
-                        fitWidth = HomeViewStyles.prefPlaylistSize.toDouble()
-                    }
-                    stackpane {
-                        alignment = Pos.CENTER
-                        val playIcon = svgicon(
-                            IconsProvider.getSVGPath(playIconFilePath),
-                            size = iconSize,
-                            color = Colors.alternativeWhiteColor
-                        )
-                        val pauseIcon = svgicon(
-                            IconsProvider.getSVGPath(pauseIconFilePath),
-                            size = iconSize,
-                            color = Colors.alternativeWhiteColor
-                        )
-                        setMouseEnterBackground(pauseIcon)
-                        setMouseLeaveBackground(playIcon)
-                        setMouseEnterBackground(pauseIcon)
-                        setMouseLeaveBackground(playIcon)
-                    }
-                }
-                //name
-                alignment = Pos.CENTER
-                label (playlist.name){
                     alignment = Pos.CENTER
-                    textAlignment = TextAlignment.CENTER
-                    isWrapText = true
-                    addClass(AccountViewStyles.defaultLabelStyle)
+                    val pauseIcon = svgicon(
+                        IconsProvider.getSVGPath(pauseIconFilePath),
+                        size = iconSize,
+                        color = Colors.alternativeWhiteColor
+                    )
+                    val playIcon = svgicon(
+                        IconsProvider.getSVGPath(playIconFilePath),
+                        size = iconSize,
+                        color = Colors.alternativeWhiteColor
+                    )
+                    setMouseEnterBackground(pauseIcon)
+                    setMouseLeaveBackground(pauseIcon)
+                    setMouseEnterBackground(playIcon)
+                    setMouseLeaveBackground(playIcon)
+                    pauseIcon.isVisible = false
+                    setOnMouseClicked {
+                        onPlayListPlayPauseClicked(playlist,pauseIcon, playIcon)
+                    }
                 }
+            }
+            //name
+            alignment = Pos.CENTER
+            label(playlist.name) {
+                alignment = Pos.CENTER
+                textAlignment = TextAlignment.CENTER
+                isWrapText = true
+                addClass(AccountViewStyles.defaultLabelStyle)
             }
         }
     }
 
+
     override fun renderAccountPlaylists(listOfPlaylist: List<Playlist>) {
-        TODO("Not yet implemented")
+        yourPlaylistsHBox.children.removeAll { true }
+        for (playlist in listOfPlaylist) {
+            yourPlaylistsHBox.createOnePlaylistBox(playlist)
+        }
     }
 
     override var sectionTitle = "Home"
 
     //views
     lateinit var popularPlaylistsBox: HBox
+    lateinit var yourPlaylistsHBox: HBox
+    lateinit var popScroll: ScrollPane
+    lateinit var yourScroll: ScrollPane
 
 
     override fun setPresenter(presenter: SectionPresenter) {
@@ -103,27 +118,40 @@ class HomeViewImpl : View(), HomeView {
 
     override val root: ScrollPane =
         scrollpane {
-            addClass(NewsViewStyles.mainScrollViewStyle)
             isFitToWidth = true
-            isFitToHeight = true
+            addClass(NewsViewStyles.mainScrollViewStyle)
             vbox {
                 addClass(NewsViewStyles.mainVBoxStyle)
-                isFillWidth = true
-                isFitToHeight = true
-
                 label("Popular playlists") {
                     addClass(titleLabelStyle)
                 }
-                scrollpane {
-                    addClass(NewsViewStyles.mainScrollViewStyle)
+                popScroll = scrollpane {
                     isFitToWidth = true
+                    isFitToHeight = true
+                    addClass(NewsViewStyles.mainScrollViewStyle)
                     setOnScroll {
-                        hvalue += it.deltaY / (4 * it.multiplierY)
+                        popScroll.hvalue += it.deltaY / (4 * it.multiplierY)
                     }
                     popularPlaylistsBox = hbox {
-                        isFillWidth = true
                         isFillHeight = true
-                        usePrefHeight = true
+                        isFitToWidth = true
+                        addClass(HomeViewStyles.popularHBoxStyle)
+                    }
+                }
+                label("Your playlists") {
+                    addClass(titleLabelStyle)
+                }
+
+                yourScroll = scrollpane {
+                    isFitToWidth = true
+                    isFitToHeight = true
+                    addClass(NewsViewStyles.mainScrollViewStyle)
+                    setOnScroll {
+                        yourScroll.hvalue += it.deltaY / (4 * it.multiplierY)
+                    }
+                    yourPlaylistsHBox = hbox {
+                        isFillHeight = true
+                        isFitToWidth = true
                         addClass(HomeViewStyles.popularHBoxStyle)
                     }
                 }
@@ -153,6 +181,24 @@ class HomeViewImpl : View(), HomeView {
         }
     }
 
-    fun onPauseClick(playIcon: SVGIcon, pauseIcon: SVGIcon) {
+
+    fun onPlayListPlayPauseClicked(
+        playlist: Playlist, pauseIcon: SVGIcon,
+        playIcon: SVGIcon
+    ) {
+        if (playIcon.isVisible){
+            playIcon.isVisible = false
+            pauseIcon.isVisible = true
+            pauseIcon.parent.toFront()
+            homePresenter.onPlayPlaylistClicked(playlist)
+        }
+        else {
+            playIcon.isVisible = true
+            pauseIcon.isVisible = false
+            playIcon.parent.toFront()
+            homePresenter.onPausePlaylistClicked(playlist)
+        }
+
     }
+
 }

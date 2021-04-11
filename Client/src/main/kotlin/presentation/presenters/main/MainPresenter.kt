@@ -105,7 +105,12 @@ class MainPresenter(): CenterPresenter {
     }
 
     override fun onShuffleClicked() {
-        TODO("Not yet implemented")
+        if (isRandom){
+            isRandom = false
+        }else{
+            isRandom = true
+            //TODO some code
+        }
     }
 
 
@@ -118,5 +123,19 @@ class MainPresenter(): CenterPresenter {
         TODO("Not yet implemented")
     }
 
+    override fun onPlayPlaylistClicked(playlist: Playlist) {
+        if(currentPlaylist != playlist) {
+            currentPlaylist = playlist
+            this.onNextClicked()
+        } else{
+            this.onPlayClicked()
+        }
+        bottomViewState.onPauseClick()
+    }
+
+    override fun onPausePlaylistClicked(playlist: Playlist){
+        this.onPauseClicked()
+        bottomViewState.onPauseClick()
+    }
 
 }

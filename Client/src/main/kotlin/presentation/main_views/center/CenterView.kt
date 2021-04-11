@@ -10,4 +10,5 @@ interface CenterView {
 
     fun filter(text:String)
 
+
 }

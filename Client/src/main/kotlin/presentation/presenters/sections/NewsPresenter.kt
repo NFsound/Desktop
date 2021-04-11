@@ -5,6 +5,7 @@ import interactors.AccountInteractor
 import interactors.NewsInteractor
 import javafx.application.Platform
 import models.core.News
+import presentation.presenters.main.CenterPresenter
 import presentation.sections.account.AccountView
 import presentation.sections.news.NewsView
 import javax.inject.Inject
@@ -16,6 +17,8 @@ class NewsPresenter() : SectionPresenter {
 
     @Inject
     lateinit var newsInteractor: NewsInteractor
+
+    override lateinit var centerPresenter: CenterPresenter
 
     val testList = listOf(
         News(

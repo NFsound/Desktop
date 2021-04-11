@@ -131,7 +131,6 @@ class BottomMenuView() : View(), SideView {
             playIcon.parent.toFront()
             mainPresenter.onPauseClicked()
         }
-
     }
 
     fun onShuffleClick(){

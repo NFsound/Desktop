@@ -11,6 +11,7 @@ import presentation.main_views.sides.TopMenuView
 import presentation.menu.list.Menu
 import presentation.presenters.main.CenterPresenter
 import presentation.presenters.main.MainPresenter
+import presentation.sections.Sections
 import presentation.styles.sides.MainWindowStyles
 import tornadofx.*
 import utils.ImageProvider
@@ -22,6 +23,16 @@ class MainView() : View() {
 
     @Inject
     lateinit var menu: Menu
+
+    @Inject
+    lateinit var sections: Sections
+
+    @Inject
+    lateinit var leftMenuView: LeftMenuView
+    @Inject
+    lateinit var topMenuView: TopMenuView
+    @Inject
+    lateinit var bottomMenuView: BottomMenuView
 
     private var mainPresenter: CenterPresenter? = provideMainPresenter()
 
@@ -59,13 +70,11 @@ class MainView() : View() {
         }
         root.center<CenterMenuPlacementView>()
         mainPresenter!!.onSectionSelected(menu.menuList[0],0)
+        for (section in sections.sections){
+            section.getPresenter().provideCenterPresenter(mainPresenter!!)
+        }
     }
-    @Inject
-    lateinit var leftMenuView: LeftMenuView
-    @Inject
-    lateinit var topMenuView: TopMenuView
-    @Inject
-    lateinit var bottomMenuView: BottomMenuView
+
 
 
 

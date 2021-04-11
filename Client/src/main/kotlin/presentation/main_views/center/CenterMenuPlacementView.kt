@@ -28,7 +28,8 @@ class CenterMenuPlacementView(): View(), CenterView {
 
     @Inject
     lateinit var sections: Sections
-    fun providePresenter(sect:SectionView): SectionPresenter {
+
+    private fun providePresenter(sect:SectionView): SectionPresenter {
         return when(sect.sectionTitle){
             "Account" -> AccountPresenter()
             "Home" -> HomePresenter()

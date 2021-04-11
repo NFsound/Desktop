@@ -3,29 +3,31 @@ package presentation.sections.home
 import javafx.event.EventHandler
 import javafx.scene.control.ScrollPane
 import javafx.scene.input.ScrollEvent
-import javafx.scene.layout.HBox
-import javafx.scene.layout.VBox
+import javafx.scene.layout.*
 import models.core.Playlist
 import presentation.presenters.sections.HomePresenter
 import presentation.presenters.sections.SectionPresenter
+import presentation.styles.Colors
 import presentation.styles.sections.HomeViewStyles
+import presentation.styles.sections.HomeViewStyles.Companion.imagePLaylistStyle
 import presentation.styles.sections.HomeViewStyles.Companion.playListStyle
 import presentation.styles.sections.HomeViewStyles.Companion.titleLabelStyle
+import presentation.styles.sections.NewsViewStyles
 import tornadofx.*
+import utils.ImageProvider
 
 
 class HomeViewImpl : View(), HomeView {
     override fun renderPopularPlaylists(listOfPlaylist: List<Playlist>) {
         popularPlaylistsBox.children.removeAll { true }
-        for (i in 0..100) {
+        for (playlist in listOfPlaylist) {
             popularPlaylistsBox.stackpane {
                 addClass(playListStyle)
                 usePrefWidth = true
-                vbox {
-
-
+                usePrefHeight = true
+                imageview(ImageProvider.getImage(playlist.image)) {
+                    addClass(imagePLaylistStyle)
                 }
-
             }
         }
     }
@@ -54,16 +56,18 @@ class HomeViewImpl : View(), HomeView {
 
     override val root: ScrollPane =
         scrollpane {
-            addClass(HomeViewStyles.homeHostStyle)
+            addClass(NewsViewStyles.mainScrollViewStyle)
+            isFitToWidth = true
+            isFitToHeight = true
             vbox {
-                addClass(HomeViewStyles.homeHostStyle)
+                addClass(NewsViewStyles.mainVBoxStyle)
                 isFillWidth = true
-                useMaxHeight = true
+                isFitToHeight = true
                 label("Popular playlists") {
                     addClass(titleLabelStyle)
                 }
                 scrollpane {
-                    addClass(HomeViewStyles.popularScrollViewStyle)
+                    addClass(NewsViewStyles.mainScrollViewStyle)
                     isFitToWidth = true
                     setOnScroll {
                         hvalue += it.deltaY / (4 * it.multiplierY)
@@ -73,9 +77,9 @@ class HomeViewImpl : View(), HomeView {
                         isFillHeight = true
                         addClass(HomeViewStyles.popularHBoxStyle)
                     }
-
                 }
             }
         }
+
 
 }

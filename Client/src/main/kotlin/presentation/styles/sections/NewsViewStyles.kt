@@ -27,6 +27,7 @@ class NewsViewStyles : Stylesheet() {
             padding = box(0.px)
             backgroundInsets = multi(box(0.px))
             vBarPolicy = ScrollPane.ScrollBarPolicy.NEVER
+            hBarPolicy = ScrollPane.ScrollBarPolicy.NEVER
         }
         mainVBoxStyle {
             borderInsets = multi(box(0.px, 0.px, 0.px, 0.px))

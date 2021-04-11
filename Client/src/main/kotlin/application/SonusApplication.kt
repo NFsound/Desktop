@@ -9,6 +9,7 @@ import presentation.styles.sides.MainWindowStyles
 import presentation.main_views.main_window.MainView
 import presentation.styles.sections.AccountViewStyles
 import presentation.styles.sections.HomeViewStyles
+import presentation.styles.sections.MusicViewStyles
 import presentation.styles.sections.NewsViewStyles
 import presentation.styles.sides.BottomViewStyles
 import presentation.styles.sides.LeftMenuStyles
@@ -24,7 +25,8 @@ class SonusApplication : App(
     TopViewStyles::class,
     AccountViewStyles::class,
     NewsViewStyles::class,
-    HomeViewStyles::class
+    HomeViewStyles::class,
+    MusicViewStyles::class
 ) {
 
     var applicationComponent: ApplicationComponent

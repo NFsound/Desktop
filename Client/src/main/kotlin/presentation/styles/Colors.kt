@@ -12,5 +12,6 @@ object Colors {
     val topBarBorderColor = c("#C4C4C4")
     val grayTextColor = c("#C4C4C4")
     val alternativeWhiteColor = c("#B3B3B3")
+    val smokeBlackColor = c("#000000", opacity = 0.7)
 
 }

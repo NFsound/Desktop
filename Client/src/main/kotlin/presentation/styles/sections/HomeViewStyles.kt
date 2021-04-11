@@ -2,6 +2,7 @@ package presentation.styles.sections
 
 import javafx.scene.control.ScrollPane
 import javafx.scene.paint.Color
+import javafx.scene.text.FontWeight
 import presentation.styles.Colors
 import tornadofx.*
 
@@ -14,6 +15,9 @@ class HomeViewStyles: Stylesheet() {
         val titleLabelStyle by cssclass()
         val playListStyle by cssclass()
         val imagePlaylistStyle by cssclass()
+        val playlistLabelStyle by cssclass()
+        val blackSmokeStyle by cssclass()
+
         const val prefPlaylistSize = 200
     }
     init {
@@ -58,6 +62,18 @@ class HomeViewStyles: Stylesheet() {
             minWidth = prefPlaylistSize.px
             minHeight = prefPlaylistSize.px
             padding = box(10.px)
+        }
+
+        blackSmokeStyle{
+            backgroundColor += Colors.smokeBlackColor
+            padding = box(4.px)
+        }
+
+        playlistLabelStyle{
+            fontSize = 12.pt
+            padding = box(0.px)
+            fontWeight = FontWeight.BOLD
+            textFill = Colors.alternativeWhiteColor
         }
 
 

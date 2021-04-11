@@ -14,8 +14,10 @@ import presentation.presenters.sections.SectionPresenter
 import presentation.styles.Colors
 import presentation.styles.sections.AccountViewStyles
 import presentation.styles.sections.HomeViewStyles
+import presentation.styles.sections.HomeViewStyles.Companion.blackSmokeStyle
 import presentation.styles.sections.HomeViewStyles.Companion.imagePlaylistStyle
 import presentation.styles.sections.HomeViewStyles.Companion.playListStyle
+import presentation.styles.sections.HomeViewStyles.Companion.playlistLabelStyle
 import presentation.styles.sections.HomeViewStyles.Companion.titleLabelStyle
 import presentation.styles.sections.NewsViewStyles
 import presentation.styles.sides.BottomViewStyles
@@ -54,6 +56,11 @@ class HomeViewImpl : View(), HomeView {
                     fitHeight = HomeViewStyles.prefPlaylistSize.toDouble()
                     fitWidth = HomeViewStyles.prefPlaylistSize.toDouble()
                 }
+                vbox{
+                    addClass(blackSmokeStyle)
+                    prefHeight = HomeViewStyles.prefPlaylistSize.toDouble()
+                    prefWidth = HomeViewStyles.prefPlaylistSize.toDouble()
+                }
                 stackpane {
                     alignment = Pos.CENTER
                     val pauseIcon = svgicon(
@@ -82,7 +89,7 @@ class HomeViewImpl : View(), HomeView {
                 alignment = Pos.CENTER
                 textAlignment = TextAlignment.CENTER
                 isWrapText = true
-                addClass(AccountViewStyles.defaultLabelStyle)
+                addClass(playlistLabelStyle)
             }
         }
     }
@@ -120,6 +127,8 @@ class HomeViewImpl : View(), HomeView {
         scrollpane {
             isFitToWidth = true
             addClass(NewsViewStyles.mainScrollViewStyle)
+
+
             vbox {
                 addClass(NewsViewStyles.mainVBoxStyle)
                 label("Popular playlists") {

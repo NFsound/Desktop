@@ -130,6 +130,7 @@ class HomeViewImpl : View(), HomeView {
                     isFitToHeight = true
                     addClass(NewsViewStyles.mainScrollViewStyle)
                     setOnScroll {
+                        it.consume()
                         popScroll.hvalue += it.deltaY / (4 * it.multiplierY)
                     }
                     popularPlaylistsBox = hbox {
@@ -147,6 +148,7 @@ class HomeViewImpl : View(), HomeView {
                     isFitToHeight = true
                     addClass(NewsViewStyles.mainScrollViewStyle)
                     setOnScroll {
+                        it.consume()
                         yourScroll.hvalue += it.deltaY / (4 * it.multiplierY)
                     }
                     yourPlaylistsHBox = hbox {

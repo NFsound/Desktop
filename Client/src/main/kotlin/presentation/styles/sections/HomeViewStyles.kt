@@ -3,7 +3,6 @@ package presentation.styles.sections
 import javafx.scene.control.ScrollPane
 import javafx.scene.paint.Color
 import presentation.styles.Colors
-import presentation.styles.Colors.mainColor
 import tornadofx.*
 
 class HomeViewStyles: Stylesheet() {
@@ -14,8 +13,8 @@ class HomeViewStyles: Stylesheet() {
         val homeHostStyle by cssclass()
         val titleLabelStyle by cssclass()
         val playListStyle by cssclass()
-        val imagePLaylistStyle by cssclass()
-        const val prefPlaylistSize = 240
+        val imagePlaylistStyle by cssclass()
+        const val prefPlaylistSize = 200
     }
     init {
 
@@ -48,13 +47,17 @@ class HomeViewStyles: Stylesheet() {
             backgroundColor += Color.TRANSPARENT
         }
         playListStyle{
-            prefWidth = prefPlaylistSize.px
-            prefHeight = prefPlaylistSize.px
+            prefWidth = prefPlaylistSize.px + 40
+            prefHeight = prefPlaylistSize.px + 40
             backgroundColor += Color.TRANSPARENT
+            padding = box(10.px)
         }
-        imagePLaylistStyle{
-            prefWidth = prefPlaylistSize.px
-            prefHeight = prefPlaylistSize.px
+        imagePlaylistStyle{
+            maxHeight = prefPlaylistSize.px
+            maxWidth = prefPlaylistSize.px
+            minWidth = prefPlaylistSize.px
+            minHeight = prefPlaylistSize.px
+            padding = box(10.px)
         }
 
 

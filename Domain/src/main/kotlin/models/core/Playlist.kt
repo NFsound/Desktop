@@ -2,7 +2,7 @@ package models.core
 
 import models.utils.PlaylistImage
 
-class Playlist (private val list:ArrayList<Track>, val image:PlaylistImage){
+class Playlist (private val list:ArrayList<Track>, val name:String, val image:PlaylistImage){
     init {
         if (list.isEmpty()){
             throw Exception()//TODO exception
@@ -48,7 +48,7 @@ class Playlist (private val list:ArrayList<Track>, val image:PlaylistImage){
     }
     companion object{
 
-        val emptyPlaylist = Playlist(arrayListOf(Track.emptyTrack()),PlaylistImage())
+        val emptyPlaylist = Playlist(arrayListOf(Track.emptyTrack()),"Some name",PlaylistImage())
     }
 
 }

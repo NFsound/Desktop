@@ -29,34 +29,49 @@ class HomePresenter:SectionPresenter {
             arrayListOf(
                 Track.emptyTrack()
             ),
+            "Some name of list",
             PlaylistImage()
         ),
         Playlist(
             arrayListOf(
                 Track.emptyTrack()
             ),
+            "Some name of list",
             PlaylistImage()
         ),
         Playlist(
             arrayListOf(
                 Track.emptyTrack()
             ),
+            "Some name of list",
             PlaylistImage()
         ),
         Playlist(
             arrayListOf(
                 Track.emptyTrack()
             ),
+            "Some name of list",
             PlaylistImage()
-        ),        Playlist(
+        ),
+        Playlist(
             arrayListOf(
                 Track.emptyTrack()
             ),
+            "Some name of list",
             PlaylistImage()
-        ),        Playlist(
+        ),
+        Playlist(
             arrayListOf(
                 Track.emptyTrack()
             ),
+            "Some name of list",
+            PlaylistImage()
+        ),
+        Playlist(
+            arrayListOf(
+                Track.emptyTrack()
+            ),
+            "Some name of list",
             PlaylistImage()
         )
 

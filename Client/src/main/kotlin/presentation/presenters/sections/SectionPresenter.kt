@@ -4,5 +4,5 @@ interface SectionPresenter {
 
     fun filter(text:String)
 
-
+    fun onInitialLoad()
 }

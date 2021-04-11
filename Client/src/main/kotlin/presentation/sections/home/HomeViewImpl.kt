@@ -13,26 +13,16 @@ class HomeViewImpl: View(),HomeView {
     override var sectionTitle = "Home"
 
 
-/*    override fun providePresenter(): SectionPresenter {
-        if (homePresenter == null){
-            return HomePresenter()
-        }
-        return homePresenter!!
-    }*/
-
-    override fun filterView(text: String) {
-        println("from home $text")
-    }
-
     override fun setPresenter(presenter: SectionPresenter) {
-        TODO("Not yet implemented")
+        homePresenter = presenter as HomePresenter
+        homePresenter.onInitialLoad()
     }
 
     override fun getPresenter(): SectionPresenter {
-        TODO("Not yet implemented")
+        return homePresenter
     }
 
-    private var homePresenter: HomePresenter? = null
+    private lateinit var homePresenter: HomePresenter
 
 
     override val root: Parent = vbox {

@@ -1,36 +1,73 @@
 package presentation.sections.news
 
-import javafx.scene.Parent
+import javafx.scene.control.ScrollPane
+import javafx.scene.layout.Priority
+import javafx.scene.layout.VBox
+import models.core.News
 import presentation.presenters.sections.NewsPresenter
 import presentation.presenters.sections.SectionPresenter
-import tornadofx.View
-import tornadofx.button
-import tornadofx.vbox
+import presentation.styles.sections.NewsViewStyles
+import presentation.styles.sections.NewsViewStyles.Companion.newsVBoxStyle
+import tornadofx.*
+import tornadofx.Stylesheet.Companion.textArea
+import tornadofx.Stylesheet.Companion.textInput
 
-class NewsViewImpl(): View(),NewsView {
+
+class NewsViewImpl() : View(), NewsView {
+
+    lateinit var mainBox: VBox
+
+    override fun showNews(news: List<News>) {
+        mainBox.children.removeAll { true }
+        for (obj in news) {
+            mainBox.vbox {
+                addClass(newsVBoxStyle)
+                label(obj.title) {
+                    addClass(NewsViewStyles.newsTitleStyle)
+                }
+                textarea(obj.text) {
+                    addClass(NewsViewStyles.newsTextStyle)
+                    removeClass(textInput)
+                    removeClass(textArea)
+                    isWrapText = true
+                    isEditable = false
+                    usePrefHeight = true
+                }
+            }
+        }
+    }
 
     override var sectionTitle = "News"
 
 
-
-    override fun filterView(text: String) {
-        println("from news $text")
-    }
-
     override fun setPresenter(presenter: SectionPresenter) {
-        TODO("Not yet implemented")
+        newsPresenter = presenter as NewsPresenter
+        newsPresenter.onInitialLoad()
     }
 
     override fun getPresenter(): SectionPresenter {
-        TODO("Not yet implemented")
+        return newsPresenter
     }
 
 
-    private var newsPresenter: NewsPresenter? = null
+    private lateinit var newsPresenter: NewsPresenter
 
-    override val root: Parent = vbox {
-        button("news"){
+    override val root: ScrollPane = scrollpane {
+        addClass(NewsViewStyles.mainScrollViewStyle)
+        isFitToWidth = true
+        isFitToHeight = true
+        mainBox = vbox {
+            addClass(NewsViewStyles.mainVBoxStyle)
+            isFillWidth = true
+            isFitToHeight = true
+            label("No news yet. Check your Internet connection") {
+
+            }
         }
+    }
+
+    init {
+
     }
 
 }

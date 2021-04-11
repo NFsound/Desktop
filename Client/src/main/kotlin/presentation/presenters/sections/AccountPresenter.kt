@@ -21,7 +21,7 @@ class AccountPresenter():SectionPresenter {
     }
 
     override fun filter(text: String) {
-        viewState.filterView(text)
+
     }
 
     fun onButtonClicked(){
@@ -42,7 +42,7 @@ class AccountPresenter():SectionPresenter {
             }*/
     }
 
-    fun onInitialLoad() {
+    override fun onInitialLoad() {
         accountInteractor.getCurrentAccount().subscribe { account ->
             Platform.runLater {
                 viewState.initializeUserInfo(account)

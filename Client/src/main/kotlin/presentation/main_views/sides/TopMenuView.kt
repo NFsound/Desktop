@@ -95,9 +95,7 @@ class TopMenuView(): View(), SideView {
                     searchText.subscribeOn(Schedulers.computation())
                         .debounce(500, TimeUnit.MILLISECONDS)
                         .subscribe {
-                            if (it.isNotEmpty()) {
-                                onSearchBarTextChanged(it)
-                            }
+                            onSearchBarTextChanged(it)
                         }
                     searchText
                         .subscribe {

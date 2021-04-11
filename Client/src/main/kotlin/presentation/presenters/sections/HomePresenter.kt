@@ -14,7 +14,11 @@ class HomePresenter:SectionPresenter {
     }
 
     override fun filter(text: String) {
-        viewState.filterView(text)
+
+    }
+
+    override fun onInitialLoad() {
+
     }
 
 }

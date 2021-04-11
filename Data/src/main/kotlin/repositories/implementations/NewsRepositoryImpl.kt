@@ -8,6 +8,6 @@ import javax.inject.Inject
 
 class NewsRepositoryImpl @Inject constructor(private val api: ApiService): NewsRepository {
     override fun getNews(): Single<List<News>> {
-        TODO("Not yet implemented")
+        return api.getAllNews()
     }
 }

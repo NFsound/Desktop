@@ -10,6 +10,7 @@ import javafx.scene.control.Label
 import javafx.scene.control.PasswordField
 import javafx.scene.control.TextField
 import javafx.scene.layout.VBox
+import javafx.scene.text.TextAlignment
 import javafx.stage.StageStyle
 import models.core.Account
 import presentation.presenters.sections.AccountPresenter
@@ -64,11 +65,6 @@ class AccountViewImpl : View(), AccountView {
     }
 
     override var sectionTitle = "Account"
-
-
-    override fun filterView(text: String) {
-        println("from account $text")
-    }
 
     override fun setPresenter(presenter: SectionPresenter) {
         accountPresenter = presenter as AccountPresenter
@@ -249,9 +245,11 @@ class AccountViewImpl : View(), AccountView {
                 }
             }
             hbox {
+                alignment = Pos.CENTER_LEFT
+                padding = insets(20)
                 button {
                     addClass(buttonDefaultStyle)
-                    padding = insets(20)
+                    padding = insets(40)
                     text = "Register"
                     setOnMouseClicked {
                         Completable.fromAction {
@@ -265,10 +263,11 @@ class AccountViewImpl : View(), AccountView {
                 }
                 label("Or") {
                     addClass(defaultLabelStyle)
+                    textAlignment = TextAlignment.CENTER
                 }
                 button {
                     addClass(buttonDefaultStyle)
-                    padding = insets(20)
+                    padding = insets(40)
                     text = "Log in"
                     setOnMouseClicked {
                         Completable.fromAction {

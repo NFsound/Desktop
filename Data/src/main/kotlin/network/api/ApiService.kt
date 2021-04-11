@@ -1,10 +1,7 @@
 package network.api
 import io.reactivex.rxjava3.core.Single
-import models.core.Playlist
-import models.core.Track
+import models.core.*
 import models.wrappers.account.AccountListWrapper
-import models.core.AccountRegistration
-import models.core.UserInfo
 import models.wrappers.account.LoginBody
 import models.wrappers.account.RegistrationResult
 import models.wrappers.playlist.ListOfPlaylists
@@ -53,4 +50,7 @@ interface ApiService {
     @POST("post_track")
     fun postTrack(@Body track: Track): Single<Boolean>
 
+    //news
+    @GET("news")
+    fun getAllNews():Single<List<News>>
 }

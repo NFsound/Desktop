@@ -10,9 +10,7 @@ import presentation.menu.item.MenuItem
 import presentation.menu.list.Menu
 import presentation.presenters.main.CenterPresenter
 import presentation.presenters.main.MainPresenter
-import presentation.presenters.sections.AccountPresenter
-import presentation.presenters.sections.HomePresenter
-import presentation.presenters.sections.SectionPresenter
+import presentation.presenters.sections.*
 import presentation.sections.SectionView
 import presentation.sections.Sections
 import presentation.sections.account.AccountViewImpl
@@ -30,13 +28,26 @@ class CenterMenuPlacementView(): View(), CenterView {
 
     @Inject
     lateinit var sections: Sections
-    fun providePresenter(): SectionPresenter {
-        return AccountPresenter()
+    fun providePresenter(sect:SectionView): SectionPresenter {
+        return when(sect.sectionTitle){
+            "Account" -> AccountPresenter()
+            "Home" -> HomePresenter()
+            "Music" -> MusicPresenter()
+            "News" -> NewsPresenter()
+            else -> throw IllegalArgumentException()
+        }
+    }
+
+
+    fun providePresenters(){
+        for (sect in sections.sections){
+            sect.setPresenter(providePresenter(sect))
+        }
     }
 
     init {
         SonusApplication.getInstance().applicationComponent.inject(this)
-        sections.sections[3].setPresenter(providePresenter())
+        providePresenters()
     }
 
     var placement:View = sections.sections[0] as View

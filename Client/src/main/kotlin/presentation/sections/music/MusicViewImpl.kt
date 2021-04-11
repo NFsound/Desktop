@@ -13,21 +13,16 @@ class MusicViewImpl(): View(), MusicView {
 
     override var sectionTitle = "Music"
 
-
-
-    override fun filterView(text: String) {
-        println("from music $text")
-    }
-
     override fun setPresenter(presenter: SectionPresenter) {
-        TODO("Not yet implemented")
+        musicPresenter = presenter as MusicPresenter
+        musicPresenter.onInitialLoad()
     }
 
     override fun getPresenter(): SectionPresenter {
-        TODO("Not yet implemented")
+        return musicPresenter
     }
 
-    private var musicPresenter: MusicPresenter? = null
+    private lateinit var musicPresenter: MusicPresenter
 
     override val root: Parent = vbox {
         button("music"){

@@ -8,6 +8,7 @@ import javafx.scene.Parent
 import presentation.styles.sides.MainWindowStyles
 import presentation.main_views.main_window.MainView
 import presentation.styles.sections.AccountViewStyles
+import presentation.styles.sections.HomeViewStyles
 import presentation.styles.sections.NewsViewStyles
 import presentation.styles.sides.BottomViewStyles
 import presentation.styles.sides.LeftMenuStyles
@@ -22,7 +23,8 @@ class SonusApplication : App(
     LeftMenuStyles::class,
     TopViewStyles::class,
     AccountViewStyles::class,
-    NewsViewStyles::class
+    NewsViewStyles::class,
+    HomeViewStyles::class
 ) {
 
     var applicationComponent: ApplicationComponent

@@ -12,6 +12,7 @@ class MusicViewStyles : Stylesheet() {
         val smallLabelStyle by cssclass()
         val buttonMainDefaultStyle by cssclass()
         val comboBoxStyle by cssclass()
+        val progressStyle by cssclass()
     }
 
     init {
@@ -36,8 +37,18 @@ class MusicViewStyles : Stylesheet() {
 
         comboBoxStyle{
             backgroundColor += Colors.bottomBarColor
+                textFill = Colors.whiteColor
+                fontSize = 12.pt
+            listCell {
+                textFill = Colors.whiteColor
+                fontSize = 12.pt
+                backgroundColor += Colors.bottomBarColor
+            }
         }
-
+        progressStyle{
+            backgroundColor += Color.TRANSPARENT
+            accentColor = Colors.alternativeColor
+        }
 
 
 

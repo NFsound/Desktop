@@ -4,6 +4,7 @@ import javafx.collections.FXCollections.observableArrayList
 import javafx.geometry.Pos
 import javafx.scene.control.Button
 import javafx.scene.control.ComboBox
+import javafx.scene.control.ProgressIndicator
 import javafx.scene.control.ScrollPane
 import javafx.scene.text.TextAlignment
 import javafx.stage.FileChooser
@@ -23,7 +24,7 @@ class MusicViewImpl() : View(), MusicView {
     //views
     lateinit var loadFileButton: Button
     lateinit var paramsComboBox: ComboBox<Network>
-
+    lateinit var progressIndicator: ProgressIndicator
 
     override fun setPresenter(presenter: SectionPresenter) {
         musicPresenter = presenter as MusicPresenter
@@ -91,6 +92,13 @@ class MusicViewImpl() : View(), MusicView {
                     hbox {
                         label("3) Enjoy generated music") {
                             addClass(MusicViewStyles.smallLabelStyle)
+                        }
+                        hbox {
+                            alignment = Pos.CENTER
+                            progressIndicator = progressindicator {
+                                addClass(MusicViewStyles.progressStyle)
+                                isVisible = false
+                            }
                         }
                     }
                 }

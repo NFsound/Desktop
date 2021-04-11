@@ -2,6 +2,7 @@ package interactors.implementation
 
 import interactors.MusicInteractor
 import io.reactivex.rxjava3.core.Single
+import models.core.Network
 import models.core.Playlist
 import repositories.AccountRepository
 import repositories.PlaylistRepository
@@ -29,5 +30,9 @@ class MusicInteractorImpl @Inject constructor(
 
     override fun getMyPlaylist(): Single<Playlist> {
         TODO("Not yet implemented")
+    }
+
+    override fun getAllNetworks(): Single<List<Network>> {
+        return utilsRepository.getAllAvailableNetworks()
     }
 }

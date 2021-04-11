@@ -53,4 +53,9 @@ interface ApiService {
     //news
     @GET("news")
     fun getAllNews():Single<List<News>>
+
+    //utils
+    @GET("get_networks")
+    fun getAllAvailableNetworks():Single<List<Network>>
+
 }

@@ -11,6 +11,7 @@ class MusicViewStyles : Stylesheet() {
         val topLabelStyle by cssclass()
         val smallLabelStyle by cssclass()
         val buttonMainDefaultStyle by cssclass()
+        val comboBoxStyle by cssclass()
     }
 
     init {
@@ -32,6 +33,14 @@ class MusicViewStyles : Stylesheet() {
             fontSize = 10.pt
             padding = box(8.px)
         }
+
+        comboBoxStyle{
+            backgroundColor += Colors.bottomBarColor
+        }
+
+
+
+
     }
 
 }

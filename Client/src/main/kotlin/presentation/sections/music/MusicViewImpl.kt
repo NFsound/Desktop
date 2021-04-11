@@ -1,12 +1,15 @@
 package presentation.sections.music
 
+import javafx.collections.FXCollections.observableArrayList
 import javafx.geometry.Pos
+import javafx.scene.control.Button
+import javafx.scene.control.ComboBox
 import javafx.scene.control.ScrollPane
 import javafx.scene.text.TextAlignment
 import javafx.stage.FileChooser
+import models.core.Network
 import presentation.presenters.sections.MusicPresenter
 import presentation.presenters.sections.SectionPresenter
-import presentation.styles.sections.AccountViewStyles
 import presentation.styles.sections.MusicViewStyles
 import presentation.styles.sections.NewsViewStyles
 import tornadofx.*
@@ -14,6 +17,13 @@ import tornadofx.*
 class MusicViewImpl() : View(), MusicView {
 
     override var sectionTitle = "Music"
+
+    var fileLoaded = false
+
+    //views
+    lateinit var loadFileButton: Button
+    lateinit var paramsComboBox: ComboBox<Network>
+
 
     override fun setPresenter(presenter: SectionPresenter) {
         musicPresenter = presenter as MusicPresenter
@@ -47,41 +57,77 @@ class MusicViewImpl() : View(), MusicView {
                     }
 
                     hbox {
-                        alignment = Pos.CENTER
                         label("1) Load your favourite composition") {
                             addClass(MusicViewStyles.smallLabelStyle)
                         }
-                        button("Load file") {
-                            addClass(MusicViewStyles.buttonMainDefaultStyle)
-                            action {
-                                val extFilter = FileChooser.ExtensionFilter("Music files (*.wav)", "*.wav")
-                                chooseFile("Choose audio file", arrayOf(extFilter), mode = FileChooserMode.Single)
+                        hbox {
+                            alignment = Pos.CENTER
+
+                            loadFileButton = button("Load file") {
+                                addClass(MusicViewStyles.buttonMainDefaultStyle)
+                                setOnMouseClicked {
+                                    onLoadFileClicked()
+                                }
                             }
                         }
-
-
-
                     }
 
                     hbox {
                         label("2) Choose your parameters") {
                             addClass(MusicViewStyles.smallLabelStyle)
                         }
-                        combobox(values = listOf("ecdc","dcs")) {
-
+                        hbox {
+                            alignment = Pos.CENTER
+                            paramsComboBox = combobox {
+                                title = "Choose generation network"
+                                converter = NetworkConverter()
+                                addClass(MusicViewStyles.comboBoxStyle)
+                                setOnAction {
+                                    musicPresenter.setCurrentNet(selectedItem)
+                                }
+                            }
                         }
                     }
                     hbox {
                         label("3) Enjoy generated music") {
                             addClass(MusicViewStyles.smallLabelStyle)
                         }
-
-
                     }
                 }
             }
 
 
+        }
+    }
+
+    override fun loadNetworks(networks: List<Network>) {
+        paramsComboBox.items = observableArrayList(networks)
+    }
+
+    fun onLoadFileClicked() {
+        if (!fileLoaded) {
+            val extFilter = FileChooser.ExtensionFilter(
+                "Music files (*.wav)",
+                "*.wav"
+            )
+            try {
+                musicPresenter.setCurrentFile(
+                    chooseFile(
+                        "Choose audio file",
+                        arrayOf(extFilter),
+                        mode = FileChooserMode.Single
+                    )
+                        .get(0)
+                )
+                loadFileButton.text = "Delete file"
+                fileLoaded = true
+            } catch (e: Exception) {
+                //TODO workout
+            }
+        } else {
+            musicPresenter.removeCurrentFile()
+            loadFileButton.text = "Load file"
+            fileLoaded = false
         }
     }
 

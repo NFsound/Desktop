@@ -2,9 +2,10 @@ package repositories
 
 import io.reactivex.rxjava3.core.Single
 import models.core.GenerationParams
+import models.core.Network
 
 interface UtilsRepository {
 
-    fun getGenerationParams(): Single<List<GenerationParams>>
+    fun getAllAvailableNetworks(): Single<List<Network>>
 
 }

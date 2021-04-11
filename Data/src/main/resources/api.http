@@ -12,8 +12,5 @@ Content-Type: application/json
 
 //POST http://172.20.10.3:80/get_track/
 
+GET http://0.0.0.0:80/get_networks
 
-
-
-
-GET http://0.0.0.0:80/get_all_users

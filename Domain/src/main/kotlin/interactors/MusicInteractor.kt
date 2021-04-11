@@ -1,6 +1,7 @@
 package interactors
 
 import io.reactivex.rxjava3.core.Single
+import models.core.Network
 import models.core.Playlist
 
 interface MusicInteractor {
@@ -12,4 +13,6 @@ interface MusicInteractor {
     fun updatePlaylist(playlist: Playlist): Single<Boolean>
     
     fun getMyPlaylist():Single<Playlist>
+
+    fun getAllNetworks():Single<List<Network>>
 }

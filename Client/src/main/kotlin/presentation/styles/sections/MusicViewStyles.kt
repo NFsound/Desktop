@@ -13,6 +13,10 @@ class MusicViewStyles : Stylesheet() {
         val buttonMainDefaultStyle by cssclass()
         val comboBoxStyle by cssclass()
         val progressStyle by cssclass()
+        val trackNameLabelStyle by cssclass()
+        val trackAuthorLabelStyle by cssclass()
+        val trackBoxStyle by cssclass()
+        val test by cssclass()
     }
 
     init {
@@ -34,6 +38,25 @@ class MusicViewStyles : Stylesheet() {
             fontSize = 10.pt
             padding = box(8.px)
         }
+
+        trackBoxStyle{
+            backgroundColor += Colors.mainColor
+            borderColor = multi(box(Colors.whiteColor))
+        }
+        test{
+            backgroundColor += Colors.alternativeColor
+        }
+        trackNameLabelStyle{
+            textFill = Colors.whiteColor
+            fontSize = 12.pt
+            padding = box(2.px, 40.px)
+        }
+        trackAuthorLabelStyle{
+            textFill = Colors.alternativeWhiteColor
+            fontSize = 10.pt
+            padding = box(2.px, 32.px)
+        }
+
 
         comboBoxStyle{
             backgroundColor += Colors.bottomBarColor

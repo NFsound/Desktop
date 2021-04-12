@@ -30,6 +30,10 @@ class MusicPresenter:SectionPresenter {
 
     }
 
+    fun startTrackGeneration(){
+
+    }
+
     override fun onInitialLoad() {
         musicInteractor.getAllNetworks().subscribe {
             networks->

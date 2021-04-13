@@ -1,7 +1,7 @@
 package presentation.sections.account
 
 import models.core.Account
-import presentation.sections.SectionView
+import presentation.sections.common.SectionView
 
 interface AccountView: SectionView {
 

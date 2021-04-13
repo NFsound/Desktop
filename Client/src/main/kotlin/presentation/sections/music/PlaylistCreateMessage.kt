@@ -5,6 +5,7 @@ import javafx.scene.Parent
 import javafx.scene.image.Image
 import javafx.stage.FileChooser
 import models.utils.PlaylistImage
+import presentation.presenters.main.CenterPresenter
 import presentation.presenters.sections.SectionPresenter
 import presentation.styles.sections.AccountViewStyles
 import presentation.styles.sections.HomeViewStyles
@@ -15,7 +16,7 @@ import utils.ImageProvider
 import java.io.File
 
 
-class PlaylistCreateMessage(private var sectionPresenter: SectionPresenter) : View("Create playlist") {
+class PlaylistCreateMessage(private var centerPresenter: CenterPresenter) : View("Create playlist") {
 
     var currentPicture:PlaylistImage = PlaylistImage()
 
@@ -71,7 +72,7 @@ class PlaylistCreateMessage(private var sectionPresenter: SectionPresenter) : Vi
                 }
                 padding = insets(10)
                 action {
-                    sectionPresenter
+                    //TODO craete playlist
                     close()
                 }
             }

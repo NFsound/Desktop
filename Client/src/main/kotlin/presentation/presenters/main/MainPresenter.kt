@@ -13,6 +13,8 @@ import presentation.menu.item.MenuItem
 import presentation.navigation.Navigator
 import javax.inject.Inject
 import javafx.scene.media.MediaPlayer
+import presentation.sections.music.PlaylistCreateMessage
+import presentation.sections.music.PlaylistView
 import tornadofx.toProperty
 import java.nio.file.Paths
 
@@ -120,7 +122,7 @@ class MainPresenter(): CenterPresenter {
 
 
     override fun onCurrentPlaylistClicked() {
-        TODO("Not yet implemented")
+       bottomViewState.showPlaylistView(currentPlaylist)
     }
 
     override fun onPlayPlaylistClicked(playlist: Playlist) {

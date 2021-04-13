@@ -1,4 +1,4 @@
-package presentation.sections
+package presentation.sections.common
 
 import javafx.scene.Node
 import presentation.presenters.sections.SectionPresenter

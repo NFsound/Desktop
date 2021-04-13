@@ -3,12 +3,12 @@ package models.core
 import models.utils.PlaylistImage
 
 class Playlist (private val list:ArrayList<Track>, val name:String, val image:PlaylistImage){
-    init {
-        if (list.isEmpty()){
-            throw Exception()//TODO exception
-        }
-    }
+
     var currentIndex: Int = -1
+
+    fun getAllTracks():List<Track>{
+        return list
+    }
 
     fun addTrack(track: Track){
         list.add(track)

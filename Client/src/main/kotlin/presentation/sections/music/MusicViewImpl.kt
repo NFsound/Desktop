@@ -17,6 +17,8 @@ import models.core.Network
 import models.core.Track
 import presentation.presenters.sections.MusicPresenter
 import presentation.presenters.sections.SectionPresenter
+import presentation.sections.common.Common.setMouseEnterBackground
+import presentation.sections.common.Common.setMouseLeaveBackground
 import presentation.sections.home.HomeViewImpl
 import presentation.sections.home.HomeViewImpl.Companion.pauseIconFilePath
 import presentation.sections.home.HomeViewImpl.Companion.playIconFilePath
@@ -51,27 +53,6 @@ class MusicViewImpl() : View(), MusicView {
     lateinit var progressIndicator: ProgressIndicator
     lateinit var generateMusicButton: Button
 
-    fun setMouseEnterBackground(icon: SVGIcon) {
-        icon.setOnMouseEntered {
-            icon.background = Background(
-                BackgroundFill(
-                    Colors.whiteColor,
-                    CornerRadii.EMPTY, Insets.EMPTY
-                )
-            )
-        }
-    }
-
-    fun setMouseLeaveBackground(icon: SVGIcon) {
-        icon.setOnMouseExited {
-            icon.background = Background(
-                BackgroundFill(
-                    Colors.alternativeWhiteColor,
-                    CornerRadii.EMPTY, Insets.EMPTY
-                )
-            )
-        }
-    }
 
 
     fun Node.createTrackView(track: Track): GridPane {
@@ -167,7 +148,7 @@ class MusicViewImpl() : View(), MusicView {
             item("Create new playlist") {
                 setOnAction {
                     openInternalWindow(
-                        PlaylistCreateMessage(musicPresenter),
+                        PlaylistCreateMessage(musicPresenter.centerPresenter),
                         owner = this@MusicViewImpl.root.parent.parent
                     )
                     this@contextmenu.hide()

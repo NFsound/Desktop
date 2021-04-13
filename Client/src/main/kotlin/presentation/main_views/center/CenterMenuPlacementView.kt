@@ -1,23 +1,11 @@
 package presentation.main_views.center
 
 import application.SonusApplication
-import javafx.scene.Node
-import javafx.scene.Parent
-import javafx.scene.layout.GridPane
-import javafx.scene.layout.Pane
-import javafx.scene.layout.VBox
 import presentation.menu.item.MenuItem
 import presentation.menu.list.Menu
-import presentation.presenters.main.CenterPresenter
-import presentation.presenters.main.MainPresenter
 import presentation.presenters.sections.*
-import presentation.sections.SectionView
-import presentation.sections.Sections
-import presentation.sections.account.AccountViewImpl
-import presentation.sections.home.HomeView
-import presentation.sections.home.HomeViewImpl
-import presentation.sections.music.MusicViewImpl
-import presentation.sections.news.NewsViewImpl
+import presentation.sections.common.SectionView
+import presentation.sections.common.Sections
 import tornadofx.*
 import javax.inject.Inject
 
@@ -29,7 +17,7 @@ class CenterMenuPlacementView(): View(), CenterView {
     @Inject
     lateinit var sections: Sections
 
-    private fun providePresenter(sect:SectionView): SectionPresenter {
+    private fun providePresenter(sect: SectionView): SectionPresenter {
         return when(sect.sectionTitle){
             "Account" -> AccountPresenter()
             "Home" -> HomePresenter()

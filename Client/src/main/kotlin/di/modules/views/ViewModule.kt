@@ -7,7 +7,7 @@ import presentation.main_views.sides.LeftMenuView
 import presentation.main_views.sides.TopMenuView
 import presentation.main_views.center.CenterMenuPlacementView
 import presentation.main_views.center.CenterView
-import presentation.sections.Sections
+import presentation.sections.common.Sections
 import presentation.sections.account.AccountView
 import presentation.sections.account.AccountViewImpl
 import presentation.sections.home.HomeView

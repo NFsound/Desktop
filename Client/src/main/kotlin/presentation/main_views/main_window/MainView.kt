@@ -11,7 +11,7 @@ import presentation.main_views.sides.TopMenuView
 import presentation.menu.list.Menu
 import presentation.presenters.main.CenterPresenter
 import presentation.presenters.main.MainPresenter
-import presentation.sections.Sections
+import presentation.sections.common.Sections
 import presentation.styles.sides.MainWindowStyles
 import tornadofx.*
 import utils.ImageProvider

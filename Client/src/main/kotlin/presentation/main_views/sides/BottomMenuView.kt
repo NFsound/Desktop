@@ -13,8 +13,13 @@ import javafx.scene.image.ImageView
 import javafx.scene.layout.*
 import javafx.scene.media.Media
 import javafx.scene.media.MediaPlayer
+import models.core.Playlist
 import models.core.Track
 import presentation.presenters.main.CenterPresenter
+import presentation.sections.common.Common.setMouseEnterBackground
+import presentation.sections.common.Common.setMouseLeaveBackground
+import presentation.sections.music.PlaylistCreateMessage
+import presentation.sections.music.PlaylistView
 import presentation.styles.sides.BottomViewStyles
 import presentation.styles.Colors.alternativeWhiteColor
 import presentation.styles.Colors.whiteColor
@@ -77,19 +82,15 @@ class BottomMenuView() : View(), SideView {
             SonusApplication.resourcePath + "/icons/volume_icon_path.txt"
     }
 
-    fun setMouseEnterBackground(icon:SVGIcon){
-        icon.setOnMouseEntered {
-            icon.background = Background(BackgroundFill(whiteColor,
-                CornerRadii.EMPTY, Insets.EMPTY))
-        }
+
+    fun showPlaylistView(playlist: Playlist, ){
+        openInternalWindow(
+            PlaylistView(playlist, mainPresenter),
+            owner = this.root.parent.parent
+        )
     }
 
-    fun setMouseLeaveBackground(icon:SVGIcon){
-        icon.setOnMouseExited {
-            icon.background = Background(BackgroundFill(alternativeWhiteColor,
-                CornerRadii.EMPTY, Insets.EMPTY))
-        }
-    }
+
 
 
     fun makePlayerIcon(
@@ -157,6 +158,10 @@ class BottomMenuView() : View(), SideView {
                 { player.totalDuration.toSeconds() },
                 player.totalDurationProperty()
             ))
+    }
+
+    fun onPlaylistIconClicked(){
+        mainPresenter.onCurrentPlaylistClicked()
     }
 
 
@@ -268,9 +273,14 @@ class BottomMenuView() : View(), SideView {
                 rowSpan = 2
             }
             playListIcon = svgicon(
-                IconsProvider.getSVGPath(playlistIconFilePath),
-                color = whiteColor, size = BottomViewStyles.rightIconSize
-            )
+                    IconsProvider.getSVGPath(playlistIconFilePath),
+                    color = whiteColor,
+                    size = BottomViewStyles.rightIconSize
+            ){
+                setOnMouseClicked{
+                    this@BottomMenuView.onPlaylistIconClicked()
+                }
+            }
         }
 
         stackpane {

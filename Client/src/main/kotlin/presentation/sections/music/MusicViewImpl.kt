@@ -133,8 +133,7 @@ class MusicViewImpl() : View(), MusicView {
                     padding = insets(10)
 
                     setOnMouseClicked {
-                        val playlistMenu = createContextMenu()
-                            playlistMenu.show(this,Side.LEFT,0.0,0.0)
+                        createContextMenu().show(this,Side.LEFT,0.0,0.0)
                     }
                 }
                 setMouseEnterBackground(plusIcon)
@@ -145,11 +144,15 @@ class MusicViewImpl() : View(), MusicView {
 
     fun Node.createContextMenu():ContextMenu{
         return contextmenu {
-            item("rveds") {
+            item("Playlist1") {
                 this@contextmenu.hide()
             }
-            item("rvevc") {
+            item("Create new playlist") {
+                setOnAction {
+                    openInternalWindow(PlaylistCreateMessage(),  owner = this@MusicViewImpl.root.parent.parent )
+                }
                 this@contextmenu.hide()
+
             }
         }
     }

@@ -83,10 +83,10 @@ class BottomMenuView() : View(), SideView {
     }
 
 
-    fun showPlaylistView(playlist: Playlist, ){
+    fun showPlaylistView(playlist: Playlist){
         openInternalWindow(
             PlaylistView(playlist, mainPresenter),
-            owner = this.root.parent.parent
+            owner = this.root.parent
         )
     }
 

@@ -122,7 +122,8 @@ class MainPresenter(): CenterPresenter {
 
 
     override fun onCurrentPlaylistClicked() {
-       bottomViewState.showPlaylistView(currentPlaylist)
+        bottomViewState.showPlaylistView(Playlist.emptyPlaylist)
+        //bottomViewState.showPlaylistView(currentPlaylist)
     }
 
     override fun onPlayPlaylistClicked(playlist: Playlist) {

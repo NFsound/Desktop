@@ -127,8 +127,9 @@ class PlaylistView(val playlist: Playlist, val presenter: CenterPresenter): View
                 setOnAction {
                     openInternalWindow(
                         PlaylistCreateMessage(presenter),
-                        owner = this@PlaylistView.root.parent.parent
+                        owner = this@PlaylistView.root.parent
                     )
+                    //TODO create playlist
                     this@contextmenu.hide()
                 }
 

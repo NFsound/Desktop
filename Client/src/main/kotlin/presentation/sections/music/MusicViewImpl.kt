@@ -5,11 +5,11 @@ import javafx.collections.FXCollections.observableArrayList
 import javafx.geometry.Insets
 import javafx.geometry.NodeOrientation
 import javafx.geometry.Pos
+import javafx.geometry.Side
 import javafx.scene.Node
-import javafx.scene.control.Button
-import javafx.scene.control.ComboBox
-import javafx.scene.control.ProgressIndicator
-import javafx.scene.control.ScrollPane
+import javafx.scene.control.*
+import javafx.scene.input.ContextMenuEvent
+import javafx.scene.input.PickResult
 import javafx.scene.layout.*
 import javafx.scene.text.TextAlignment
 import javafx.stage.FileChooser
@@ -30,6 +30,7 @@ import presentation.styles.sections.MusicViewStyles.Companion.trackNameLabelStyl
 import presentation.styles.sections.NewsViewStyles
 import presentation.styles.sides.LeftMenuStyles
 import tornadofx.*
+import tornadofx.Stylesheet.Companion.menu
 import utils.IconsProvider
 
 class MusicViewImpl() : View(), MusicView {
@@ -130,12 +131,25 @@ class MusicViewImpl() : View(), MusicView {
                 ) {
                     alignment = Pos.CENTER_LEFT
                     padding = insets(10)
+
                     setOnMouseClicked {
-                        //TODO add to playlist
+                        val playlistMenu = createContextMenu()
+                            playlistMenu.show(this,Side.LEFT,0.0,0.0)
                     }
                 }
                 setMouseEnterBackground(plusIcon)
                 setMouseLeaveBackground(plusIcon)
+            }
+        }
+    }
+
+    fun Node.createContextMenu():ContextMenu{
+        return contextmenu {
+            item("rveds") {
+                this@contextmenu.hide()
+            }
+            item("rvevc") {
+                this@contextmenu.hide()
             }
         }
     }

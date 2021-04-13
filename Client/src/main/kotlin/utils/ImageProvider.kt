@@ -6,6 +6,7 @@ import javafx.scene.image.WritableImage
 import models.utils.PlaylistImage
 import java.awt.image.BufferedImage
 import java.io.ByteArrayInputStream
+import java.io.File
 import java.util.*
 import javax.imageio.ImageIO
 
@@ -25,6 +26,12 @@ object ImageProvider {
         image = ImageIO.read(bis)
         bis.close()
         return SwingFXUtils.toFXImage(image,null)
+    }
+
+    fun makePlaylistImageFromFile(file: File):PlaylistImage{
+        val bytes = file.readBytes()
+        val encoder = Base64.getEncoder()
+        return PlaylistImage(encoder.encodeToString(bytes))
     }
 
 }

@@ -17,6 +17,9 @@ class MusicViewStyles : Stylesheet() {
         val trackAuthorLabelStyle by cssclass()
         val trackBoxStyle by cssclass()
         val test by cssclass()
+        val contextMenuStyle by cssclass()
+        val playlistCreateMessageMainStyle by cssclass()
+        val checkBoxStyle by cssclass()
     }
 
     init {
@@ -73,7 +76,24 @@ class MusicViewStyles : Stylesheet() {
             accentColor = Colors.alternativeColor
         }
 
+        contextMenuStyle{
+            backgroundColor += Colors.bottomBarColor
+            label{
+                textFill = Colors.whiteColor
+                focusColor = Colors.alternativeColor
+            }
+            textFill = Colors.whiteColor
+            fontSize = 12.pt
+        }
 
+        playlistCreateMessageMainStyle{
+            backgroundColor += Colors.mainColor
+
+        }
+
+        checkBoxStyle{
+            //backgroundColor +=
+        }
 
     }
 

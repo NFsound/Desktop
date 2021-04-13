@@ -22,6 +22,7 @@ import presentation.sections.home.HomeViewImpl.Companion.pauseIconFilePath
 import presentation.sections.home.HomeViewImpl.Companion.playIconFilePath
 import presentation.styles.Colors
 import presentation.styles.sections.MusicViewStyles
+import presentation.styles.sections.MusicViewStyles.Companion.contextMenuStyle
 import presentation.styles.sections.MusicViewStyles.Companion.smallLabelStyle
 import presentation.styles.sections.MusicViewStyles.Companion.test
 import presentation.styles.sections.MusicViewStyles.Companion.trackAuthorLabelStyle
@@ -144,14 +145,33 @@ class MusicViewImpl() : View(), MusicView {
 
     fun Node.createContextMenu():ContextMenu{
         return contextmenu {
+            addClass(contextMenuStyle)
             item("Playlist1") {
-                this@contextmenu.hide()
+                checkbox {
+
+                    //addClass()
+                    action {
+                        if (isSelected) {
+                            //TODO add to playlist
+                            isSelected
+                        } else {
+                            //TODO remove from playlist
+                            isSelected
+                        }
+                    }
+                }
+                action {
+                    this@contextmenu.hide()
+                }
             }
             item("Create new playlist") {
                 setOnAction {
-                    openInternalWindow(PlaylistCreateMessage(),  owner = this@MusicViewImpl.root.parent.parent )
+                    openInternalWindow(
+                        PlaylistCreateMessage(musicPresenter),
+                        owner = this@MusicViewImpl.root.parent.parent
+                    )
+                    this@contextmenu.hide()
                 }
-                this@contextmenu.hide()
 
             }
         }

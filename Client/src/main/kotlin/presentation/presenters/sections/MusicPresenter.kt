@@ -55,4 +55,6 @@ class MusicPresenter:SectionPresenter {
         currentNetwork = network
     }
 
+    //fun createPlaylist()
+
 }

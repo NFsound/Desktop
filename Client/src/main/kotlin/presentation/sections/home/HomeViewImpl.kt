@@ -6,11 +6,14 @@ import javafx.geometry.Pos
 import javafx.scene.control.ScrollPane
 import javafx.scene.control.skin.ScrollPaneSkin
 import javafx.scene.layout.*
+import javafx.scene.text.Font
 import javafx.scene.text.TextAlignment
 import models.core.Playlist
 import presentation.presenters.sections.HomePresenter
 import presentation.presenters.sections.SectionPresenter
+import presentation.sections.music.PlaylistCreateMessage
 import presentation.styles.Colors
+import presentation.styles.sections.AccountViewStyles
 import presentation.styles.sections.HomeViewStyles
 import presentation.styles.sections.HomeViewStyles.Companion.blackSmokeStyle
 import presentation.styles.sections.HomeViewStyles.Companion.imagePlaylistStyle
@@ -40,6 +43,10 @@ class HomeViewImpl : View(), HomeView {
             popularPlaylistsBox.createOnePlaylistBox(playlist)
         }
     }
+
+
+
+
 
     fun HBox.createOnePlaylistBox(playlist: Playlist): VBox {
         return vbox {
@@ -169,6 +176,20 @@ class HomeViewImpl : View(), HomeView {
                         isFitToWidth = true
                         addClass(HomeViewStyles.popularHBoxStyle)
                     }
+                }
+                vbox {
+                    button("Create new playlist") {
+                        addClass(AccountViewStyles.buttonDefaultStyle)
+                        padding = insets(10)
+                        prefHeight = 40.0
+                        setOnMouseClicked {
+                            openInternalWindow(
+                                PlaylistCreateMessage(homePresenter),
+                                owner = this.parent.parent.parent.parent.parent.parent
+                            )
+                        }
+                    }
+                    padding = insets(50)
                 }
             }
         }

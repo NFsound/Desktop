@@ -1,7 +1,7 @@
 package repositories.implementations
 
 import io.reactivex.rxjava3.core.Single
-import models.core.Playlist
+import models.core.music.Playlist
 import network.api.ApiService
 import repositories.PlaylistRepository
 import javax.inject.Inject
@@ -10,8 +10,8 @@ class PlaylistRepositoryImpl @Inject constructor(
     private val api: ApiService
 ) : PlaylistRepository {
 
-    var userPlaylists: List<Playlist> = emptyList()
-    var popularPlaylists: List<Playlist> = emptyList()
+    private var userPlaylists: List<Playlist> = emptyList()
+    private var popularPlaylists: List<Playlist> = emptyList()
 
     override fun getPlaylists(userId: Int): Single<List<Playlist>> {
         return api.getUsersPlaylists(userId)
@@ -33,7 +33,7 @@ class PlaylistRepositoryImpl @Inject constructor(
             .map { true }
     }
 
-    private fun checkFilter(playlist: Playlist,text: String):Boolean{
+    private fun checkFilter(playlist: Playlist, text: String):Boolean{
         return playlist.name.toLowerCase().contains(text.toLowerCase())
     }
 

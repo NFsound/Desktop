@@ -1,7 +1,6 @@
 package presentation.sections.home
 
 import application.SonusApplication
-import javafx.geometry.Insets
 import javafx.geometry.NodeOrientation
 import javafx.geometry.Pos
 import javafx.geometry.Side
@@ -10,10 +9,9 @@ import javafx.scene.control.ContextMenu
 import javafx.scene.control.ScrollPane
 import javafx.scene.control.skin.ScrollPaneSkin
 import javafx.scene.layout.*
-import javafx.scene.text.Font
 import javafx.scene.text.TextAlignment
-import models.core.Playlist
-import models.core.Track
+import models.core.music.Playlist
+import models.core.music.Track
 import presentation.presenters.sections.HomePresenter
 import presentation.presenters.sections.SectionPresenter
 import presentation.sections.common.Common.setMouseEnterBackground

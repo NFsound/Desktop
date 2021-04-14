@@ -2,11 +2,10 @@ package presentation.presenters.sections
 
 import application.SonusApplication
 import interactors.HomeInteractor
-import models.core.Playlist
-import models.core.Track
+import models.core.music.Playlist
+import models.core.music.Track
 import models.utils.PlaylistImage
 import presentation.presenters.main.CenterPresenter
-import presentation.sections.account.AccountView
 import presentation.sections.home.HomeView
 import javax.inject.Inject
 

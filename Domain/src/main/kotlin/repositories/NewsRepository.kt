@@ -1,7 +1,7 @@
 package repositories
 
 import io.reactivex.rxjava3.core.Single
-import models.core.News
+import models.core.news.News
 
 
 interface NewsRepository {

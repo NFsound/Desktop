@@ -2,38 +2,31 @@ package presentation.sections.music
 
 import application.SonusApplication
 import javafx.collections.FXCollections.observableArrayList
-import javafx.geometry.Insets
 import javafx.geometry.NodeOrientation
 import javafx.geometry.Pos
 import javafx.geometry.Side
 import javafx.scene.Node
 import javafx.scene.control.*
-import javafx.scene.input.ContextMenuEvent
-import javafx.scene.input.PickResult
 import javafx.scene.layout.*
 import javafx.scene.text.TextAlignment
 import javafx.stage.FileChooser
-import models.core.Network
-import models.core.Track
+import models.core.networks.Network
+import models.core.music.Track
 import presentation.presenters.sections.MusicPresenter
 import presentation.presenters.sections.SectionPresenter
 import presentation.sections.common.Common.setMouseEnterBackground
 import presentation.sections.common.Common.setMouseLeaveBackground
-import presentation.sections.home.HomeViewImpl
 import presentation.sections.home.HomeViewImpl.Companion.pauseIconFilePath
 import presentation.sections.home.HomeViewImpl.Companion.playIconFilePath
 import presentation.styles.Colors
 import presentation.styles.sections.MusicViewStyles
 import presentation.styles.sections.MusicViewStyles.Companion.contextMenuStyle
-import presentation.styles.sections.MusicViewStyles.Companion.smallLabelStyle
-import presentation.styles.sections.MusicViewStyles.Companion.test
 import presentation.styles.sections.MusicViewStyles.Companion.trackAuthorLabelStyle
 import presentation.styles.sections.MusicViewStyles.Companion.trackBoxStyle
 import presentation.styles.sections.MusicViewStyles.Companion.trackNameLabelStyle
 import presentation.styles.sections.NewsViewStyles
 import presentation.styles.sides.LeftMenuStyles
 import tornadofx.*
-import tornadofx.Stylesheet.Companion.menu
 import utils.IconsProvider
 
 class MusicViewImpl() : View(), MusicView {

@@ -1,8 +1,10 @@
 package interactors
 
 import io.reactivex.rxjava3.core.Single
-import models.core.*
-import models.core.account.Account
+import models.core.music.Playlist
+import models.core.music.Track
+import models.core.networks.Network
+import models.core.networks.GenerationParams
 
 interface MusicInteractor {
 
@@ -10,9 +12,8 @@ interface MusicInteractor {
 
     fun getAvailableNetworks():Single<List<Network>>
 
-    fun getAllTracksByAccount(account: Account):Single<List<Track>>
+    fun getAllTracksByAccount():Single<List<Track>>
 
-    fun getAllPlaylistsByAccount(account: Account):Single<List<Playlist>>
+    fun getAllPlaylistsByAccount():Single<List<Playlist>>
 
-    fun filterMusic(text:String):Single<List<Track>>
 }

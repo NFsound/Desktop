@@ -1,6 +1,6 @@
 package presentation.sections.home
 
-import models.core.Playlist
+import models.core.music.Playlist
 import presentation.sections.common.SectionView
 
 interface HomeView: SectionView {

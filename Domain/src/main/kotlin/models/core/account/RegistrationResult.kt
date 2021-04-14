@@ -1,4 +1,4 @@
 package models.core.account
 
-class RegistrationResult(val status:Boolean, val message:String) {
+class RegistrationResult(val status:Boolean, val message:String, val id:Int) {
 }

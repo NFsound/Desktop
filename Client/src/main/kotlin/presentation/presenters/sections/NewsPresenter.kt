@@ -1,12 +1,10 @@
 package presentation.presenters.sections
 
 import application.SonusApplication
-import interactors.AccountInteractor
 import interactors.NewsInteractor
 import javafx.application.Platform
-import models.core.News
+import models.core.news.News
 import presentation.presenters.main.CenterPresenter
-import presentation.sections.account.AccountView
 import presentation.sections.news.NewsView
 import javax.inject.Inject
 

@@ -3,7 +3,6 @@ package repositories.implementations
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
 import models.core.account.*
-import models.wrappers.account.LoginBody
 import network.api.ApiService
 import repositories.AccountRepository
 import javax.inject.Inject

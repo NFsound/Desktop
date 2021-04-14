@@ -1,6 +1,6 @@
 package presentation.presenters.main
 
-import models.core.Playlist
+import models.core.music.Playlist
 import presentation.menu.item.MenuItem
 
 interface CenterPresenter {

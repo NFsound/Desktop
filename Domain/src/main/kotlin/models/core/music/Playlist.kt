@@ -1,4 +1,4 @@
-package models.core
+package models.core.music
 
 import models.utils.PlaylistImage
 
@@ -18,7 +18,7 @@ class Playlist (private val list:ArrayList<Track>, val name:String, val image:Pl
         list.remove(track)
     }
 
-    fun nextTrack(): Track{
+    fun nextTrack(): Track {
         return if(currentIndex < list.size - 1){
             currentIndex += 1
             list[currentIndex]
@@ -28,7 +28,7 @@ class Playlist (private val list:ArrayList<Track>, val name:String, val image:Pl
         }
     }
 
-    fun previousTrack():Track{
+    fun previousTrack(): Track {
         return if(currentIndex > 0){
             currentIndex -= 1
             list[currentIndex]
@@ -38,7 +38,7 @@ class Playlist (private val list:ArrayList<Track>, val name:String, val image:Pl
         }
     }
 
-    fun nextRandomTrack():Track{
+    fun nextRandomTrack(): Track {
         currentIndex = (0..list.size).random()
         return list[currentIndex]
     }

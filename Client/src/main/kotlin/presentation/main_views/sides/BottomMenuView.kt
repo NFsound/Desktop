@@ -1,24 +1,21 @@
 package presentation.main_views.sides
 
-//import models.core.Track
+//import models.core.music.Track
 import application.SonusApplication
 import javafx.beans.binding.Bindings
-import javafx.geometry.Insets
 import javafx.geometry.Pos
 import javafx.scene.Node
 import javafx.scene.control.Label
 import javafx.scene.control.ProgressBar
 import javafx.scene.control.Slider
 import javafx.scene.image.ImageView
-import javafx.scene.layout.*
 import javafx.scene.media.Media
 import javafx.scene.media.MediaPlayer
-import models.core.Playlist
-import models.core.Track
+import models.core.music.Playlist
+import models.core.music.Track
 import presentation.presenters.main.CenterPresenter
 import presentation.sections.common.Common.setMouseEnterBackground
 import presentation.sections.common.Common.setMouseLeaveBackground
-import presentation.sections.music.PlaylistCreateMessage
 import presentation.sections.music.PlaylistView
 import presentation.styles.sides.BottomViewStyles
 import presentation.styles.Colors.alternativeWhiteColor

@@ -1,8 +1,7 @@
 package repositories
 
 import io.reactivex.rxjava3.core.Single
-import models.core.GenerationParams
-import models.core.Network
+import models.core.networks.Network
 
 interface UtilsRepository {
 

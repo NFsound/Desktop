@@ -1,9 +1,8 @@
 package presentation.sections.news
 
 import javafx.scene.control.ScrollPane
-import javafx.scene.layout.Priority
 import javafx.scene.layout.VBox
-import models.core.News
+import models.core.news.News
 import presentation.presenters.sections.NewsPresenter
 import presentation.presenters.sections.SectionPresenter
 import presentation.styles.sections.NewsViewStyles

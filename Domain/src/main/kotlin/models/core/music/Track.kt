@@ -1,7 +1,4 @@
-package models.core
-
-import java.rmi.server.UID
-import java.util.*
+package models.core.music
 
 class Track(
     val id: Int,

@@ -8,10 +8,9 @@ import javafx.scene.Parent
 import javafx.scene.control.ContextMenu
 import javafx.scene.layout.GridPane
 import javafx.scene.layout.Priority
-import models.core.Playlist
-import models.core.Track
+import models.core.music.Playlist
+import models.core.music.Track
 import presentation.presenters.main.CenterPresenter
-import presentation.presenters.sections.SectionPresenter
 import presentation.sections.common.Common.setMouseEnterBackground
 import presentation.sections.common.Common.setMouseLeaveBackground
 import presentation.sections.home.HomeViewImpl

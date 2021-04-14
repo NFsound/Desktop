@@ -1,7 +1,7 @@
 package presentation.sections.music
 
 import javafx.util.StringConverter
-import models.core.Network
+import models.core.networks.Network
 
 class NetworkConverter: StringConverter<Network>() {
     override fun toString(network: Network?): String {

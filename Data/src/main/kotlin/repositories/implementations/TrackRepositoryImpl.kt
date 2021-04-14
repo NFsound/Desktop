@@ -1,22 +1,36 @@
 package repositories.implementations
 
 import io.reactivex.rxjava3.core.Single
-import models.core.GenerationParams
-import models.core.Track
+import models.core.networks.GenerationParams
+import models.core.music.Track
 import network.api.ApiService
 import repositories.TrackRepository
 import javax.inject.Inject
 
-class TrackRepositoryImpl @Inject constructor(private val api: ApiService): TrackRepository {
+class TrackRepositoryImpl @Inject constructor(
+    private val api: ApiService
+) : TrackRepository {
+
+    private var allUserTracks: ArrayList<Track> = emptyList<Track>() as ArrayList<Track>
+
+
     override fun getAllTracks(accountId: Int): Single<List<Track>> {
-        TODO("Not yet implemented")
+        return api.getAllTracksByUserId(accountId)
+            .doAfterSuccess {
+                allUserTracks = it as ArrayList<Track>
+            }.onErrorReturn {
+                allUserTracks
+            }
     }
 
-    override fun postTrack(track: Track): Single<Int> {
-        TODO("Not yet implemented")
+    override fun generateTrack(
+        generationParams: GenerationParams,
+        byteArray: ByteArray
+    ): Single<Track> {
+        return api.generateTrack(byteArray, generationParams)
+            .doAfterSuccess {
+                allUserTracks.add(it)
+            }
     }
 
-    override fun generateTrack(generationParams: GenerationParams): Single<Track> {
-        TODO("Not yet implemented")
-    }
 }

@@ -3,7 +3,7 @@ package presentation.presenters.sections
 import application.SonusApplication
 import interactors.MusicInteractor
 import javafx.application.Platform
-import models.core.Network
+import models.core.networks.Network
 import presentation.presenters.main.CenterPresenter
 import presentation.sections.music.MusicView
 import java.io.File
@@ -20,7 +20,7 @@ class MusicPresenter:SectionPresenter {
     override lateinit var centerPresenter: CenterPresenter
 
     private var currentMusicFile:File? = null
-    private var currentNetwork:Network? = null
+    private var currentNetwork: Network? = null
 
     init {
         SonusApplication.getInstance().applicationComponent.inject(this)

@@ -2,7 +2,7 @@ package interactors
 
 import io.reactivex.rxjava3.core.Single
 import models.core.account.Account
-import models.core.Playlist
+import models.core.music.Playlist
 
 interface HomeInteractor {
 

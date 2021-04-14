@@ -1,10 +1,9 @@
 package presentation.presenters.main
 
 import application.SonusApplication
-import javafx.beans.binding.Bindings
 import javafx.scene.media.Media
-import models.core.Playlist
-import models.core.Track
+import models.core.music.Playlist
+import models.core.music.Track
 import presentation.main_views.sides.BottomMenuView
 import presentation.main_views.sides.LeftMenuView
 import presentation.main_views.sides.TopMenuView
@@ -13,8 +12,6 @@ import presentation.menu.item.MenuItem
 import presentation.navigation.Navigator
 import javax.inject.Inject
 import javafx.scene.media.MediaPlayer
-import presentation.sections.music.PlaylistCreateMessage
-import presentation.sections.music.PlaylistView
 import tornadofx.toProperty
 import java.nio.file.Paths
 

@@ -35,7 +35,7 @@ class MusicPresenter:SectionPresenter {
     }
 
     override fun onInitialLoad() {
-        musicInteractor.getAllNetworks().subscribe {
+        musicInteractor.getAvailableNetworks().subscribe {
             networks->
             Platform.runLater {
                 viewState.loadNetworks(networks)

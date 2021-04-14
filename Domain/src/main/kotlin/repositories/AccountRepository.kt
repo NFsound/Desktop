@@ -1,18 +1,17 @@
 package repositories
 
+import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
-import models.core.Account
-import models.core.AccountRegistration
-import models.core.UserInfo
+import models.core.account.*
 
 
 interface AccountRepository {
 
-    fun getUser(Id: Int): Single<Account>
+    fun registerUser(accountRegistration: AccountRegistration): Single<RegistrationResult>
 
-    fun registerUser(accountRegistration: AccountRegistration): Single<Boolean>
-
-    fun login(account: Account): Single<Boolean>
+    fun login(accountLogin: AccountLogin): Single<LoginResult>
 
     fun getCurrentUser():Single<Account>
+
+    fun logOut():Completable
 }

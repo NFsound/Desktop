@@ -74,7 +74,7 @@ class NewsPresenter() : SectionPresenter {
         Platform.runLater {
             if (text.isNotEmpty()) {
                 val filteredNews = newsInteractor.filterNews(text)
-                viewState.showNews(filteredNews)
+               // viewState.showNews(filteredNews)
             } else {
                 newsInteractor.getAllNews()
                     .onErrorResumeWith {

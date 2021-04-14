@@ -8,4 +8,5 @@ interface NewsRepository {
 
     fun getNews(): Single<List<News>>
 
+    fun filterNews(text:String): Single<List<News>>
 }

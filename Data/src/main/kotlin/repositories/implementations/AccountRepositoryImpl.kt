@@ -1,40 +1,51 @@
 package repositories.implementations
 
+import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
-import models.core.Account
-import models.core.AccountRegistration
-import models.core.UserInfo
+import models.core.account.*
 import models.wrappers.account.LoginBody
 import network.api.ApiService
 import repositories.AccountRepository
 import javax.inject.Inject
 
-class AccountRepositoryImpl @Inject constructor(private val api:ApiService): AccountRepository {
+class AccountRepositoryImpl @Inject constructor(
+    private val api: ApiService
+) : AccountRepository {
 
-    override fun getUser(id: Int): Single<UserInfo> {
-        return api.getUserById(id)
+    private var currentAccount: Account
+
+    init {
+        currentAccount = Account(-1,"Demo","demo","qwerty")
+        //TODO try to get account from local storage
     }
 
-    override fun getUser(nickName: String): Single<UserInfo> {
-        return api.getUserByNick(nickName)
+
+    override fun registerUser(accountRegistration: AccountRegistration): Single<RegistrationResult> {
+        return api.registerUser(accountRegistration)
     }
 
-
-
-    override fun registerUser(accountRegistration: AccountRegistration): Single<Int> {
-        return api.registerUser(accountRegistration).map {
-            it-> 0
+    override fun login(accountLogin: AccountLogin): Single<LoginResult> {
+        return api.loginUser(accountLogin).doOnSuccess {
+            api.getUserById(it.id).map {
+                userInfo -> Account(it.id,
+                    userInfo.nickname,
+                    userInfo.login,
+                    accountLogin.password)
+            }.subscribe {
+                res->
+                currentAccount = res
+            }
         }
     }
 
-    override fun login(account: Account): Single<Int> {
-        val loginBody = LoginBody()
-        return api.loginUser(loginBody)
+    override fun getCurrentUser(): Single<Account> {
+        return Single.just(currentAccount)
     }
 
-    override fun getAllUsers(): Single<List<Account>> {
-        return api.getAllUsers().map {
-                it.list
-            }
+    override fun logOut(): Completable {
+        return Completable.fromAction {
+            currentAccount = Account(-1,"Demo","demo","qwerty")
+        }
     }
+
 }

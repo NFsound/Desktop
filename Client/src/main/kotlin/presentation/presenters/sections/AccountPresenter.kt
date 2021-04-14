@@ -2,9 +2,8 @@ package presentation.presenters.sections
 
 import application.SonusApplication
 import interactors.AccountInteractor
-import io.reactivex.rxjava3.schedulers.Schedulers
 import javafx.application.Platform
-import models.core.Account
+import models.core.account.Account
 import presentation.presenters.main.CenterPresenter
 import presentation.sections.account.AccountView
 import javax.inject.Inject
@@ -67,7 +66,7 @@ class AccountPresenter():SectionPresenter {
     }
 
     fun logIn(nick:String, login:String, password: String){
-        accountInteractor.loginAccount().subscribe { account ->
+        accountInteractor.loginAccount(nick,password).subscribe { account ->
             Platform.runLater {
                 viewState.initializeUserInfo(Account(100,nick,login,password))
                 viewState.showAccountUI()

@@ -2,11 +2,11 @@ package interactors
 
 import io.reactivex.rxjava3.core.Single
 import models.core.*
-import java.io.File
+import models.core.account.Account
 
 interface MusicInteractor {
 
-    fun generateTrack(musicFile: File, generationParams: GenerationParams): Single<Track>
+    fun generateTrack(byteArray: ByteArray, generationParams: GenerationParams): Single<Track>
 
     fun getAvailableNetworks():Single<List<Network>>
 

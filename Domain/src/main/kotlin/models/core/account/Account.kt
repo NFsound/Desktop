@@ -1,4 +1,4 @@
-package models.core
+package models.core.account
 
 data class Account(
     var id:Int, var nickname:String,

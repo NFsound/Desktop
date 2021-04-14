@@ -6,16 +6,39 @@ import network.api.ApiService
 import repositories.PlaylistRepository
 import javax.inject.Inject
 
-class PlaylistRepositoryImpl @Inject constructor(private val api: ApiService): PlaylistRepository {
+class PlaylistRepositoryImpl @Inject constructor(
+    private val api: ApiService
+) : PlaylistRepository {
+
+    var userPlaylists: List<Playlist> = emptyList()
+    var popularPlaylists: List<Playlist> = emptyList()
+
     override fun getPlaylists(userId: Int): Single<List<Playlist>> {
-        TODO("Not yet implemented")
+        return api.getUsersPlaylists(userId)
+            .map { it.list }.doAfterSuccess {
+                userPlaylists = it
+            }
     }
 
-    override fun getPlaylistByName(name: String): Single<List<Playlist>> {
-        TODO("Not yet implemented")
+    override fun getPopularPlaylists(): Single<List<Playlist>> {
+        return api.getPopularPlaylists()
+            .map { it.list }
+            .doAfterSuccess {
+                popularPlaylists = it
+            }
     }
 
     override fun updatePlaylist(playlist: Playlist): Single<Boolean> {
-        TODO("Not yet implemented")
+        return api.updatePlaylist(playlist)
+            .map { true }
+    }
+
+    private fun checkFilter(playlist: Playlist,text: String):Boolean{
+        return playlist.name.toLowerCase().contains(text.toLowerCase())
+    }
+
+    override fun filterPlaylists(text: String): Single<List<Playlist>> {
+        return Single.just(popularPlaylists.filter { checkFilter(it,text) }
+                + userPlaylists.filter { checkFilter(it,text) })
     }
 }

@@ -7,8 +7,9 @@ interface PlaylistRepository {
 
     fun getPlaylists(userId:Int): Single<List<Playlist>>
 
-    fun getPlaylistByName(name:String): Single<List<Playlist>>
+    fun getPopularPlaylists():Single<List<Playlist>>
 
     fun updatePlaylist(playlist: Playlist): Single<Boolean>
 
+    fun filterPlaylists(text:String): Single<List<Playlist>>
 }

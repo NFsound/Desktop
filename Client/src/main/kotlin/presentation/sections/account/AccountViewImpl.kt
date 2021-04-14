@@ -1,18 +1,15 @@
 package presentation.sections.account
 
 import io.reactivex.rxjava3.core.Completable
-import io.reactivex.rxjava3.schedulers.Schedulers
 import javafx.application.Platform
 import javafx.geometry.Pos
-import javafx.scene.Node
 import javafx.scene.Parent
 import javafx.scene.control.Label
 import javafx.scene.control.PasswordField
 import javafx.scene.control.TextField
 import javafx.scene.layout.VBox
 import javafx.scene.text.TextAlignment
-import javafx.stage.StageStyle
-import models.core.Account
+import models.core.account.Account
 import presentation.presenters.sections.AccountPresenter
 import presentation.presenters.sections.SectionPresenter
 import presentation.styles.sections.AccountViewStyles.Companion.accountStyle
@@ -22,10 +19,8 @@ import presentation.styles.sections.AccountViewStyles.Companion.defaultLabelStyl
 import presentation.styles.sections.AccountViewStyles.Companion.passwordFieldStyle
 import presentation.styles.sections.AccountViewStyles.Companion.userInfoLabelStyle
 import presentation.styles.sections.AccountViewStyles.Companion.userInfoMainLabelStyle
-import presentation.styles.sides.TopViewStyles
 import tornadofx.*
 import java.util.concurrent.TimeUnit
-import javax.swing.GroupLayout
 
 class AccountViewImpl : View(), AccountView {
 

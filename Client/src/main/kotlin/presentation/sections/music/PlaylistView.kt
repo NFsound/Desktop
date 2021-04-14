@@ -106,8 +106,8 @@ class PlaylistView(val playlist: Playlist, val presenter: CenterPresenter): View
         return contextmenu {
             addClass(MusicViewStyles.contextMenuStyle)
             item("Playlist1") {
-                checkbox {
 
+                checkbox {
                     //addClass()
                     action {
                         if (isSelected) {

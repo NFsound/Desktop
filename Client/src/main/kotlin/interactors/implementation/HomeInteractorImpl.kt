@@ -2,6 +2,7 @@ package interactors.implementation
 
 import interactors.HomeInteractor
 import io.reactivex.rxjava3.core.Single
+import models.core.Account
 import models.core.Playlist
 import repositories.AccountRepository
 import repositories.PlaylistRepository
@@ -12,15 +13,19 @@ class HomeInteractorImpl @Inject constructor(
     private val playlistRepository: PlaylistRepository,
     private val trackRepository: TrackRepository
 ): HomeInteractor {
-    override fun getTrendPlaylists(): Single<List<Playlist>> {
+    override fun getPopularPlaylists(): Single<List<Playlist>> {
         TODO("Not yet implemented")
     }
 
-    override fun getRecommendationPlaylists(): Single<List<Playlist>> {
+    override fun getMyPlaylists(account: Account): Single<List<Playlist>> {
         TODO("Not yet implemented")
     }
 
-    override fun getNewPlaylists(): Single<List<Playlist>> {
+    override fun createPlaylist(playlist: Playlist): Single<Boolean> {
+        TODO("Not yet implemented")
+    }
+
+    override fun filterPlaylists(text: String): Single<List<Playlist>> {
         TODO("Not yet implemented")
     }
 }

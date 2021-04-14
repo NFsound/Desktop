@@ -2,12 +2,12 @@ package interactors.implementation
 
 import interactors.MusicInteractor
 import io.reactivex.rxjava3.core.Single
-import models.core.Network
-import models.core.Playlist
+import models.core.*
 import repositories.AccountRepository
 import repositories.PlaylistRepository
 import repositories.TrackRepository
 import repositories.UtilsRepository
+import java.io.File
 import javax.inject.Inject
 
 class MusicInteractorImpl @Inject constructor(
@@ -16,23 +16,24 @@ class MusicInteractorImpl @Inject constructor(
     private val playlistRepository: PlaylistRepository,
     private val utilsRepository: UtilsRepository
     ): MusicInteractor {
-    override fun sendGenerationRequest(): Single<Boolean> {
+    override fun generateTrack(musicFile: File, generationParams: GenerationParams): Single<Track> {
         TODO("Not yet implemented")
     }
 
-    override fun createPlaylist(playlist: Playlist): Single<Boolean> {
+    override fun getAvailableNetworks(): Single<List<Network>> {
         TODO("Not yet implemented")
     }
 
-    override fun updatePlaylist(playlist: Playlist): Single<Boolean> {
+    override fun getAllTracksByAccount(account: Account): Single<List<Track>> {
         TODO("Not yet implemented")
     }
 
-    override fun getMyPlaylist(): Single<Playlist> {
+    override fun getAllPlaylistsByAccount(account: Account): Single<List<Playlist>> {
         TODO("Not yet implemented")
     }
 
-    override fun getAllNetworks(): Single<List<Network>> {
-        return utilsRepository.getAllAvailableNetworks()
+    override fun filterMusic(text: String): Single<List<Track>> {
+        TODO("Not yet implemented")
     }
+
 }

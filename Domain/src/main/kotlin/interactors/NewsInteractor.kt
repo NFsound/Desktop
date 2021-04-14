@@ -7,6 +7,6 @@ interface NewsInteractor {
 
     fun getAllNews(): Single<List<News>>
 
-    fun filterNews(text:String): List<News>
+    fun filterNews(text:String):Single<List<News>>
 
 }

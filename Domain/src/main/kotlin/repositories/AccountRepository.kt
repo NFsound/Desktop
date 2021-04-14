@@ -8,13 +8,11 @@ import models.core.UserInfo
 
 interface AccountRepository {
 
-    fun getUser(Id: Int): Single<UserInfo>
+    fun getUser(Id: Int): Single<Account>
 
-    fun getUser(nickName: String): Single<UserInfo>
+    fun registerUser(accountRegistration: AccountRegistration): Single<Boolean>
 
-    fun registerUser(accountRegistration: AccountRegistration): Single<Int>
+    fun login(account: Account): Single<Boolean>
 
-    fun login(account: Account): Single<Int>
-
-    fun getAllUsers():Single<List<Account>>
+    fun getCurrentUser():Single<Account>
 }

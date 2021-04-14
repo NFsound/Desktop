@@ -11,11 +11,13 @@ class TrackRepositoryImpl @Inject constructor(
     private val api: ApiService
 ) : TrackRepository {
 
-    private var allUserTracks: ArrayList<Track> = emptyList<Track>() as ArrayList<Track>
+    private var allUserTracks: ArrayList<Track> = ArrayList()
 
 
     override fun getAllTracks(accountId: Int): Single<List<Track>> {
-        return api.getAllTracksByUserId(accountId)
+        return api.getAllTracksByUserId(accountId).map {
+                it.list
+            }
             .doAfterSuccess {
                 allUserTracks = it as ArrayList<Track>
             }.onErrorReturn {

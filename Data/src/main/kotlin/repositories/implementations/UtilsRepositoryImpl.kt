@@ -11,6 +11,6 @@ class UtilsRepositoryImpl @Inject constructor(
 ) : UtilsRepository {
 
     override fun getAllAvailableNetworks(): Single<List<Network>> {
-        return api.getAllAvailableNetworks()
+        return api.getAllAvailableNetworks().map { it.list }
     }
 }

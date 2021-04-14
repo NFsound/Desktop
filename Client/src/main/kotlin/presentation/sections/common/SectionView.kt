@@ -13,4 +13,7 @@ interface SectionView {
     fun setPresenter(presenter: SectionPresenter)
 
     fun getPresenter():SectionPresenter
+
+    fun showErrorMessage(text:String)
+
 }

@@ -8,7 +8,7 @@ interface HomeInteractor {
 
     fun getPopularPlaylists(): Single<List<Playlist>>
 
-    fun getMyPlaylists(account: Account):Single<List<Playlist>>
+    fun getMyPlaylists():Single<List<Playlist>>
 
     fun createPlaylist(playlist: Playlist):Single<Boolean>
 

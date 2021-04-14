@@ -5,7 +5,10 @@ import javafx.scene.layout.VBox
 import models.core.news.News
 import presentation.presenters.sections.NewsPresenter
 import presentation.presenters.sections.SectionPresenter
+import presentation.sections.account.MessageWindow
 import presentation.styles.sections.NewsViewStyles
+import presentation.styles.sections.NewsViewStyles.Companion.newsTextStyle
+import presentation.styles.sections.NewsViewStyles.Companion.newsTitleStyle
 import presentation.styles.sections.NewsViewStyles.Companion.newsVBoxStyle
 import tornadofx.*
 import tornadofx.Stylesheet.Companion.textArea
@@ -60,9 +63,16 @@ class NewsViewImpl() : View(), NewsView {
             isFillWidth = true
             isFitToHeight = true
             label("No news yet. Check your Internet connection") {
-
+                addClass(newsTitleStyle)
             }
         }
+    }
+
+    override fun showErrorMessage(text: String) {
+        openInternalWindow(
+            MessageWindow(text),
+            owner = this.root.parent.parent
+        )
     }
 
     init {

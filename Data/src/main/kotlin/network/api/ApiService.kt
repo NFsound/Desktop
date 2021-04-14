@@ -5,10 +5,11 @@ import models.core.account.*
 import models.core.music.Playlist
 import models.core.music.PlaylistUpdateResult
 import models.core.music.Track
-import models.core.networks.Network
 import models.core.networks.GenerationParams
-import models.core.news.News
-import models.wrappers.playlist.ListOfPlaylists
+import models.wrappers.networks.ListOfNetworks
+import models.wrappers.news.NewsList
+import models.wrappers.music.ListOfPlaylists
+import models.wrappers.music.ListOfTracks
 import retrofit2.http.*
 
 
@@ -38,7 +39,7 @@ interface ApiService {
 
     //tracks
     @GET()
-    fun getAllTracksByUserId(@Body id: Int): Single<List<Track>>
+    fun getAllTracksByUserId(@Body id: Int): Single<ListOfTracks>
 
     @POST()
     fun generateTrack(
@@ -48,10 +49,10 @@ interface ApiService {
 
     //news
     @GET("news")
-    fun getAllNews(): Single<List<News>>
+    fun getAllNews(): Single<NewsList>
 
     //utils
     @GET("get_networks")
-    fun getAllAvailableNetworks(): Single<List<Network>>
+    fun getAllAvailableNetworks(): Single<ListOfNetworks>
 
 }

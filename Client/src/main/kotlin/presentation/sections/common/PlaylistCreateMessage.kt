@@ -1,4 +1,4 @@
-package presentation.sections.music
+package presentation.sections.common
 
 import javafx.geometry.Pos
 import javafx.scene.Parent
@@ -16,20 +16,22 @@ import utils.ImageProvider
 import java.io.File
 
 
-class PlaylistCreateMessage(private var centerPresenter: CenterPresenter) : View("Create playlist") {
+class PlaylistCreateMessage(
+    private var centerPresenter: CenterPresenter
+) : View("Create playlist") {
 
-    var currentPicture:PlaylistImage = PlaylistImage()
+    var currentPicture: PlaylistImage = PlaylistImage()
 
     fun loadPicture(): File {
         val extFilter = FileChooser.ExtensionFilter(
             "Image files (*.png)",
             "*.png"
         )
-            return chooseFile(
-                "Choose picture",
-                arrayOf(extFilter),
-                mode = FileChooserMode.Single
-            ).get(0)
+        return chooseFile(
+            "Choose picture",
+            arrayOf(extFilter),
+            mode = FileChooserMode.Single
+        ).get(0)
     }
 
     override val root: Parent = vbox {
@@ -56,7 +58,7 @@ class PlaylistCreateMessage(private var centerPresenter: CenterPresenter) : View
         }
         anchorpane {
 
-            textfield("Playlist name") {
+            val textField = textfield("Playlist name") {
                 addClass(AccountViewStyles.passwordFieldStyle)
                 padding = insets(10)
                 anchorpaneConstraints {
@@ -65,14 +67,14 @@ class PlaylistCreateMessage(private var centerPresenter: CenterPresenter) : View
                     bottomAnchor = 8
                 }
             }
-            button("create") {
+            button("Create") {
                 addClass(MusicViewStyles.buttonMainDefaultStyle)
                 anchorpaneConstraints {
                     rightAnchor = 4
                 }
                 padding = insets(10)
                 action {
-                    //TODO craete playlist
+                    centerPresenter.createPlaylist(textField.text,currentPicture)
                     close()
                 }
             }

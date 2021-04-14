@@ -11,7 +11,9 @@ interface SectionPresenter {
         this.centerPresenter = centerPresenter
     }
 
-    fun filter(text:String)
+    fun filter(text: String) {
+        //do nothing by default
+    }
 
     fun onInitialLoad()
 }

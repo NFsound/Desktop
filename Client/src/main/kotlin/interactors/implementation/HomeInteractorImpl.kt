@@ -17,7 +17,7 @@ class HomeInteractorImpl @Inject constructor(
         return playlistRepository.getPopularPlaylists()
     }
 
-    override fun getMyPlaylists(account: Account): Single<List<Playlist>> {
+    override fun getMyPlaylists(): Single<List<Playlist>> {
         return accountRepository.getCurrentUser().flatMap {
             playlistRepository.getPlaylists(it.id)
         }

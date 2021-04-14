@@ -13,9 +13,11 @@ class NewsRepositoryImpl @Inject constructor(
     private var allNews: List<News> = emptyList()
 
     override fun getNews(): Single<List<News>> {
-        return api.getAllNews().doAfterSuccess {
-            allNews = it
-        }
+        return api.getAllNews()
+            .map { it.list }
+            .doAfterSuccess {
+                allNews = it
+            }
     }
 
     override fun filterNews(text: String): Single<List<News>> {

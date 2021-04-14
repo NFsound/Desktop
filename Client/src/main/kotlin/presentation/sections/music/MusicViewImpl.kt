@@ -14,8 +14,10 @@ import models.core.networks.Network
 import models.core.music.Track
 import presentation.presenters.sections.MusicPresenter
 import presentation.presenters.sections.SectionPresenter
+import presentation.sections.account.MessageWindow
 import presentation.sections.common.Common.setMouseEnterBackground
 import presentation.sections.common.Common.setMouseLeaveBackground
+import presentation.sections.common.PlaylistCreateMessage
 import presentation.sections.home.HomeViewImpl.Companion.pauseIconFilePath
 import presentation.sections.home.HomeViewImpl.Companion.playIconFilePath
 import presentation.styles.Colors
@@ -160,6 +162,13 @@ class MusicViewImpl() : View(), MusicView {
         return musicPresenter
     }
 
+    override fun showErrorMessage(text: String) {
+        openInternalWindow(
+            MessageWindow(text),
+            owner = this.root.parent.parent
+        )
+    }
+
     private lateinit var musicPresenter: MusicPresenter
 
     override val root: ScrollPane = scrollpane {
@@ -265,7 +274,7 @@ class MusicViewImpl() : View(), MusicView {
     }
 
 
-    fun onLoadFileClicked() {
+    private fun onLoadFileClicked() {
         if (!fileLoaded) {
             val extFilter = FileChooser.ExtensionFilter(
                 "Music files (*.wav)",

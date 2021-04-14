@@ -1,23 +1,19 @@
 package presentation.sections.home
 
 import application.SonusApplication
-import javafx.geometry.NodeOrientation
 import javafx.geometry.Pos
-import javafx.geometry.Side
-import javafx.scene.Node
-import javafx.scene.control.ContextMenu
 import javafx.scene.control.ScrollPane
 import javafx.scene.control.skin.ScrollPaneSkin
-import javafx.scene.layout.*
+import javafx.scene.layout.HBox
+import javafx.scene.layout.VBox
 import javafx.scene.text.TextAlignment
 import models.core.music.Playlist
-import models.core.music.Track
 import presentation.presenters.sections.HomePresenter
 import presentation.presenters.sections.SectionPresenter
+import presentation.sections.account.MessageWindow
 import presentation.sections.common.Common.setMouseEnterBackground
 import presentation.sections.common.Common.setMouseLeaveBackground
-import presentation.sections.music.MusicViewImpl
-import presentation.sections.music.PlaylistCreateMessage
+import presentation.sections.common.PlaylistCreateMessage
 import presentation.styles.Colors
 import presentation.styles.sections.AccountViewStyles
 import presentation.styles.sections.HomeViewStyles
@@ -26,9 +22,7 @@ import presentation.styles.sections.HomeViewStyles.Companion.imagePlaylistStyle
 import presentation.styles.sections.HomeViewStyles.Companion.playListStyle
 import presentation.styles.sections.HomeViewStyles.Companion.playlistLabelStyle
 import presentation.styles.sections.HomeViewStyles.Companion.titleLabelStyle
-import presentation.styles.sections.MusicViewStyles
 import presentation.styles.sections.NewsViewStyles
-import presentation.styles.sides.LeftMenuStyles
 import presentation.styles.sides.LeftMenuStyles.Companion.iconSize
 import tornadofx.*
 import utils.IconsProvider
@@ -132,6 +126,13 @@ class HomeViewImpl : View(), HomeView {
         return homePresenter
     }
 
+    override fun showErrorMessage(text: String) {
+        openInternalWindow(
+            MessageWindow(text),
+            owner = this.root.parent.parent
+        )
+    }
+
     private lateinit var homePresenter: HomePresenter
 
 
@@ -176,7 +177,6 @@ class HomeViewImpl : View(), HomeView {
                     isFitToHeight = true
                     addClass(NewsViewStyles.mainScrollViewStyle)
                     setOnScroll {
-                        //it.consume()
                         yourScroll.hvalue += it.deltaY / (4 * it.multiplierY)
                     }
                     yourPlaylistsHBox = hbox {
@@ -223,112 +223,5 @@ class HomeViewImpl : View(), HomeView {
         }
 
     }
-
-
-
-    fun Node.createTrackView(track: Track): GridPane {
-        return gridpane{
-            addClass(MusicViewStyles.trackBoxStyle)
-            hbox {
-                gridpaneConstraints {
-                    columnRowIndex(0,0)
-                }
-                useMaxWidth = true
-                padding = insets(4)
-                //play pause
-                stackpane {
-                    alignment = Pos.CENTER
-                    paddingHorizontal = 10
-                    val pauseIcon = svgicon(
-                        IconsProvider.getSVGPath(pauseIconFilePath),
-                        size = LeftMenuStyles.iconSize,
-                        color = Colors.alternativeWhiteColor
-                    )
-                    val playIcon = svgicon(
-                        IconsProvider.getSVGPath(playIconFilePath),
-                        size = LeftMenuStyles.iconSize,
-                        color = Colors.alternativeWhiteColor
-                    )
-                    setMouseEnterBackground(pauseIcon)
-                    setMouseLeaveBackground(pauseIcon)
-                    setMouseEnterBackground(playIcon)
-                    setMouseLeaveBackground(playIcon)
-                    pauseIcon.isVisible = false
-                    setOnMouseClicked {
-
-                    }
-                }
-
-                vbox {
-                    alignment = Pos.CENTER
-                    label(track.name) {
-                        addClass(MusicViewStyles.trackNameLabelStyle)
-                    }
-                    label(track.authorName) {
-                        addClass(MusicViewStyles.trackAuthorLabelStyle)
-                    }
-                }
-            }
-
-            hbox {
-                gridpaneConstraints {
-                    columnRowIndex(1,0)
-                    hGrow = Priority.ALWAYS
-                    paddingHorizontal = 20
-                }
-                nodeOrientation = NodeOrientation.RIGHT_TO_LEFT
-                val plusIcon = svgicon(
-                    IconsProvider.getSVGPath(MusicViewImpl.plusIconFilePath),
-                    size = LeftMenuStyles.iconSize,
-                    color = Colors.alternativeWhiteColor
-                ) {
-                    alignment = Pos.CENTER_LEFT
-                    padding = insets(10)
-
-                    setOnMouseClicked {
-                        createContextMenu().show(this, Side.LEFT,0.0,0.0)
-                    }
-                }
-                setMouseEnterBackground(plusIcon)
-                setMouseLeaveBackground(plusIcon)
-            }
-        }
-    }
-
-
-    fun Node.createContextMenu(): ContextMenu {
-        return contextmenu {
-            addClass(MusicViewStyles.contextMenuStyle)
-            item("Playlist1") {
-                checkbox {
-
-                    //addClass()
-                    action {
-                        if (isSelected) {
-                            //TODO add to playlist
-                            isSelected
-                        } else {
-                            //TODO remove from playlist
-                            isSelected
-                        }
-                    }
-                }
-                action {
-                    this@contextmenu.hide()
-                }
-            }
-            item("Create new playlist") {
-                setOnAction {
-                    openInternalWindow(
-                        PlaylistCreateMessage(homePresenter.centerPresenter),
-                        owner = this@HomeViewImpl.root.parent.parent
-                    )
-                    this@contextmenu.hide()
-                }
-
-            }
-        }
-    }
-
 
 }

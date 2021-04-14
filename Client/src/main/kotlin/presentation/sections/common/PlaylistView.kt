@@ -1,4 +1,4 @@
-package presentation.sections.music
+package presentation.sections.common
 
 import javafx.geometry.NodeOrientation
 import javafx.geometry.Pos
@@ -11,32 +11,38 @@ import javafx.scene.layout.Priority
 import models.core.music.Playlist
 import models.core.music.Track
 import presentation.presenters.main.CenterPresenter
+import presentation.sections.common.Common.createContextMenu
 import presentation.sections.common.Common.setMouseEnterBackground
 import presentation.sections.common.Common.setMouseLeaveBackground
 import presentation.sections.home.HomeViewImpl
+import presentation.sections.music.MusicViewImpl
 import presentation.styles.Colors
 import presentation.styles.sections.MusicViewStyles
 import presentation.styles.sides.LeftMenuStyles
 import tornadofx.*
 import utils.IconsProvider
 
-class PlaylistView(val playlist: Playlist, val presenter: CenterPresenter): View("Current playlist") {
+class PlaylistView(
+    private val playlist: Playlist,
+    private val allPlaylists: List<Playlist>,
+    private val presenter: CenterPresenter
+) : View("Current playlist") {
 
     override val root: Parent = scrollpane {
         addClass(MusicViewStyles.playlistCreateMessageMainStyle)
         vbox {
-            for (track in playlist.getAllTracks()){
+            for (track in playlist.getAllTracks()) {
                 createTrackView(track)
             }
         }
     }
 
     fun Node.createTrackView(track: Track): GridPane {
-        return gridpane{
+        return gridpane {
             addClass(MusicViewStyles.trackBoxStyle)
             hbox {
                 gridpaneConstraints {
-                    columnRowIndex(0,0)
+                    columnRowIndex(0, 0)
                 }
                 useMaxWidth = true
                 padding = insets(4)
@@ -77,7 +83,7 @@ class PlaylistView(val playlist: Playlist, val presenter: CenterPresenter): View
 
             hbox {
                 gridpaneConstraints {
-                    columnRowIndex(1,0)
+                    columnRowIndex(1, 0)
                     hGrow = Priority.ALWAYS
                     paddingHorizontal = 20
                 }
@@ -91,7 +97,10 @@ class PlaylistView(val playlist: Playlist, val presenter: CenterPresenter): View
                     padding = insets(10)
 
                     setOnMouseClicked {
-                        createContextMenu().show(this, Side.LEFT,0.0,0.0)
+                        createContextMenu(allPlaylists,
+                            track,
+                            presenter,
+                            this@PlaylistView).show(this, Side.LEFT, 0.0, 0.0)
                     }
                 }
                 setMouseEnterBackground(plusIcon)
@@ -101,40 +110,6 @@ class PlaylistView(val playlist: Playlist, val presenter: CenterPresenter): View
     }
 
 
-    fun Node.createContextMenu(): ContextMenu {
-        return contextmenu {
-            addClass(MusicViewStyles.contextMenuStyle)
-            item("Playlist1") {
-
-                checkbox {
-                    //addClass()
-                    action {
-                        if (isSelected) {
-                            //TODO add to playlist
-                            isSelected
-                        } else {
-                            //TODO remove from playlist
-                            isSelected
-                        }
-                    }
-                }
-                action {
-                    this@contextmenu.hide()
-                }
-            }
-            item("Create new playlist") {
-                setOnAction {
-                    openInternalWindow(
-                        PlaylistCreateMessage(presenter),
-                        owner = this@PlaylistView.root.parent
-                    )
-                    //TODO create playlist
-                    this@contextmenu.hide()
-                }
-
-            }
-        }
-    }
 
 
 }

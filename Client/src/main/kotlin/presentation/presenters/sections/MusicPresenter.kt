@@ -35,7 +35,9 @@ class MusicPresenter:SectionPresenter {
     }
 
     override fun onInitialLoad() {
-        musicInteractor.getAvailableNetworks().subscribe {
+        musicInteractor.getAvailableNetworks().onErrorResumeWith {
+
+        }.subscribe {
             networks->
             Platform.runLater {
                 viewState.loadNetworks(networks)
@@ -54,7 +56,4 @@ class MusicPresenter:SectionPresenter {
     fun setCurrentNet(network: Network?){
         currentNetwork = network
     }
-
-    //fun createPlaylist()
-
 }

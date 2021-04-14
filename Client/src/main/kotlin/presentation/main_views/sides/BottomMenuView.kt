@@ -4,7 +4,9 @@ package presentation.main_views.sides
 import application.SonusApplication
 import javafx.beans.binding.Bindings
 import javafx.geometry.Pos
+import javafx.geometry.Side
 import javafx.scene.Node
+import javafx.scene.control.ContextMenu
 import javafx.scene.control.Label
 import javafx.scene.control.ProgressBar
 import javafx.scene.control.Slider
@@ -14,15 +16,19 @@ import javafx.scene.media.MediaPlayer
 import models.core.music.Playlist
 import models.core.music.Track
 import presentation.presenters.main.CenterPresenter
+import presentation.sections.common.Common.createContextMenu
 import presentation.sections.common.Common.setMouseEnterBackground
 import presentation.sections.common.Common.setMouseLeaveBackground
-import presentation.sections.music.PlaylistView
+import presentation.sections.common.PlaylistCreateMessage
+import presentation.sections.common.PlaylistView
 import presentation.styles.sides.BottomViewStyles
 import presentation.styles.Colors.alternativeWhiteColor
 import presentation.styles.Colors.whiteColor
+import presentation.styles.sections.MusicViewStyles
 import tornadofx.*
 import utils.IconsProvider
 import utils.ImageProvider
+import javax.swing.Icon
 
 
 class BottomMenuView() : View(), SideView {
@@ -30,7 +36,7 @@ class BottomMenuView() : View(), SideView {
     /**
      * shared presenter (общий)
      */
-    private lateinit var mainPresenter:CenterPresenter
+    private lateinit var mainPresenter: CenterPresenter
 
 
     override fun setPresenter(centerPresenter: CenterPresenter) {
@@ -47,6 +53,7 @@ class BottomMenuView() : View(), SideView {
     lateinit var slider: Slider
     lateinit var volumeSlider: Slider
     lateinit var volumeProgressBar: ProgressBar
+
     //icons
     lateinit var playIcon: SVGIcon
     lateinit var pauseIcon: SVGIcon
@@ -56,8 +63,9 @@ class BottomMenuView() : View(), SideView {
     lateinit var backwardIcon: SVGIcon
     lateinit var repeatIcon: SVGIcon
     lateinit var shuffleIcon: SVGIcon
+    lateinit var plusIcon: SVGIcon
 
-    var isPaused:Boolean = true
+    var isPaused: Boolean = true
 
 
     companion object {
@@ -77,24 +85,25 @@ class BottomMenuView() : View(), SideView {
             SonusApplication.resourcePath + "/icons/pause_icon_path.txt"
         const val volumeIconFilePath: String =
             SonusApplication.resourcePath + "/icons/volume_icon_path.txt"
+        const val plusIconFilePath: String =
+            SonusApplication.resourcePath + "/icons/plus_icon_path.txt"
+
     }
 
 
-    fun showPlaylistView(playlist: Playlist){
+    fun showPlaylistView(playlist: Playlist, allPlaylists: List<Playlist>) {
         openInternalWindow(
-            PlaylistView(playlist, mainPresenter),
+            PlaylistView(playlist, allPlaylists, mainPresenter),
             owner = this.root.parent
         )
     }
 
 
-
-
     fun makePlayerIcon(
-        root:Node,
+        root: Node,
         iconFilePath: String,
         iconSize: Int = BottomViewStyles.playerIconSize,
-        clickListener: ()->Unit = {}
+        clickListener: () -> Unit = {}
     ): SVGIcon {
         val icon = svgicon(
             IconsProvider.getSVGPath(iconFilePath),
@@ -114,15 +123,14 @@ class BottomMenuView() : View(), SideView {
         return icon
     }
 
-    fun onPauseClick(){
+    fun onPauseClick() {
         if (isPaused) {
             playIcon.isVisible = false
             pauseIcon.isVisible = true
             isPaused = false
             pauseIcon.parent.toFront()
             mainPresenter.onPlayClicked()
-        }
-        else{
+        } else {
             playIcon.isVisible = true
             pauseIcon.isVisible = false
             isPaused = true
@@ -131,20 +139,35 @@ class BottomMenuView() : View(), SideView {
         }
     }
 
-    fun onShuffleClick(){
+    private fun onShuffleClick() {
         mainPresenter.onShuffleClicked()
     }
-    fun onRepeatClick(){
+
+    private fun onRepeatClick() {
         mainPresenter.onCycleClicked()
     }
-    fun onBackwardClick(){
+
+    private fun onBackwardClick() {
         mainPresenter.onPreviousClicked()
     }
-    fun onForwardClick(){
+
+    private fun onForwardClick() {
         mainPresenter.onNextClicked()
     }
 
-    fun setTrackInfo(track: Track, player: MediaPlayer){
+    private fun onPlusClick() {
+        mainPresenter.onPlusClicked()
+    }
+
+
+
+
+    fun openPlaylistView(playlists: List<Playlist>, track: Track) {
+        plusIcon.createContextMenu(playlists, track,mainPresenter,this)
+            .show(plusIcon, Side.LEFT, 0.0, 0.0)
+    }
+
+    fun setTrackInfo(track: Track, player: MediaPlayer) {
         trackAuthorLabel.text = track.authorName
         trackNameLabel.text = track.name
         val media = Media(track.resPath)
@@ -154,10 +177,11 @@ class BottomMenuView() : View(), SideView {
             Bindings.createDoubleBinding(
                 { player.totalDuration.toSeconds() },
                 player.totalDurationProperty()
-            ))
+            )
+        )
     }
 
-    fun onPlaylistIconClicked(){
+    private fun onPlaylistIconClicked() {
         mainPresenter.onCurrentPlaylistClicked()
     }
 
@@ -206,19 +230,24 @@ class BottomMenuView() : View(), SideView {
             stackpane {
                 hbox(alignment = Pos.CENTER) {
                     //icons play/pause next previous
-                    shuffleIcon = makePlayerIcon(this, shuffleIconFilePath,
-                    clickListener = this@BottomMenuView::onShuffleClick
+                    shuffleIcon = makePlayerIcon(
+                        this, shuffleIconFilePath,
+                        clickListener = this@BottomMenuView::onShuffleClick
                     )
-                    backwardIcon = makePlayerIcon(this, backwardIconFilePath,
+                    backwardIcon = makePlayerIcon(
+                        this, backwardIconFilePath,
                         clickListener = this@BottomMenuView::onBackwardClick
-                        )
+                    )
                     stackpane {
 
-                        pauseIcon = makePlayerIcon(this@stackpane, pauseIconFilePath,
-                            BottomViewStyles.playerIconSize + 12)
+                        pauseIcon = makePlayerIcon(
+                            this@stackpane, pauseIconFilePath,
+                            BottomViewStyles.playerIconSize + 12
+                        )
                         playIcon = makePlayerIcon(
                             this@stackpane, playIconFilePath,
-                            BottomViewStyles.playerIconSize + 12)
+                            BottomViewStyles.playerIconSize + 12
+                        )
                         pauseIcon.isVisible = false
 
                         setMouseEnterBackground(pauseIcon)
@@ -229,12 +258,14 @@ class BottomMenuView() : View(), SideView {
                             this@BottomMenuView.onPauseClick()
                         }
                     }
-                    forwardIcon = makePlayerIcon(this, forwardIconFilePath,
+                    forwardIcon = makePlayerIcon(
+                        this, forwardIconFilePath,
                         clickListener = this@BottomMenuView::onForwardClick
-                        )
-                    repeatIcon = makePlayerIcon(this, repeatIconFilePath,
+                    )
+                    repeatIcon = makePlayerIcon(
+                        this, repeatIconFilePath,
                         clickListener = this@BottomMenuView::onRepeatClick
-                        )
+                    )
                 }
             }
 
@@ -270,11 +301,11 @@ class BottomMenuView() : View(), SideView {
                 rowSpan = 2
             }
             playListIcon = svgicon(
-                    IconsProvider.getSVGPath(playlistIconFilePath),
-                    color = whiteColor,
-                    size = BottomViewStyles.rightIconSize
-            ){
-                setOnMouseClicked{
+                IconsProvider.getSVGPath(playlistIconFilePath),
+                color = whiteColor,
+                size = BottomViewStyles.rightIconSize
+            ) {
+                setOnMouseClicked {
                     this@BottomMenuView.onPlaylistIconClicked()
                 }
             }
@@ -294,9 +325,26 @@ class BottomMenuView() : View(), SideView {
         }
 
         stackpane {
+            addClass(BottomViewStyles.rightIconStyle)
             gridpaneConstraints {
                 rowIndex = 0
                 columnIndex = 4
+                rowSpan = 2
+            }
+            plusIcon = svgicon(
+                IconsProvider.getSVGPath(plusIconFilePath),
+                color = whiteColor, size = BottomViewStyles.rightIconSize
+            ) {
+                setOnMouseClicked {
+                    this@BottomMenuView.onPlusClick()
+                }
+            }
+        }
+
+        stackpane {
+            gridpaneConstraints {
+                rowIndex = 0
+                columnIndex = 5
                 rowSpan = 2
             }
             volumeProgressBar = progressbar {
@@ -308,7 +356,6 @@ class BottomMenuView() : View(), SideView {
             }
             volumeProgressBar.progressProperty().bind(volumeSlider.valueProperty())
         }
-
 
 
     }

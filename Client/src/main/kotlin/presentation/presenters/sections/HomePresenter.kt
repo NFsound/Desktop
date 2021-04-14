@@ -2,6 +2,7 @@ package presentation.presenters.sections
 
 import application.SonusApplication
 import interactors.HomeInteractor
+import javafx.application.Platform
 import models.core.music.Playlist
 import models.core.music.Track
 import models.utils.PlaylistImage
@@ -9,7 +10,7 @@ import presentation.presenters.main.CenterPresenter
 import presentation.sections.home.HomeView
 import javax.inject.Inject
 
-class HomePresenter:SectionPresenter {
+class HomePresenter : SectionPresenter {
     @Inject
     lateinit var viewState: HomeView
 
@@ -23,37 +24,37 @@ class HomePresenter:SectionPresenter {
     override lateinit var centerPresenter: CenterPresenter
 
     override fun filter(text: String) {
+        homeInteractor.filterPlaylists(text)
+            .onErrorResumeWith {  }
+            .subscribe {
+                lists->
 
+            }
     }
 
-    val testList = listOf(
-        Playlist(
-            arrayListOf(
-                Track.emptyTrack()
-            ),
-            "Some name of list",
-            PlaylistImage()
-        ),
-        Playlist(
-            arrayListOf(
-                Track.emptyTrack()
-            ),
-            "Some name of list",
-            PlaylistImage()
-        )
-
-    )
 
     override fun onInitialLoad() {
-        viewState.renderPopularPlaylists(testList)
-        viewState.renderAccountPlaylists(testList)
+        homeInteractor.getMyPlaylists().onErrorResumeWith {
+
+        }.subscribe { list ->
+            Platform.runLater {
+                viewState.renderAccountPlaylists(list)
+            }
+        }
+        homeInteractor.getMyPlaylists().onErrorResumeWith {
+
+        }.subscribe { list ->
+            Platform.runLater {
+                viewState.renderPopularPlaylists(list)
+            }
+        }
     }
 
-    fun onPlayPlaylistClicked(playlist: Playlist){
+    fun onPlayPlaylistClicked(playlist: Playlist) {
         centerPresenter.onPlayPlaylistClicked(playlist)
     }
 
-    fun onPausePlaylistClicked(playlist: Playlist){
+    fun onPausePlaylistClicked(playlist: Playlist) {
         centerPresenter.onPausePlaylistClicked(playlist)
     }
 }

@@ -4,7 +4,6 @@ import application.SonusApplication
 import dagger.Component
 import di.modules.interactors.InteractorsModule
 import di.modules.menu.MenuModule
-import di.modules.navigation.NavigationModule
 import di.modules.network.NetworkModule
 import di.modules.repositories.RepoModule
 import di.modules.views.ViewModule
@@ -13,13 +12,11 @@ import presentation.main_views.sides.LeftMenuView
 import presentation.main_views.sides.TopMenuView
 import presentation.main_views.center.CenterMenuPlacementView
 import presentation.main_views.main_window.MainView
-import presentation.navigation.NavigatorImpl
 import presentation.presenters.main.MainPresenter
 import presentation.presenters.sections.*
 
 @Component(modules = [MenuModule::class,
     ViewModule::class,
-    NavigationModule::class,
     InteractorsModule::class,
     RepoModule::class,
     NetworkModule::class
@@ -41,9 +38,6 @@ interface ApplicationComponent {
     fun inject(accountPresenter: AccountPresenter)
     fun inject(musicPresenter: MusicPresenter)
     fun inject(newsPresenter: NewsPresenter)
-
-    //nav
-    fun inject(navigatorImpl: NavigatorImpl)
 
 
 }

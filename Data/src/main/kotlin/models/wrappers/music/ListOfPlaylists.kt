@@ -1,4 +1,4 @@
-package models.wrappers.playlist
+package models.wrappers.music
 
 import models.core.music.Playlist
 

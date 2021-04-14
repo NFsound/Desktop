@@ -36,12 +36,17 @@ class AccountViewImpl : View(), AccountView {
     private lateinit var registerPasswordTextField: PasswordField
     private lateinit var confirmPasswordTextField: PasswordField
 
-    override fun printAllUsers(list: List<Account>) {
-        for (user in list) {
-            root.add(button {
-                text = user.nickname
-            })
-        }
+    override var sectionTitle = "Account"
+
+    private lateinit var accountPresenter: AccountPresenter
+
+    override fun setPresenter(presenter: SectionPresenter) {
+        accountPresenter = presenter as AccountPresenter
+        accountPresenter.onInitialLoad()
+    }
+
+    override fun getPresenter(): SectionPresenter {
+        return accountPresenter
     }
 
     override fun initializeUserInfo(account: Account) {
@@ -59,19 +64,12 @@ class AccountViewImpl : View(), AccountView {
         registerUI.isVisible = false
     }
 
-    override var sectionTitle = "Account"
-
-    override fun setPresenter(presenter: SectionPresenter) {
-        accountPresenter = presenter as AccountPresenter
-        accountPresenter.onInitialLoad()
+    override fun showErrorMessage(text: String) {
+        openInternalWindow(
+            MessageWindow(text),
+            owner = this.root.parent.parent
+        )
     }
-
-    override fun getPresenter(): SectionPresenter {
-        return accountPresenter
-    }
-
-
-    private lateinit var accountPresenter: AccountPresenter
 
 
     override val root: Parent = stackpane {
@@ -280,18 +278,18 @@ class AccountViewImpl : View(), AccountView {
 
     }
 
-    fun onRegisterButtonClicked(){
+    private fun onRegisterButtonClicked(){
         accountPresenter.registerAccount(nickNameLabel.text,
             emailTextField.text,
             registerPasswordTextField.text
         )
     }
 
-    fun onLogOutButtonClicked(){
+    private fun onLogOutButtonClicked(){
         accountPresenter.logOut()
     }
 
-    fun onLogInButtonClicked(){
+    private fun onLogInButtonClicked(){
         accountPresenter.logIn(nickNameLabel.text,
             emailTextField.text,
             registerPasswordTextField.text)

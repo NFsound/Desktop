@@ -2,6 +2,8 @@ package presentation.presenters.main
 
 import application.SonusApplication
 import interactors.HomeInteractor
+import interactors.MusicInteractor
+import io.reactivex.rxjava3.subjects.PublishSubject
 import javafx.application.Platform
 import javafx.scene.media.Media
 import models.core.music.Playlist
@@ -14,7 +16,6 @@ import presentation.menu.item.MenuItem
 import javax.inject.Inject
 import javafx.scene.media.MediaPlayer
 import models.utils.PlaylistImage
-import tornadofx.toProperty
 import java.nio.file.Paths
 
 class MainPresenter() : CenterPresenter {
@@ -33,28 +34,65 @@ class MainPresenter() : CenterPresenter {
     lateinit var bottomViewState: BottomMenuView
 
     @Inject
+    lateinit var interactor: MusicInteractor
+
+    @Inject
     lateinit var homeInteractor: HomeInteractor
 
     //current state of player
-    lateinit var player: MediaPlayer
-    lateinit var currentPlaylist: Playlist
-    lateinit var currentTrack: Track
+    private lateinit var player: MediaPlayer
+    var currentPlaylist: Playlist = Playlist.emptyPlaylist
+    private lateinit var currentTrack: Track
 
+    private var currentProgress: PublishSubject<Double> = PublishSubject.create()
+    private var currentVolume: PublishSubject<Double> = PublishSubject.create()
     init {
         SonusApplication.getInstance().applicationComponent.inject(this)
         setUpPlayer()
+        subscribeSliders()
+    }
+
+    fun subscribeSliders(){
+        bottomViewState.volumeSlider.valueProperty().addListener { _ ->
+            currentVolume.onNext(bottomViewState.volumeSlider.value)
+        }
+        currentProgress.subscribe {
+            bottomViewState.slider.value = it
+        }
+        currentVolume.subscribe {
+            player.volume = it
+        }
     }
 
     fun setUpPlayer() {
-        val path = Paths.get(SonusApplication.resourcePath + "music/song.mp3").toUri().toString()
-        player = MediaPlayer(Media(path))
-        player.setOnEndOfMedia {
-            player = if (isRandom) {
-                MediaPlayer(Media(currentPlaylist.nextRandomTrack().resPath))
-            } else {
-                MediaPlayer(Media(currentPlaylist.nextTrack().resPath))
+
+        //if (this::currentTrack.isInitialized) {
+
+            val resPath: String = SonusApplication.resourcePath + "music/song1.wav"
+            //val resPath: String = currentTrack.resPath
+            currentTrack = Track(0,"some name",1,
+                resPath,"good author")
+            val path = Paths.get(currentTrack.resPath).toUri().toString()
+            player = MediaPlayer(Media(path))
+            player.setOnReady {
+                bottomViewState.setTrackInfo(currentTrack, player)
             }
-        }
+            player.currentTimeProperty().addListener { _ ->
+                currentProgress.onNext(
+                    player.currentTime.toSeconds() /
+                            player.totalDuration.toSeconds()
+                )
+                bottomViewState.passedTimeLabel.text =
+                    bottomViewState.convertTimeToMins(player.currentTime.toSeconds())
+            }
+            player.setOnEndOfMedia {
+                player = if (isRandom) {
+                    MediaPlayer(Media(currentPlaylist.nextRandomTrack().resPath))
+                } else {
+                    MediaPlayer(Media(currentPlaylist.nextTrack().resPath))
+                }
+            }
+      //  }
     }
 
 
@@ -73,13 +111,11 @@ class MainPresenter() : CenterPresenter {
         } else {
             currentPlaylist.previousTrack()
         }
-        player = MediaPlayer(Media(currentTrack.resPath))
+        setUpPlayer()
     }
 
     override fun onPlayClicked() {
         player.play()
-        var time = (player.currentTime.toSeconds() / player.totalDuration.toSeconds()).toProperty()
-        bottomViewState.slider.valueProperty().bind(time)
     }
 
     override fun onPauseClicked() {
@@ -87,7 +123,7 @@ class MainPresenter() : CenterPresenter {
     }
 
     override fun onPlusClicked() {
-        homeInteractor.getMyPlaylists()
+        interactor.getAllPlaylistsByAccount()
             .onErrorResumeWith {
                 Platform.runLater {
                     bottomViewState.openPlaylistView(emptyList(), currentTrack)
@@ -106,7 +142,7 @@ class MainPresenter() : CenterPresenter {
         } else {
             currentPlaylist.nextTrack()
         }
-        player = MediaPlayer(Media(currentTrack.resPath))
+        setUpPlayer()
     }
 
     override fun onCycleClicked() {

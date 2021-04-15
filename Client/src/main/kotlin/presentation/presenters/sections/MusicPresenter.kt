@@ -3,9 +3,11 @@ package presentation.presenters.sections
 import application.SonusApplication
 import interactors.MusicInteractor
 import javafx.application.Platform
+import models.core.networks.GenerationParams
 import models.core.networks.Network
 import presentation.presenters.main.CenterPresenter
 import presentation.sections.music.MusicView
+import utils.ImageProvider
 import java.io.File
 import javax.inject.Inject
 
@@ -31,7 +33,15 @@ class MusicPresenter:SectionPresenter {
     }
 
     fun startTrackGeneration(){
-
+        val byteArray = currentMusicFile!!.readBytes()
+        musicInteractor
+            .generateTrack(byteArray, GenerationParams("fv","fv"))
+            .subscribe {
+                track->
+                Platform.runLater {
+                    viewState.addGeneratedTrack(track)
+                }
+            }
     }
 
     override fun onInitialLoad() {

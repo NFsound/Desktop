@@ -10,6 +10,7 @@ import javafx.scene.control.ContextMenu
 import javafx.scene.control.Label
 import javafx.scene.control.ProgressBar
 import javafx.scene.control.Slider
+import javafx.scene.image.Image
 import javafx.scene.image.ImageView
 import javafx.scene.media.Media
 import javafx.scene.media.MediaPlayer
@@ -167,18 +168,24 @@ class BottomMenuView() : View(), SideView {
             .show(plusIcon, Side.LEFT, 0.0, 0.0)
     }
 
-    fun setTrackInfo(track: Track, player: MediaPlayer) {
+    fun setTrackInfo(track: Track, player: MediaPlayer,
+                     currentPlaylist: Playlist = Playlist.emptyPlaylist) {
         trackAuthorLabel.text = track.authorName
         trackNameLabel.text = track.name
-        val media = Media(track.resPath)
-        totalLengthLabel.text = media.duration.toString()
-        media.markers
-        slider.maxProperty().bind(
-            Bindings.createDoubleBinding(
-                { player.totalDuration.toSeconds() },
-                player.totalDurationProperty()
-            )
-        )
+        playlistImageView.image = ImageProvider.getImage(currentPlaylist.image)
+        totalLengthLabel.text = convertTimeToMins(player.totalDuration.toSeconds())
+        passedTimeLabel.text = convertTimeToMins(0.0)
+    }
+
+    fun convertTimeToMins(seconds:Double):String{
+        val secs = (seconds % 60).toInt()
+        val t1 = (seconds / 60).toInt().toString()
+        val t2:String = if(secs < 10){
+            "0${secs}"
+        }else{
+            "$secs"
+        }
+        return "$t1:$t2"
     }
 
     private fun onPlaylistIconClicked() {
@@ -318,19 +325,6 @@ class BottomMenuView() : View(), SideView {
                 columnIndex = 3
                 rowSpan = 2
             }
-            volumeIcon = svgicon(
-                IconsProvider.getSVGPath(volumeIconFilePath),
-                color = whiteColor, size = BottomViewStyles.rightIconSize
-            )
-        }
-
-        stackpane {
-            addClass(BottomViewStyles.rightIconStyle)
-            gridpaneConstraints {
-                rowIndex = 0
-                columnIndex = 4
-                rowSpan = 2
-            }
             plusIcon = svgicon(
                 IconsProvider.getSVGPath(plusIconFilePath),
                 color = whiteColor, size = BottomViewStyles.rightIconSize
@@ -340,6 +334,22 @@ class BottomMenuView() : View(), SideView {
                 }
             }
         }
+
+
+        stackpane {
+            addClass(BottomViewStyles.rightIconStyle)
+            gridpaneConstraints {
+                rowIndex = 0
+                columnIndex = 4
+                rowSpan = 2
+            }
+            volumeIcon = svgicon(
+                IconsProvider.getSVGPath(volumeIconFilePath),
+                color = whiteColor, size = BottomViewStyles.rightIconSize
+            )
+        }
+
+
 
         stackpane {
             gridpaneConstraints {
@@ -351,7 +361,7 @@ class BottomMenuView() : View(), SideView {
                 addClass(BottomViewStyles.volumeLevelStyle)
                 progress = 0.5
             }
-            volumeSlider = slider(max = 1, min = 0.0, value = 0) {
+            volumeSlider = slider(max = 1, min = 0.0, value = 1) {
                 addClass(BottomViewStyles.volumeSlider)
             }
             volumeProgressBar.progressProperty().bind(volumeSlider.valueProperty())

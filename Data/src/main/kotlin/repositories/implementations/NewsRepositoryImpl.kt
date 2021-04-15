@@ -23,7 +23,7 @@ class NewsRepositoryImpl @Inject constructor(
     override fun filterNews(text: String): Single<List<News>> {
         return Single.just(allNews.filter {
             it.title.toLowerCase().contains(text.toLowerCase()) ||
-                    it.text.toLowerCase().contains(text.toLowerCase())
+                    it.message.toLowerCase().contains(text.toLowerCase())
         })
     }
 }

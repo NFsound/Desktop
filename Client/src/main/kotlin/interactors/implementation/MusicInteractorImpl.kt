@@ -2,6 +2,7 @@ package interactors.implementation
 
 import interactors.MusicInteractor
 import io.reactivex.rxjava3.core.Single
+import io.reactivex.rxjava3.subjects.AsyncSubject
 import models.core.music.Playlist
 import models.core.music.Track
 import models.core.networks.Network
@@ -23,7 +24,7 @@ class MusicInteractorImpl @Inject constructor(
     override fun generateTrack(
         byteArray: ByteArray,
         generationParams: GenerationParams
-    ): Single<Track> {
+    ): AsyncSubject<Track> {
         return trackRepository.generateTrack(generationParams, byteArray)
     }
 

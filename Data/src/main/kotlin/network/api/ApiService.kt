@@ -4,48 +4,57 @@ import io.reactivex.rxjava3.core.Single
 import models.core.account.*
 import models.core.music.Playlist
 import models.core.music.PlaylistUpdateResult
-import models.core.music.Track
-import models.core.networks.GenerationParams
+import models.wrappers.music.*
 import models.wrappers.networks.ListOfNetworks
 import models.wrappers.news.NewsList
-import models.wrappers.music.ListOfPlaylists
-import models.wrappers.music.ListOfTracks
+import okhttp3.ResponseBody
+import retrofit2.Call
 import retrofit2.http.*
 
 
 interface ApiService {
 
     //users
+
     @POST("register_user")
     fun registerUser(@Body accountRegistration: AccountRegistration): Single<RegistrationResult>
 
     @GET("get_user")
     fun getUserById(@Body id: Int): Single<UserInfo>
 
-    @GET("")
+    @GET("authorize")
     fun loginUser(@Body accountLogin: AccountLogin): Single<LoginResult>
 
 
     //playlists
+
     @GET("get_user_playlists")
     fun getUsersPlaylists(userId: Int): Single<ListOfPlaylists>
 
-    @POST()
-    fun updatePlaylist(@Body playlist: Playlist): Single<PlaylistUpdateResult>
+    @POST("post_playlists")
+    fun updatePlaylist(@Body linkPlaylist: LinkPlaylist): Single<PlaylistUpdateResult>
 
-    @GET()
+    @GET("get_playlists")
     fun getPopularPlaylists(): Single<ListOfPlaylists>
 
 
     //tracks
-    @GET()
-    fun getAllTracksByUserId(@Body id: Int): Single<ListOfTracks>
 
-    @POST()
-    fun generateTrack(
-        @Body byteArray: ByteArray,
-        @Body generationParams: GenerationParams
-    ): Single<Track>
+    @GET("get_tracks_by_user")
+    fun getAllTracksByUserId(id: Int): Single<TrackIdList>
+
+    @POST("generate")
+    fun sendGenerationRequest(
+        @Body generationBody: GenerationBody
+    ): Single<GenerationResponce>
+
+    @GET("get_result_track")
+    @Streaming
+    fun getTrackById(
+        trackId: Int
+    ):Call<ResponseBody>
+
+
 
     //news
     @GET("news")

@@ -47,7 +47,7 @@ class MusicViewImpl() : View(), MusicView {
     lateinit var paramsComboBox: ComboBox<Network>
     lateinit var progressIndicator: ProgressIndicator
     lateinit var generateMusicButton: Button
-
+    lateinit var genBox:VBox
 
 
     fun Node.createTrackView(track: Track): GridPane {
@@ -254,10 +254,7 @@ class MusicViewImpl() : View(), MusicView {
                     textAlignment = TextAlignment.CENTER
                     addClass(MusicViewStyles.topLabelStyle)
                 }
-                createTrackView(Track(0, "Name", 1, "Author", "Author"))
-                createTrackView(Track(0, "Name", 1, "Author", "Author"))
-                createTrackView(Track(0, "Name", 1, "Author", "Author"))
-                createTrackView(Track(0, "Name", 1, "Author", "Author"))
+
                 createTrackView(Track(0, "Name", 1, "Author", "Author"))
             }
 
@@ -267,6 +264,10 @@ class MusicViewImpl() : View(), MusicView {
 
     override fun loadNetworks(networks: List<Network>) {
         paramsComboBox.items = observableArrayList(networks)
+    }
+
+    override fun addGeneratedTrack(track: Track) {
+        genBox.createTrackView(track)
     }
 
     fun onGenerateButtonClicked() {

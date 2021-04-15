@@ -14,8 +14,7 @@ class AccountRepositoryImpl @Inject constructor(
     private var currentAccount: Account
 
     init {
-        currentAccount = Account(-1,"Demo","demo","qwerty")
-        //TODO try to get account from local storage
+        currentAccount = LocalStorageAccessor.restoreAccount()
     }
 
 

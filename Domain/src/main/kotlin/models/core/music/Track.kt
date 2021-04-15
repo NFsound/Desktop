@@ -3,7 +3,7 @@ package models.core.music
 class Track(
     val id: Int,
     val name: String,
-    val authorId: Int,
+    val userId: Int,
     val resPath: String,
     val authorName: String
 ) {

@@ -1,4 +1,4 @@
 package models.core.networks
 
-class GenerationParams (val name:String) {
+class GenerationParams (val name:String, val value:String) {
 }

@@ -165,7 +165,6 @@ class TopMenuView(): View(), SideView {
 
 
     private fun onSearchBarTextChanged(text: String) {
-        println(text)
         mainPresenter.onSearch(text)
     }
 
@@ -173,15 +172,16 @@ class TopMenuView(): View(), SideView {
         box.isVisible = text.isEmpty()
     }
 
-    fun onCloseIconClicked() {
+    private fun onCloseIconClicked() {
         Platform.exit()
+        this.close()
     }
 
-    fun onMinimizeIconClicked() {
+    private fun onMinimizeIconClicked() {
         primaryStage.isIconified = true
     }
 
-    fun onMaximizeIconClicked() {
+    private fun onMaximizeIconClicked() {
         state = state.changeState(WindowState.MAXIMIZED)
     }
 

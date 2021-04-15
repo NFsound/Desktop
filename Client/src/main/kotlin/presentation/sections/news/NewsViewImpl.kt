@@ -7,7 +7,6 @@ import presentation.presenters.sections.NewsPresenter
 import presentation.presenters.sections.SectionPresenter
 import presentation.sections.account.MessageWindow
 import presentation.styles.sections.NewsViewStyles
-import presentation.styles.sections.NewsViewStyles.Companion.newsTextStyle
 import presentation.styles.sections.NewsViewStyles.Companion.newsTitleStyle
 import presentation.styles.sections.NewsViewStyles.Companion.newsVBoxStyle
 import tornadofx.*
@@ -27,7 +26,7 @@ class NewsViewImpl() : View(), NewsView {
                 label(obj.title) {
                     addClass(NewsViewStyles.newsTitleStyle)
                 }
-                textarea(obj.text) {
+                textarea(obj.message) {
                     addClass(NewsViewStyles.newsTextStyle)
                     removeClass(textInput)
                     removeClass(textArea)

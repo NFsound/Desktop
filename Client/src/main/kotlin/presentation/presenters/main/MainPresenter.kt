@@ -172,7 +172,7 @@ class MainPresenter() : CenterPresenter {
     }
 
     override fun createPlaylist(name: String, playlistImage: PlaylistImage) {
-        homeInteractor.createPlaylist(Playlist(ArrayList(),name,playlistImage))
+        homeInteractor.createPlaylist(Playlist(1,ArrayList(),name,playlistImage))
     }
 
 

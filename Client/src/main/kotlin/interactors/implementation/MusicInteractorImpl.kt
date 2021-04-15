@@ -24,8 +24,10 @@ class MusicInteractorImpl @Inject constructor(
     override fun generateTrack(
         byteArray: ByteArray,
         generationParams: GenerationParams
-    ): AsyncSubject<Track> {
-        return trackRepository.generateTrack(generationParams, byteArray)
+    ): Single<Track> {
+        return accountRepository.getCurrentUser().map {it->
+            trackRepository.generateTrack(it.id,generationParams, byteArray)
+        }.flatMap { it }
     }
 
     override fun getAvailableNetworks(): Single<List<Network>> {

@@ -9,6 +9,7 @@ import models.wrappers.music.GenerationBody
 import network.api.ApiService
 import okhttp3.ResponseBody
 import repositories.TrackRepository
+import repositories.implementations.LocalStorageAccessor.decodeByteArrayFromBody
 import retrofit2.Response
 import java.io.File
 import java.io.FileOutputStream
@@ -19,18 +20,7 @@ class TrackRepositoryImpl @Inject constructor(
     private val api: ApiService
 ) : TrackRepository {
 
-    init {
 
-    }
-
-    private var allUserTracks: ArrayList<Track> = ArrayList()
-
-
-    private fun decodeByteArrayFromBody(
-        responce: Response<ResponseBody>
-    ): ByteArray {
-        return responce.body()!!.bytes()
-    }
 
     override fun getAllTracks(accountId: Int): Single<List<Track>> {
         api.getAllTracksByUserId(accountId)

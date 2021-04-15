@@ -10,7 +10,7 @@ import models.core.networks.GenerationParams
 interface MusicInteractor {
 
     fun generateTrack(byteArray: ByteArray,
-                      generationParams: GenerationParams): AsyncSubject<Track>
+                      generationParams: GenerationParams): Single<Track>
 
     fun getAvailableNetworks():Single<List<Network>>
 

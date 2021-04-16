@@ -42,7 +42,7 @@ class AccountRepositoryImpl @Inject constructor(
 
     override fun logOut(): Completable {
         return Completable.fromAction {
-            currentAccount = Account(-1,"Demo","demo","qwerty")
+            currentAccount = Account(0,"Demo","demo","qwerty")
         }
     }
 

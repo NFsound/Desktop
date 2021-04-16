@@ -28,8 +28,8 @@ interface ApiService {
 
     //playlists
 
-    @GET("get_user_playlists")
-    fun getUsersPlaylists(userId: Int): Single<ListOfPlaylists>
+    @GET("get_user_playlists/{userId}")
+    fun getUsersPlaylists(@Path("userId") userId: Int): Single<ListOfPlaylists>
 
     @POST("post_playlists")
     fun updatePlaylist(@Body linkPlaylist: LinkPlaylist): Single<PlaylistUpdateResult>
@@ -40,20 +40,25 @@ interface ApiService {
 
     //tracks
 
-    @GET("get_tracks_by_user")
-    fun getAllTracksByUserId(id: Int): Single<TrackIdList>
+    @GET("get_tracks_by_user/{userId}")
+    fun getAllTracksByUserId(@Path("userId") userId: Int): Single<TrackIdList>
 
-    @POST("generate")
+    @POST("generate_post")
     fun sendGenerationRequest(
         @Body generationBody: GenerationBody
     ): Single<GenerationResponce>
 
-    @GET("get_result_track")
+    @GET("generate_get/{trackId}")
     @Streaming
-    fun getTrackById(
-        trackId: Int
+    fun getTrackByIdGen(
+        @Path("trackId") trackId: Int
     ):Call<ResponseBody>
 
+    @GET("get_track/{trackId}")
+    @Streaming
+    fun getTrackByIdPub(
+        @Path("trackId") trackId: Int
+    ):Call<ResponseBody>
 
 
     //news

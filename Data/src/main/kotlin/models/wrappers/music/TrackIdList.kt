@@ -1,4 +1,4 @@
 package models.wrappers.music
 
-class TrackIdList(val list:List<Int>) {
+class TrackIdList(val tracks:List<Int>) {
 }

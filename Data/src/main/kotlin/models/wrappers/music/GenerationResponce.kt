@@ -1,4 +1,6 @@
 package models.wrappers.music
 
-class GenerationResponce(val trackId:Int) {
+import com.google.gson.annotations.SerializedName
+
+class GenerationResponce(@SerializedName("id") val trackId:Int) {
 }

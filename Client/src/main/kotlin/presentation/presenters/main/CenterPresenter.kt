@@ -4,6 +4,7 @@ import models.core.music.Playlist
 import models.core.music.Track
 import models.utils.PlaylistImage
 import presentation.menu.item.MenuItem
+import tornadofx.SVGIcon
 
 interface CenterPresenter {
 
@@ -37,7 +38,9 @@ interface CenterPresenter {
 
     fun onCurrentPlaylistClicked()
 
-    fun onPlayPlaylistClicked(playlist: Playlist)
+    fun onPlayPlaylistClicked(playlist: Playlist, playIcon:SVGIcon, pauseIcon:SVGIcon)
 
-    fun onPausePlaylistClicked(playlist: Playlist)
+    fun onPlayTrackClicked(playIcon:SVGIcon,pauseIcon:SVGIcon,track: Track)
+
+    fun onPauseTrackClicked()
 }

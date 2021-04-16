@@ -46,29 +46,7 @@ class PlaylistView(
                 }
                 useMaxWidth = true
                 padding = insets(4)
-                //play pause
-                stackpane {
-                    alignment = Pos.CENTER
-                    paddingHorizontal = 10
-                    val pauseIcon = svgicon(
-                        IconsProvider.getSVGPath(HomeViewImpl.pauseIconFilePath),
-                        size = LeftMenuStyles.iconSize,
-                        color = Colors.alternativeWhiteColor
-                    )
-                    val playIcon = svgicon(
-                        IconsProvider.getSVGPath(HomeViewImpl.playIconFilePath),
-                        size = LeftMenuStyles.iconSize,
-                        color = Colors.alternativeWhiteColor
-                    )
-                    setMouseEnterBackground(pauseIcon)
-                    setMouseLeaveBackground(pauseIcon)
-                    setMouseEnterBackground(playIcon)
-                    setMouseLeaveBackground(playIcon)
-                    pauseIcon.isVisible = false
-                    setOnMouseClicked {
 
-                    }
-                }
 
                 vbox {
                     alignment = Pos.CENTER

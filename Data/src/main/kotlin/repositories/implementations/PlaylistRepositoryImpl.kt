@@ -1,9 +1,7 @@
 package repositories.implementations
 
 import io.reactivex.rxjava3.core.Single
-import io.reactivex.rxjava3.schedulers.Schedulers
 import models.core.music.Playlist
-import models.core.music.Track
 import models.utils.PlaylistImage
 import models.wrappers.music.LinkPlaylist
 import models.wrappers.music.ListOfPlaylists
@@ -22,15 +20,13 @@ class PlaylistRepositoryImpl @Inject constructor(
 
     override fun getPlaylists(userId: Int): Single<List<Playlist>> {
        return api.getUsersPlaylists(userId)
-            .subscribeOn(Schedulers.io())
-            .map {
+            .map {it->
                 getPlaylists(it,userId)
             }
     }
 
     override fun getPopularPlaylists(): Single<List<Playlist>> {
         return api.getPopularPlaylists()
-            .subscribeOn(Schedulers.io())
             .map {
                 getPlaylists(it,0)
             }
@@ -43,7 +39,7 @@ class PlaylistRepositoryImpl @Inject constructor(
 
             val currentPlaylist = Playlist(
                 linkPlaylist.id, ArrayList(),
-                "${linkPlaylist.id}", PlaylistImage()
+                linkPlaylist.name, PlaylistImage()
             )
 
             linkPlaylist
@@ -56,7 +52,7 @@ class PlaylistRepositoryImpl @Inject constructor(
                     if (!File(path).exists()) {
                         val fos = FileOutputStream(path)
                         val byteArray = LocalStorageAccessor
-                            .decodeByteArrayFromBody(api.getTrackById(trackId).execute())
+                            .decodeByteArrayFromBody(api.getTrackByIdPub(trackId).execute())
                         fos.write(byteArray)
                     }
 
@@ -69,7 +65,7 @@ class PlaylistRepositoryImpl @Inject constructor(
 
             val playlistPath = LocalStorageAccessor.getPathPlaylist(
                 accountId,
-                linkPlaylist.id
+                linkPlaylist.name
             )
 
             if (!File(playlistPath).exists()) {
@@ -83,7 +79,7 @@ class PlaylistRepositoryImpl @Inject constructor(
     override fun updatePlaylist(playlist: Playlist): Single<Boolean> {
         return api.updatePlaylist(
             LinkPlaylist(playlist.id,
-                playlist.getAllTracks().map { it.id })
+                playlist.getAllTracks().map { it.id }, playlist.name)
         )
             .map { true }
     }

@@ -14,5 +14,7 @@ Content-Type: application/json
 
 //GET http://0.0.0.0:80/get_networks
 
-POST http://0.0.0.0:80/generate
-{ "byteArray":[9,0],"generationParams":{"name":"fv","value":"fv"}}
+//POST http://172.20.10.3:80/generate_post
+//{ "byteArray":[9,0],"generationParams":{"name":"fv","value":"fv"}}
+
+GET http://172.20.10.3:80/get_track/21

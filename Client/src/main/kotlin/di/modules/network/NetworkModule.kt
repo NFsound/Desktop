@@ -37,7 +37,7 @@ class NetworkModule {
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
                 .client(client)
-                .baseUrl(Config.BASE_URL)
+                .baseUrl(Config.BASE_URL_DIST)
                 .build()
             return retrofit.create(ApiService::class.java)
     }

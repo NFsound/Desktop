@@ -27,7 +27,12 @@ class NewsPresenter() : SectionPresenter {
     override fun filter(text: String) {
         Platform.runLater {
             if (text.isNotEmpty()) {
-                val filteredNews = newsInteractor.filterNews(text)
+                newsInteractor.filterNews(text).subscribe { list ->
+                    Platform.runLater {
+                        viewState.showNews(list)
+                    }
+                }
+
             } else {
                 newsInteractor.getAllNews()
                     .onErrorResumeWith {

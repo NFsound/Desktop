@@ -1,4 +1,9 @@
 package models.wrappers.music
 
-class LinkPlaylist(val id:Int, val trackIdList:List<Int>) {
+import com.google.gson.annotations.SerializedName
+
+class LinkPlaylist(val id:Int,
+                   @SerializedName("songs") val trackIdList:List<Int>,
+                   val name: String
+                   ) {
 }

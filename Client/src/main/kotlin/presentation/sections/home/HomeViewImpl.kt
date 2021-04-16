@@ -210,18 +210,8 @@ class HomeViewImpl : View(), HomeView {
         playlist: Playlist, pauseIcon: SVGIcon,
         playIcon: SVGIcon
     ) {
-        if (playIcon.isVisible) {
-            playIcon.isVisible = false
-            pauseIcon.isVisible = true
-            pauseIcon.parent.toFront()
-            homePresenter.onPlayPlaylistClicked(playlist)
-        } else {
-            playIcon.isVisible = true
-            pauseIcon.isVisible = false
-            playIcon.parent.toFront()
-            homePresenter.onPausePlaylistClicked(playlist)
-        }
-
+        homePresenter.centerPresenter
+            .onPlayPlaylistClicked(playlist, playIcon, pauseIcon)
     }
 
 }

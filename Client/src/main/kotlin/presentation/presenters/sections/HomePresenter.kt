@@ -11,6 +11,7 @@ import presentation.sections.home.HomeView
 import javax.inject.Inject
 
 class HomePresenter : SectionPresenter {
+
     @Inject
     lateinit var viewState: HomeView
 
@@ -34,27 +35,16 @@ class HomePresenter : SectionPresenter {
 
 
     override fun onInitialLoad() {
-        homeInteractor.getMyPlaylists().onErrorResumeWith {
-
-        }.subscribe { list ->
+        homeInteractor.getMyPlaylists().subscribe { list ->
             Platform.runLater {
                 viewState.renderAccountPlaylists(list)
             }
         }
-        homeInteractor.getMyPlaylists().onErrorResumeWith {
-
-        }.subscribe { list ->
+        homeInteractor.getPopularPlaylists().subscribe { list ->
             Platform.runLater {
                 viewState.renderPopularPlaylists(list)
             }
         }
     }
 
-    fun onPlayPlaylistClicked(playlist: Playlist) {
-        centerPresenter.onPlayPlaylistClicked(playlist)
-    }
-
-    fun onPausePlaylistClicked(playlist: Playlist) {
-        centerPresenter.onPausePlaylistClicked(playlist)
-    }
 }

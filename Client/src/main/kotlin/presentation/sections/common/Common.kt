@@ -24,6 +24,9 @@ object Common {
             for (playlist in playlists) {
                 item(playlist.name) {
                     checkbox {
+                        if(playlists.contains(track)){
+                            this.isSelected = true
+                        }
                         action {
                             if (isSelected) {
                                 mainPresenter.addToPlaylist(track, playlist)

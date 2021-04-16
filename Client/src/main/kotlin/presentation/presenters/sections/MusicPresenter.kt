@@ -3,15 +3,17 @@ package presentation.presenters.sections
 import application.SonusApplication
 import interactors.MusicInteractor
 import javafx.application.Platform
+import models.core.music.Track
 import models.core.networks.GenerationParams
 import models.core.networks.Network
 import presentation.presenters.main.CenterPresenter
 import presentation.sections.music.MusicView
+import tornadofx.SVGIcon
 import utils.ImageProvider
 import java.io.File
 import javax.inject.Inject
 
-class MusicPresenter:SectionPresenter {
+class MusicPresenter : SectionPresenter {
 
     @Inject
     lateinit var viewState: MusicView
@@ -21,7 +23,7 @@ class MusicPresenter:SectionPresenter {
 
     override lateinit var centerPresenter: CenterPresenter
 
-    private var currentMusicFile:File? = null
+    private var currentMusicFile: File? = null
     private var currentNetwork: Network? = null
 
     init {
@@ -32,12 +34,19 @@ class MusicPresenter:SectionPresenter {
 
     }
 
-    fun startTrackGeneration(){
+    fun onPlusIconClick(icon: SVGIcon, track: Track) {
+        musicInteractor.getAllPlaylistsByAccount().subscribe { lists ->
+            Platform.runLater {
+                viewState.openPlaylistsView(icon, lists, track)
+            }
+        }
+    }
+
+    fun startTrackGeneration() {
         val byteArray = currentMusicFile!!.readBytes()
         musicInteractor
-            .generateTrack(byteArray, GenerationParams("fv","fv"))
-            .subscribe {
-                track->
+            .generateTrack(byteArray, GenerationParams("fv", "fv"))
+            .subscribe { track ->
                 Platform.runLater {
                     viewState.addGeneratedTrack(track)
                 }
@@ -45,25 +54,35 @@ class MusicPresenter:SectionPresenter {
     }
 
     override fun onInitialLoad() {
+        Platform.runLater{
         musicInteractor.getAvailableNetworks().onErrorResumeWith {
 
-        }.subscribe {
-            networks->
+        }.subscribe { networks ->
             Platform.runLater {
-                viewState.loadNetworks(networks)
+            viewState.loadNetworks(networks)
+             }
+        }
+
+        musicInteractor.getAllTracksByAccount()
+            .subscribe { tracks ->
+                Platform.runLater {
+                    for (track in tracks) {
+                        viewState.addGeneratedTrack(track)
+                    }
+                }
             }
         }
     }
 
-    fun setCurrentFile(file: File){
+    fun setCurrentFile(file: File) {
         currentMusicFile = file
     }
 
-    fun removeCurrentFile(){
+    fun removeCurrentFile() {
         currentMusicFile = null
     }
 
-    fun setCurrentNet(network: Network?){
+    fun setCurrentNet(network: Network?) {
         currentNetwork = network
     }
 }

@@ -6,8 +6,6 @@ import models.wrappers.music.LinkPlaylist
 import okhttp3.ResponseBody
 import retrofit2.Response
 import java.io.File
-import java.nio.file.Files
-import java.nio.file.Paths
 
 object LocalStorageAccessor {
 
@@ -19,20 +17,24 @@ object LocalStorageAccessor {
 
 
     fun decodeByteArrayFromBody(
-        responce: Response<ResponseBody>
+        responce: Response<ResponseBody?>
     ): ByteArray {
         return responce.body()!!.bytes()
     }
 
     fun restoreAccount(): Account {
-        return Account(-1, "Demo", "demo", "qwerty")
+        return Account(0, "Demo", "demo", "qwerty")
     }
 
     fun getPathTrack(accountId: Int, trackId: Int) = "account${accountId}/tracks/${trackId}.wav"
 
+    fun getPath(accountId: Int) = "account${accountId}/tracks"
+
+    fun getPathPlaylist(accountId: Int) = "account${accountId}/playlists"
+
     fun getAuthorName(accountId: Int) = "account${accountId}"
 
-    fun getPathPlaylist(accountId: Int, playlistId: Int) = "account${accountId}/playlists/${playlistId}.txt"
+    fun getPathPlaylist(accountId: Int, playlistName: String) = "account${accountId}/playlists/${playlistName}.txt"
 
     fun getTrackById(accountId: Int, trackId: Int): Track {
         return Track(
@@ -45,8 +47,8 @@ object LocalStorageAccessor {
         val str = linkPlaylist.trackIdList.map { it ->
             "${it}\n"
         }.reduce { acc, string -> acc + string }
-
-        File(getPathPlaylist(accountId, linkPlaylist.id))
+        File(getPathPlaylist(accountId)).mkdirs()
+        File(getPathPlaylist(accountId, linkPlaylist.name))
             .writeText(str)
     }
 
@@ -68,7 +70,11 @@ object LocalStorageAccessor {
     }
 
     fun saveTrack(accountId: Int, trackId: Int, byteArray: ByteArray) {
-        File(getPathTrack(accountId, trackId)).writeBytes(byteArray)
+        val file = File(getPath(accountId))
+        file.mkdirs()
+        val file2 = File(getPathTrack(accountId, trackId))
+        file2.createNewFile()
+        file2.writeBytes(byteArray)
     }
 
 

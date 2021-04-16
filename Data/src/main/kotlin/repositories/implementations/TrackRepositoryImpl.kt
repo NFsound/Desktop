@@ -1,8 +1,6 @@
 package repositories.implementations
 
 import io.reactivex.rxjava3.core.Single
-import io.reactivex.rxjava3.schedulers.Schedulers
-import io.reactivex.rxjava3.subjects.AsyncSubject
 import models.core.music.Track
 import models.core.networks.GenerationParams
 import models.wrappers.music.GenerationBody
@@ -10,6 +8,8 @@ import network.api.ApiService
 import okhttp3.ResponseBody
 import repositories.TrackRepository
 import repositories.implementations.LocalStorageAccessor.decodeByteArrayFromBody
+import retrofit2.Call
+import retrofit2.Callback
 import retrofit2.Response
 import java.io.File
 import java.io.FileOutputStream
@@ -21,23 +21,23 @@ class TrackRepositoryImpl @Inject constructor(
 ) : TrackRepository {
 
 
-
     override fun getAllTracks(accountId: Int): Single<List<Track>> {
-        api.getAllTracksByUserId(accountId)
-            .subscribeOn(Schedulers.io())
-            .subscribe { idlist ->
-                for (id in idlist.list) {
-                    val path = LocalStorageAccessor.getPathTrack(accountId, id)
-                    if (!File(path).exists()) {
-                        val fos = FileOutputStream(path)
-                        val byteArray = decodeByteArrayFromBody(api.getTrackById(id).execute())
-                        fos.write(byteArray)
+        return api.getAllTracksByUserId(accountId)
+            .map {
+                    idlist ->
+                    for (id in idlist.tracks) {
+                        val path = LocalStorageAccessor.getPathTrack(accountId, id)
+                        if (!File(path).exists()) {
+                            val fos = FileOutputStream(path)
+                            val byteArray = decodeByteArrayFromBody(
+                                //api.getTrackByIdGen(id).execute()
+                                api.getTrackByIdPub(id).execute()
+                            )
+                            fos.write(byteArray)
+                        }
                     }
-                }
+                    return@map LocalStorageAccessor.getAllTracksByAccountId(accountId)
             }
-
-        val allList = LocalStorageAccessor.getAllTracksByAccountId(accountId)
-        return Single.just(allList)
     }
 
     override fun generateTrack(
@@ -52,22 +52,29 @@ class TrackRepositoryImpl @Inject constructor(
                 generationParams
             )
         )
-            .subscribeOn(Schedulers.io())
             .doOnSuccess { it ->
                 val trackId: Int = it.trackId
                 var currentCode = 404
-                var result: Response<ResponseBody> =
-                    api.getTrackById(trackId)
-                        .execute()
-                while (currentCode == 404) {
-                    result = api.getTrackById(trackId)
-                        .execute()
-                    currentCode = result.code()
+                var call: Call<ResponseBody> =
+                    api.getTrackByIdGen(trackId)
+                call.enqueue(object : Callback<ResponseBody?> {
+                    override fun onResponse(
+                        call: Call<ResponseBody?>,
+                        response: Response<ResponseBody?>
+                    ) {
+                        LocalStorageAccessor.saveTrack(
+                            accountId, trackId,
+                            decodeByteArrayFromBody(response)
+                        )
+                    }
+
+                    override fun onFailure(call: Call<ResponseBody?>, t: Throwable) {
+                        TODO("Not yet implemented")
+                    }
                 }
-                LocalStorageAccessor.saveTrack(
-                    accountId, trackId,
-                    decodeByteArrayFromBody(result)
+
                 )
+
             }.map { it ->
                 LocalStorageAccessor.getTrackById(accountId, it.trackId)
             }

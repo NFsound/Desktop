@@ -37,7 +37,7 @@ class MusicInteractorImpl @Inject constructor(
     override fun getAllTracksByAccount(): Single<List<Track>> {
         return accountRepository.getCurrentUser()
             .flatMap { account->
-                trackRepository.getAllTracks(account.id)
+                return@flatMap trackRepository.getAllTracks(account.id)
             }
     }
 

@@ -19,7 +19,7 @@ class HomeInteractorImpl @Inject constructor(
 
     override fun getMyPlaylists(): Single<List<Playlist>> {
         return accountRepository.getCurrentUser().flatMap {
-            playlistRepository.getPlaylists(it.id)
+            return@flatMap playlistRepository.getPlaylists(it.id)
         }
     }
 

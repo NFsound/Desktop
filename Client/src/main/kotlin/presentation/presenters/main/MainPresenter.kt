@@ -16,10 +16,10 @@ import presentation.menu.item.MenuItem
 import javax.inject.Inject
 import javafx.scene.media.MediaPlayer
 import models.utils.PlaylistImage
+import tornadofx.SVGIcon
 import java.nio.file.Paths
 
 class MainPresenter() : CenterPresenter {
-
 
     @Inject
     lateinit var centerViewState: CenterView
@@ -44,15 +44,20 @@ class MainPresenter() : CenterPresenter {
     var currentPlaylist: Playlist = Playlist.emptyPlaylist
     private lateinit var currentTrack: Track
 
+    private lateinit var currentPlayIcon: SVGIcon
+    private lateinit var currentPauseIcon: SVGIcon
+
+
     private var currentProgress: PublishSubject<Double> = PublishSubject.create()
     private var currentVolume: PublishSubject<Double> = PublishSubject.create()
+
     init {
         SonusApplication.getInstance().applicationComponent.inject(this)
         setUpPlayer()
         subscribeSliders()
     }
 
-    fun subscribeSliders(){
+    fun subscribeSliders() {
         bottomViewState.volumeSlider.valueProperty().addListener { _ ->
             currentVolume.onNext(bottomViewState.volumeSlider.value)
         }
@@ -66,12 +71,7 @@ class MainPresenter() : CenterPresenter {
 
     fun setUpPlayer() {
 
-        //if (this::currentTrack.isInitialized) {
-
-            val resPath: String = SonusApplication.resourcePath + "music/song1.wav"
-            //val resPath: String = currentTrack.resPath
-            currentTrack = Track(0,"some name",1,
-                resPath,"good author")
+        if (this::currentTrack.isInitialized) {
             val path = Paths.get(currentTrack.resPath).toUri().toString()
             player = MediaPlayer(Media(path))
             player.setOnReady {
@@ -86,13 +86,17 @@ class MainPresenter() : CenterPresenter {
                     bottomViewState.convertTimeToMins(player.currentTime.toSeconds())
             }
             player.setOnEndOfMedia {
-                player = if (isRandom) {
-                    MediaPlayer(Media(currentPlaylist.nextRandomTrack().resPath))
-                } else {
-                    MediaPlayer(Media(currentPlaylist.nextTrack().resPath))
+                try {
+                    player = if (isRandom) {
+                        MediaPlayer(Media(currentPlaylist.nextRandomTrack().resPath))
+                    } else {
+                        MediaPlayer(Media(currentPlaylist.nextTrack().resPath))
+                    }
+                } catch (e: Exception) {
+
                 }
             }
-      //  }
+        }
     }
 
 
@@ -111,14 +115,31 @@ class MainPresenter() : CenterPresenter {
         } else {
             currentPlaylist.previousTrack()
         }
+        if(this::player.isInitialized) {
+            player.stop()
+        }
         setUpPlayer()
+        player.play()
     }
 
+
     override fun onPlayClicked() {
+        if (this::currentPauseIcon.isInitialized) {
+            currentPauseIcon.isVisible = true
+        }
+        if (this::currentPlayIcon.isInitialized) {
+            currentPlayIcon.isVisible = false
+        }
         player.play()
     }
 
     override fun onPauseClicked() {
+        if (this::currentPauseIcon.isInitialized) {
+            currentPauseIcon.isVisible = false
+        }
+        if (this::currentPlayIcon.isInitialized) {
+            currentPlayIcon.isVisible = true
+        }
         player.pause()
     }
 
@@ -142,7 +163,11 @@ class MainPresenter() : CenterPresenter {
         } else {
             currentPlaylist.nextTrack()
         }
+        if(this::player.isInitialized) {
+            player.stop()
+        }
         setUpPlayer()
+        player.play()
     }
 
     override fun onCycleClicked() {
@@ -172,7 +197,7 @@ class MainPresenter() : CenterPresenter {
     }
 
     override fun createPlaylist(name: String, playlistImage: PlaylistImage) {
-        homeInteractor.createPlaylist(Playlist(1,ArrayList(),name,playlistImage))
+        homeInteractor.createPlaylist(Playlist(1, ArrayList(), name, playlistImage))
     }
 
 
@@ -182,27 +207,78 @@ class MainPresenter() : CenterPresenter {
 
 
     override fun onCurrentPlaylistClicked() {
-        homeInteractor.getMyPlaylists()
-            .onErrorResumeWith {  }
-            .subscribe {
-                lists->
-            bottomViewState.showPlaylistView(currentPlaylist,lists)
+        Platform.runLater {
+            homeInteractor.getMyPlaylists()
+                .onErrorResumeWith { }
+                .subscribe { lists ->
+                    Platform.runLater {
+                        bottomViewState.showPlaylistView(currentPlaylist, lists)
+                    }
+                }
         }
     }
 
-    override fun onPlayPlaylistClicked(playlist: Playlist) {
+    override fun onPlayPlaylistClicked(
+        playlist: Playlist,
+        playIcon: SVGIcon,
+        pauseIcon: SVGIcon
+    ) {
+        if (this::currentPauseIcon.isInitialized) {
+            currentPauseIcon.isVisible = false
+        }
+        if (this::currentPlayIcon.isInitialized) {
+            currentPlayIcon.isVisible = true
+        }
+        currentPlayIcon = playIcon
+        currentPauseIcon = pauseIcon
         if (currentPlaylist != playlist) {
             currentPlaylist = playlist
             this.onNextClicked()
         } else {
             this.onPlayClicked()
         }
-        bottomViewState.onPauseClick()
+        player.play()
+        bottomViewState.pauseIcon.isVisible = true
+        bottomViewState.playIcon.isVisible = false
     }
 
-    override fun onPausePlaylistClicked(playlist: Playlist) {
-        this.onPauseClicked()
-        bottomViewState.onPauseClick()
+    override fun onPlayTrackClicked(playIcon: SVGIcon, pauseIcon: SVGIcon, track: Track) {
+        currentPlayIcon = playIcon
+        currentPauseIcon = pauseIcon
+        if (this::player.isInitialized && player != null) {
+            player.pause()
+            if (currentTrack != track) {
+                currentTrack = track
+                setUpPlayer()
+            }
+        } else {
+
+            if (!this::player.isInitialized) {
+                currentTrack = track
+                setUpPlayer()
+            }
+            if (currentTrack != track) {
+                currentTrack = track
+                setUpPlayer()
+            }
+        }
+        if (player.status != MediaPlayer.Status.PLAYING) {
+            player.play()
+            bottomViewState.pauseIcon.isVisible = true
+            pauseIcon.isVisible = true
+            playIcon.isVisible = false
+            bottomViewState.playIcon.isVisible = false
+        } else {
+            player.pause()
+            bottomViewState.pauseIcon.isVisible = false
+            pauseIcon.isVisible = false
+            playIcon.isVisible = true
+            bottomViewState.playIcon.isVisible = true
+        }
+    }
+
+    override fun onPauseTrackClicked() {
+        TODO("Not yet implemented")
     }
 
 }

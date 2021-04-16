@@ -10,11 +10,13 @@ import javafx.scene.control.*
 import javafx.scene.layout.*
 import javafx.scene.text.TextAlignment
 import javafx.stage.FileChooser
+import models.core.music.Playlist
 import models.core.networks.Network
 import models.core.music.Track
 import presentation.presenters.sections.MusicPresenter
 import presentation.presenters.sections.SectionPresenter
 import presentation.sections.account.MessageWindow
+import presentation.sections.common.Common.createContextMenu
 import presentation.sections.common.Common.setMouseEnterBackground
 import presentation.sections.common.Common.setMouseLeaveBackground
 import presentation.sections.common.PlaylistCreateMessage
@@ -79,7 +81,7 @@ class MusicViewImpl() : View(), MusicView {
                     setMouseLeaveBackground(playIcon)
                     pauseIcon.isVisible = false
                     setOnMouseClicked {
-
+                        musicPresenter.centerPresenter.onPlayTrackClicked(playIcon,pauseIcon,track)
                     }
                 }
 
@@ -110,7 +112,7 @@ class MusicViewImpl() : View(), MusicView {
                     padding = insets(10)
 
                     setOnMouseClicked {
-                        createContextMenu().show(this,Side.LEFT,0.0,0.0)
+                        musicPresenter.onPlusIconClick(this@svgicon, track)
                     }
                 }
                 setMouseEnterBackground(plusIcon)
@@ -119,40 +121,11 @@ class MusicViewImpl() : View(), MusicView {
         }
     }
 
-    fun Node.createContextMenu():ContextMenu{
-        return contextmenu {
-            addClass(contextMenuStyle)
-            item("Playlist1") {
-                checkbox {
 
-                    //addClass()
-                    action {
-                        if (isSelected) {
-                            //TODO add to playlist
-                            isSelected
-                        } else {
-                            //TODO remove from playlist
-                            isSelected
-                        }
-                    }
-                }
-                action {
-                    this@contextmenu.hide()
-                }
-            }
-            item("Create new playlist") {
-                setOnAction {
-                    openInternalWindow(
-                        PlaylistCreateMessage(musicPresenter.centerPresenter),
-                        owner = this@MusicViewImpl.root.parent.parent
-                    )
-                    this@contextmenu.hide()
-                }
-
-            }
-        }
+    override fun openPlaylistsView(icon:SVGIcon,playlists: List<Playlist>, track: Track) {
+        icon.createContextMenu(playlists, track, musicPresenter.centerPresenter,this)
+            .show(icon, Side.LEFT, 0.0, 0.0)
     }
-
     override fun setPresenter(presenter: SectionPresenter) {
         musicPresenter = presenter as MusicPresenter
         musicPresenter.onInitialLoad()
@@ -248,14 +221,12 @@ class MusicViewImpl() : View(), MusicView {
                 }
             }
 
-            vbox {
+            genBox = vbox {
                 alignment = Pos.TOP_CENTER
                 label("Here is what you have generated recently") {
                     textAlignment = TextAlignment.CENTER
                     addClass(MusicViewStyles.topLabelStyle)
                 }
-
-                createTrackView(Track(0, "Name", 1, "Author", "Author"))
             }
 
         }

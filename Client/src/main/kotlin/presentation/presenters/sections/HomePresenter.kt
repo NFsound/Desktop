@@ -36,7 +36,11 @@ class HomePresenter : SectionPresenter {
 
 
     override fun onInitialLoad() {
+        Platform.runLater {
             homeInteractor.getMyPlaylists()
+                .doOnError {
+                    it
+                }
                 .onErrorResumeWith {
                     Platform.runLater {
                         viewState.showErrorMessage("Couldn't load your playlists")
@@ -47,11 +51,22 @@ class HomePresenter : SectionPresenter {
                         viewState.renderAccountPlaylists(list)
                     }
                 }
-            homeInteractor.getPopularPlaylists().subscribe { list ->
-                Platform.runLater {
-                    viewState.renderPopularPlaylists(list)
+            homeInteractor.getPopularPlaylists()
+                .doOnError {
+                    it
                 }
-            }
+                .onErrorResumeWith {
+                    Platform.runLater {
+                        viewState.showErrorMessage("Couldn't load popular playlists")
+                    }
+                }
+                .subscribe {
+                        list ->
+                    Platform.runLater {
+                        viewState.renderPopularPlaylists(list)
+                    }
+                }
+        }
     }
 
     fun onPlaylistCreated() {

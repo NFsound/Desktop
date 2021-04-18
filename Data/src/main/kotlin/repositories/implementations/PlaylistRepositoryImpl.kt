@@ -32,7 +32,9 @@ class PlaylistRepositoryImpl @Inject constructor(
             }
     }
 
-    private fun getPlaylists(listOfLinkPlaylists:ListOfPlaylists, accountId:Int = 0):List<Playlist>{
+    private fun getPlaylists(listOfLinkPlaylists:ListOfPlaylists,
+                             accountId:Int = 0):List<Playlist>{
+
         val allPlaylists = ArrayList<Playlist>()
         listOfLinkPlaylists.list.forEach { linkPlaylist ->
 
@@ -41,15 +43,21 @@ class PlaylistRepositoryImpl @Inject constructor(
                  ArrayList(),
                 linkPlaylist.name, PlaylistImage()
             )
-
+            val playlistPath = LocalStorageAccessor.getPathPlaylist(
+                accountId,
+                linkPlaylist.name
+            )
+            File(LocalStorageAccessor.getPathPlaylist(
+                accountId)).mkdir()
+            File(LocalStorageAccessor.getPath(accountId)).mkdirs()
             linkPlaylist
                 .trackIdList
                 .forEach { trackId ->
-
                     val path = LocalStorageAccessor
                         .getPathTrack(accountId, trackId)
 
                     if (!File(path).exists()) {
+                        File(path).createNewFile()
                         val fos = FileOutputStream(path)
                         val byteArray = LocalStorageAccessor
                             .decodeByteArrayFromBody(api.getTrackByIdPub(trackId).execute())
@@ -63,10 +71,7 @@ class PlaylistRepositoryImpl @Inject constructor(
 
             allPlaylists.add(currentPlaylist)
 
-            val playlistPath = LocalStorageAccessor.getPathPlaylist(
-                accountId,
-                linkPlaylist.name
-            )
+
 
             if (!File(playlistPath).exists()) {
                 LocalStorageAccessor.savePlaylist(accountId, linkPlaylist)

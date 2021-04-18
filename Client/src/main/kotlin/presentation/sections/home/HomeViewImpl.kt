@@ -124,7 +124,7 @@ class HomeViewImpl : View(), HomeView {
     }
 
     override fun showErrorMessage(text: String) {
-        if(root.parent != null) {
+        if(root.parent != null && root.parent.parent != null) {
             openInternalWindow(
                 MessageWindow(text),
                 owner = this.root.parent.parent

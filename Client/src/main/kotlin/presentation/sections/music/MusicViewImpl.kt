@@ -19,12 +19,10 @@ import presentation.sections.account.MessageWindow
 import presentation.sections.common.Common.createContextMenu
 import presentation.sections.common.Common.setMouseEnterBackground
 import presentation.sections.common.Common.setMouseLeaveBackground
-import presentation.sections.common.PlaylistCreateMessage
 import presentation.sections.home.HomeViewImpl.Companion.pauseIconFilePath
 import presentation.sections.home.HomeViewImpl.Companion.playIconFilePath
 import presentation.styles.Colors
 import presentation.styles.sections.MusicViewStyles
-import presentation.styles.sections.MusicViewStyles.Companion.contextMenuStyle
 import presentation.styles.sections.MusicViewStyles.Companion.trackAuthorLabelStyle
 import presentation.styles.sections.MusicViewStyles.Companion.trackBoxStyle
 import presentation.styles.sections.MusicViewStyles.Companion.trackNameLabelStyle
@@ -80,8 +78,9 @@ class MusicViewImpl() : View(), MusicView {
                     setMouseEnterBackground(playIcon)
                     setMouseLeaveBackground(playIcon)
                     pauseIcon.isVisible = false
+                    var isPlaying = false
                     setOnMouseClicked {
-                        musicPresenter.centerPresenter.onPlayTrackClicked(playIcon,pauseIcon,track)
+                        musicPresenter.centerPresenter.onPlayOrPauseTrackClicked(playIcon,pauseIcon,track)
                     }
                 }
 

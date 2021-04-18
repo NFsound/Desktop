@@ -39,7 +39,7 @@ class Playlist (private val list:ArrayList<Track>, val name:String, val image:Pl
     }
 
     fun nextRandomTrack(): Track {
-        currentIndex = (0..list.size).random()
+        currentIndex = (0 until list.size).random()
         return list[currentIndex]
     }
 

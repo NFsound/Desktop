@@ -38,8 +38,8 @@ interface CenterPresenter {
 
     fun onCurrentPlaylistClicked()
 
-    fun onPlayPlaylistClicked(playlist: Playlist, playIcon:SVGIcon, pauseIcon:SVGIcon)
+    fun onPlayOrPausePlaylistClicked(playlist: Playlist, playIcon:SVGIcon, pauseIcon:SVGIcon)
 
-    fun onPlayTrackClicked(playIcon:SVGIcon,pauseIcon:SVGIcon,track: Track)
+    fun onPlayOrPauseTrackClicked(playIcon:SVGIcon, pauseIcon:SVGIcon, track: Track)
 
 }

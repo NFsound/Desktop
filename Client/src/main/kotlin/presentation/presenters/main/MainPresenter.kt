@@ -47,7 +47,7 @@ class MainPresenter() : CenterPresenter {
 
     //current state of player
     private lateinit var player: MediaPlayer
-    private lateinit var currentPlaylist: Playlist
+    private var currentPlaylist: Playlist? = null
     private lateinit var currentTrack: Track
 
     private lateinit var currentPlayIcon: SVGIcon
@@ -94,10 +94,17 @@ class MainPresenter() : CenterPresenter {
                     bottomViewState.convertTimeToMins(player.currentTime.toSeconds())
             }
             player.setOnEndOfMedia {
-                player = if (isRandom) {
-                    MediaPlayer(Media(currentPlaylist.nextRandomTrack().resPath))
-                } else {
-                    MediaPlayer(Media(currentPlaylist.nextTrack().resPath))
+                pauseClickManageIcons()
+                if (currentPlaylist != null) {
+                    if (isRandom) {
+                        currentTrack = currentPlaylist!!.nextRandomTrack()
+                        setUpPlayer()
+                    } else {
+                        currentTrack = currentPlaylist!!.nextTrack()
+                        setUpPlayer()
+                    }
+                    playClickManageIcons()
+                    player.play()
                 }
             }
         }
@@ -159,7 +166,6 @@ class MainPresenter() : CenterPresenter {
         }
     }
 
-
     override fun onCycleClicked() {
         if (isCycled) {
             isCycled = false
@@ -210,29 +216,28 @@ class MainPresenter() : CenterPresenter {
 
 
     override fun onCurrentPlaylistClicked() {
-        if (this::player.isInitialized && currentPlaylist != Playlist.emptyPlaylist) {
+        if (this::player.isInitialized && currentPlaylist != null) {
             Platform.runLater {
                 homeInteractor.getMyPlaylists()
                     .onErrorResumeWith { } //TODO ON ERROR
                     .subscribe { lists ->
                         Platform.runLater {
-                            bottomViewState.showPlaylistView(currentPlaylist, lists)
+                            bottomViewState.showPlaylistView(currentPlaylist!!, lists)
                         }
                     }
-
             }
         }
     }
 
     override fun onNextClicked() {
-        if (this::player.isInitialized && currentPlaylist != Playlist.emptyPlaylist) {
+        if (currentPlaylist != null) {
             currentTrack = if (isRandom) {
-                currentPlaylist.nextRandomTrack()
+                currentPlaylist!!.nextRandomTrack()
             } else {
-                currentPlaylist.nextTrack()
+                currentPlaylist!!.nextTrack()
             }
-            if (this::player.isInitialized) {
-                player.stop()
+            if(this::player.isInitialized) {
+                player.pause()
             }
             setUpPlayer()
             player.play()
@@ -240,21 +245,21 @@ class MainPresenter() : CenterPresenter {
     }
 
     override fun onPlayClicked() {
-        playClickManageIcons()
         if (this::player.isInitialized) {
             player.play()
+            playClickManageIcons()
         }
     }
 
     override fun onPreviousClicked() {
-        if (this::player.isInitialized && currentPlaylist != Playlist.emptyPlaylist) {
+        if (currentPlaylist != null) {
             currentTrack = if (isRandom) {
-                currentPlaylist.nextRandomTrack()
+                currentPlaylist!!.nextRandomTrack()
             } else {
-                currentPlaylist.previousTrack()
+                currentPlaylist!!.previousTrack()
             }
             if (this::player.isInitialized) {
-                player.stop()
+                player.pause()
             }
             setUpPlayer()
             player.play()
@@ -268,54 +273,112 @@ class MainPresenter() : CenterPresenter {
         }
     }
 
-    override fun onPlayPlaylistClicked(
+    override fun onPlayOrPausePlaylistClicked(
         playlist: Playlist,
         playIcon: SVGIcon,
         pauseIcon: SVGIcon
     ) {
-        pauseClickManageIcons()
-        currentPlayIcon = playIcon
-        currentPauseIcon = pauseIcon
-        if (currentPlaylist != playlist) {
+        //playlist is the same
+        if (currentPlaylist != null && currentPlaylist == playlist) {
+
+            //is playing now
+            if (player.status == MediaPlayer.Status.PLAYING) {
+                player.pause()
+                pauseClickManageIcons()
+            }
+            //not playing, but playlist is the same
+            else {
+                player.play()
+                playClickManageIcons()
+            }
+
+        }
+        //clicked on another playlist
+        else if (currentPlaylist != null && currentPlaylist != playlist) {
+            //fixing showing old icons
+            pauseClickManageIcons()
+
+            currentPauseIcon = pauseIcon
+            currentPlayIcon = playIcon
+
+            //old player still playing
+            if (this::player.isInitialized && player.status == MediaPlayer.Status.PLAYING) {
+                player.pause()
+            }
             currentPlaylist = playlist
             currentTrack = playlist.nextTrack()
             setUpPlayer()
-            playClickManageIcons()
-        } else {
-            playClickManageIcons()
-        }
-
-        player.play()
-    }
-
-    override fun onPlayTrackClicked(playIcon: SVGIcon, pauseIcon: SVGIcon, track: Track) {
-        currentPlaylist = Playlist.emptyPlaylist
-        if (this::player.isInitialized) {
-            player.pause()
-            if (currentTrack != track) {
-                currentTrack = track
-                setUpPlayer()
-            }
-        } else {
-
-            if (!this::player.isInitialized) {
-                currentTrack = track
-                setUpPlayer()
-            }
-            if (currentTrack != track) {
-                currentTrack = track
-                setUpPlayer()
-            }
-        }
-        currentPlayIcon = playIcon
-        currentPauseIcon = pauseIcon
-        if (player.status != MediaPlayer.Status.PLAYING) {
             player.play()
             playClickManageIcons()
-        } else {
-            player.pause()
-            pauseClickManageIcons()
         }
+        //playing or paused track without playlist, or nothing was played before
+        else if (currentPlaylist == null) {
+
+            if (this::player.isInitialized) {
+                if (player.status == MediaPlayer.Status.PLAYING) {
+                    player.pause()
+                }
+            }
+
+            pauseClickManageIcons()
+            currentPlayIcon = playIcon
+            currentPauseIcon = pauseIcon
+
+            currentPlaylist = playlist
+            currentTrack = playlist.nextTrack()
+
+            setUpPlayer()
+            player.play()
+            playClickManageIcons()
+        }
+    }
+
+    override fun onPlayOrPauseTrackClicked(
+        playIcon: SVGIcon,
+        pauseIcon: SVGIcon,
+        track: Track
+    ) {
+        currentPlaylist = null
+        if (this::player.isInitialized) {
+            pauseClickManageIcons()
+
+            //smthing was playing
+            if (player.status == MediaPlayer.Status.PLAYING) {
+                player.pause()
+                if (currentTrack != track) {
+                    currentTrack = track
+                    currentPlaylist = null
+                    setUpPlayer()
+                    currentPauseIcon = pauseIcon
+                    currentPlayIcon = playIcon
+                    player.play()
+                    playClickManageIcons()
+                }
+            }
+            //player was paused
+            else {
+                if (currentTrack != track) {
+                    currentTrack = track
+                    currentPlaylist = null
+                    setUpPlayer()
+                    currentPauseIcon = pauseIcon
+                    currentPlayIcon = playIcon
+                }
+                player.play()
+                playClickManageIcons()
+            }
+
+        }
+        //nothing was playing before
+        else {
+            currentTrack = track
+            setUpPlayer()
+            currentPlayIcon = playIcon
+            currentPauseIcon = pauseIcon
+            player.play()
+            playClickManageIcons()
+        }
+
     }
 
 

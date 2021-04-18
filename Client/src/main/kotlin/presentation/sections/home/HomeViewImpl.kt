@@ -1,7 +1,6 @@
 package presentation.sections.home
 
 import application.SonusApplication
-import io.reactivex.rxjava3.core.Completable
 import javafx.application.Platform
 import javafx.geometry.Pos
 import javafx.scene.control.ScrollPane
@@ -39,7 +38,6 @@ class HomeViewImpl : View(), HomeView {
         const val pauseIconFilePath: String =
             SonusApplication.resourcePath + "/icons/pause_icon_path.txt"
     }
-
 
     override fun renderPopularPlaylists(listOfPlaylist: List<Playlist>) {
         popularPlaylistsBox.children.removeAll { true }
@@ -213,7 +211,7 @@ class HomeViewImpl : View(), HomeView {
         playIcon: SVGIcon
     ) {
         homePresenter.centerPresenter
-            .onPlayPlaylistClicked(playlist, playIcon, pauseIcon)
+            .onPlayOrPausePlaylistClicked(playlist, playIcon, pauseIcon)
     }
 
 }

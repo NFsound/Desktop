@@ -2,7 +2,7 @@ package models.core.music
 
 import models.utils.PlaylistImage
 
-class Playlist (val id:Int, private val list:ArrayList<Track>, val name:String, val image:PlaylistImage){
+class Playlist (private val list:ArrayList<Track>, val name:String, val image:PlaylistImage){
 
     var currentIndex: Int = -1
 
@@ -48,7 +48,7 @@ class Playlist (val id:Int, private val list:ArrayList<Track>, val name:String, 
     }
     companion object{
 
-        val emptyPlaylist = Playlist(1000000000,arrayListOf(Track.emptyTrack()),"Some name",PlaylistImage())
+        val emptyPlaylist = Playlist(arrayListOf(Track.emptyTrack()),"Some name",PlaylistImage())
     }
 
 }

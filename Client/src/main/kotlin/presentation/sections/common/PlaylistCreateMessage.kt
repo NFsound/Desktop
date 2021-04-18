@@ -1,5 +1,7 @@
 package presentation.sections.common
 
+import io.reactivex.rxjava3.subjects.PublishSubject
+import io.reactivex.rxjava3.subjects.Subject
 import javafx.geometry.Pos
 import javafx.scene.Parent
 import javafx.scene.image.Image
@@ -16,11 +18,13 @@ import utils.ImageProvider
 import java.io.File
 
 
+
 class PlaylistCreateMessage(
     private var centerPresenter: CenterPresenter
 ) : View("Create playlist") {
 
     var currentPicture: PlaylistImage = PlaylistImage()
+    val playlistCreated: PublishSubject<Unit> = PublishSubject.create()
 
     fun loadPicture(): File {
         val extFilter = FileChooser.ExtensionFilter(
@@ -44,7 +48,6 @@ class PlaylistCreateMessage(
                 fitWidth = HomeViewStyles.prefPlaylistSize.toDouble()
                 paddingAll = BottomViewStyles.imagePadding
                 addClass(HomeViewStyles.imagePlaylistStyle)
-
             }
             button("Load image") {
                 alignment = Pos.CENTER
@@ -75,6 +78,7 @@ class PlaylistCreateMessage(
                 padding = insets(10)
                 action {
                     centerPresenter.createPlaylist(textField.text,currentPicture)
+                    playlistCreated.onNext(Unit)
                     close()
                 }
             }
@@ -82,4 +86,5 @@ class PlaylistCreateMessage(
 
         }
     }
+
 }

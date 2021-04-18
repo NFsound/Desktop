@@ -40,6 +40,7 @@ class MusicPresenter : SectionPresenter {
                 viewState.openPlaylistsView(icon, lists, track)
             }
         }
+        //TODO ON ERROR
     }
 
     fun startTrackGeneration() {
@@ -51,6 +52,7 @@ class MusicPresenter : SectionPresenter {
                     viewState.addGeneratedTrack(track)
                 }
             }
+        //TODO ON ERROR
     }
 
     override fun onInitialLoad() {
@@ -62,7 +64,7 @@ class MusicPresenter : SectionPresenter {
             viewState.loadNetworks(networks)
              }
         }
-
+        //TODO ON ERROR
         musicInteractor.getAllTracksByAccount()
             .subscribe { tracks ->
                 Platform.runLater {

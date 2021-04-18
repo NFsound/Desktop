@@ -26,7 +26,7 @@ class HomePresenter : SectionPresenter {
 
     override fun filter(text: String) {
         homeInteractor.filterPlaylists(text)
-            .onErrorResumeWith {  }
+            .onErrorResumeWith {  }//TODO ON ERROR
             .subscribe {
                 lists->
 
@@ -45,6 +45,11 @@ class HomePresenter : SectionPresenter {
                 viewState.renderPopularPlaylists(list)
             }
         }
+        //TODO ON ERROR
+    }
+
+    fun onPlaylistCreated(){
+        onInitialLoad()
     }
 
 }

@@ -38,7 +38,7 @@ class PlaylistRepositoryImpl @Inject constructor(
 
 
             val currentPlaylist = Playlist(
-                linkPlaylist.id, ArrayList(),
+                 ArrayList(),
                 linkPlaylist.name, PlaylistImage()
             )
 
@@ -76,12 +76,14 @@ class PlaylistRepositoryImpl @Inject constructor(
     }
 
 
-    override fun updatePlaylist(playlist: Playlist): Single<Boolean> {
+    override fun updatePlaylist(accountId:Int, playlist: Playlist): Single<Boolean> {
+        val linkPlaylist = LinkPlaylist(
+            playlist.getAllTracks().map { it.id }, playlist.name)
         return api.updatePlaylist(
-            LinkPlaylist(playlist.id,
-                playlist.getAllTracks().map { it.id }, playlist.name)
-        )
-            .map { true }
+            linkPlaylist
+        ).doAfterSuccess {
+            LocalStorageAccessor.savePlaylist(accountId, linkPlaylist)
+        }.map { true }
     }
 
     private fun checkFilter(playlist: Playlist, text: String): Boolean {

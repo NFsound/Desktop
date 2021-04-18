@@ -12,6 +12,7 @@ import javafx.scene.control.ProgressBar
 import javafx.scene.control.Slider
 import javafx.scene.image.Image
 import javafx.scene.image.ImageView
+import javafx.scene.layout.HBox
 import javafx.scene.media.Media
 import javafx.scene.media.MediaPlayer
 import models.core.music.Playlist
@@ -54,6 +55,7 @@ class BottomMenuView() : View(), SideView {
     lateinit var slider: Slider
     lateinit var volumeSlider: Slider
     lateinit var volumeProgressBar: ProgressBar
+    lateinit var trackInfo:HBox
 
     //icons
     lateinit var playIcon: SVGIcon
@@ -126,16 +128,10 @@ class BottomMenuView() : View(), SideView {
 
     fun onPauseClick() {
         if (isPaused) {
-            playIcon.isVisible = false
-            pauseIcon.isVisible = true
             isPaused = false
-            pauseIcon.parent.toFront()
             mainPresenter.onPlayClicked()
         } else {
-            playIcon.isVisible = true
-            pauseIcon.isVisible = false
             isPaused = true
-            playIcon.parent.toFront()
             mainPresenter.onPauseClicked()
         }
     }
@@ -170,6 +166,9 @@ class BottomMenuView() : View(), SideView {
 
     fun setTrackInfo(track: Track, player: MediaPlayer,
                      currentPlaylist: Playlist = Playlist.emptyPlaylist) {
+        trackInfo.isVisible = true
+        totalLengthLabel.isVisible = true
+        passedTimeLabel.isVisible = true
         trackAuthorLabel.text = track.authorName
         trackNameLabel.text = track.name
         playlistImageView.image = ImageProvider.getImage(currentPlaylist.image)
@@ -197,7 +196,7 @@ class BottomMenuView() : View(), SideView {
         addClass(BottomViewStyles.bottomBarStyle)
 
         //track info (left)
-        hbox {
+        trackInfo = hbox {
             addClass(BottomViewStyles.trackInfoStyle)
             gridpaneConstraints {
                 rowIndex = 0
@@ -225,6 +224,7 @@ class BottomMenuView() : View(), SideView {
                 }
             }
         }
+        trackInfo.isVisible = false
 
         //player (center)
         vbox {
@@ -283,6 +283,7 @@ class BottomMenuView() : View(), SideView {
                     addClass(BottomViewStyles.timeLabelStyle)
                     text = "0:05"
                 }
+                passedTimeLabel.isVisible = false
                 stackpane {
                     trackProgressBar = progressbar {
                         addClass(BottomViewStyles.progressBarStyle)
@@ -297,6 +298,7 @@ class BottomMenuView() : View(), SideView {
                     addClass(BottomViewStyles.timeLabelStyle)
                     text = "3:05"
                 }
+                totalLengthLabel.isVisible = false
             }
         }
 

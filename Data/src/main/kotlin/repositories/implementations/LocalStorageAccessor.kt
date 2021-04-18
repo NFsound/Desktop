@@ -44,12 +44,17 @@ object LocalStorageAccessor {
     }
 
     fun savePlaylist(accountId: Int, linkPlaylist: LinkPlaylist) {
-        val str = linkPlaylist.trackIdList.map { it ->
-            "${it}\n"
-        }.reduce { acc, string -> acc + string }
-        File(getPathPlaylist(accountId)).mkdirs()
-        File(getPathPlaylist(accountId, linkPlaylist.name))
-            .writeText(str)
+        if(linkPlaylist.trackIdList.isNotEmpty()) {
+            val str = linkPlaylist.trackIdList.map { it ->
+                "${it}\n"
+            }.reduce { acc, string -> acc + string }
+            File(getPathPlaylist(accountId)).mkdirs()
+            File(getPathPlaylist(accountId, linkPlaylist.name))
+                .writeText(str)
+        }else{
+            File(getPathPlaylist(accountId)).mkdirs()
+            File(getPathPlaylist(accountId, linkPlaylist.name)).createNewFile()
+        }
     }
 
     fun getAllTracksByAccountId(accountId: Int): List<Track> {

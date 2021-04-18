@@ -9,7 +9,7 @@ interface PlaylistRepository {
 
     fun getPopularPlaylists():Single<List<Playlist>>
 
-    fun updatePlaylist(playlist: Playlist): Single<Boolean>
+    fun updatePlaylist(accountId:Int, playlist: Playlist): Single<Boolean>
 
     fun filterPlaylists(text:String): Single<List<Playlist>>
 }

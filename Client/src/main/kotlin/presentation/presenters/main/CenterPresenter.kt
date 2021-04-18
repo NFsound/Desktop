@@ -42,5 +42,4 @@ interface CenterPresenter {
 
     fun onPlayTrackClicked(playIcon:SVGIcon,pauseIcon:SVGIcon,track: Track)
 
-    fun onPauseTrackClicked()
 }

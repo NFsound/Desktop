@@ -1,6 +1,8 @@
 package presentation.sections.home
 
 import application.SonusApplication
+import io.reactivex.rxjava3.core.Completable
+import javafx.application.Platform
 import javafx.geometry.Pos
 import javafx.scene.control.ScrollPane
 import javafx.scene.control.skin.ScrollPaneSkin
@@ -45,9 +47,6 @@ class HomeViewImpl : View(), HomeView {
             popularPlaylistsBox.createOnePlaylistBox(playlist)
         }
     }
-
-
-
 
 
     fun HBox.createOnePlaylistBox(playlist: Playlist): VBox {
@@ -191,19 +190,22 @@ class HomeViewImpl : View(), HomeView {
                         padding = insets(10)
                         prefHeight = 40.0
                         setOnMouseClicked {
-                            openInternalWindow(
-                                PlaylistCreateMessage(homePresenter.centerPresenter),
-                                owner = this.parent.parent.parent.parent.parent.parent
-                            )
+                            Platform.runLater {
+                                val creator = PlaylistCreateMessage(homePresenter.centerPresenter)
+                                creator.playlistCreated.subscribe {
+                                    homePresenter.onPlaylistCreated()
+                                }
+                                    openInternalWindow(
+                                        creator,
+                                        owner = this.parent.parent.parent.parent.parent.parent
+                                    )
+                            }
                         }
                     }
                     padding = insets(50)
                 }
             }
         }
-
-
-
 
 
     fun onPlayListPlayPauseClicked(

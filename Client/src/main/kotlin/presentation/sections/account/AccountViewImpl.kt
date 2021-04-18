@@ -159,6 +159,9 @@ class AccountViewImpl : View(), AccountView {
                                             MessageWindow("Your password is changed"),
                                             owner = this.parent.parent.parent.parent.parent
                                         )
+                                        val password = passwordField1.text
+                                        accountPresenter.changePassword(password)
+                                        mainPasswordField.text = password
                                     }
                                 }.subscribe {}
                         }
@@ -279,7 +282,8 @@ class AccountViewImpl : View(), AccountView {
     }
 
     private fun onRegisterButtonClicked(){
-        accountPresenter.registerAccount(nickNameLabel.text,
+        accountPresenter.registerAccount(
+            nickTextField.text,
             emailTextField.text,
             registerPasswordTextField.text
         )

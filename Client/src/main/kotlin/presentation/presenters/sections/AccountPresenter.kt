@@ -28,7 +28,7 @@ class AccountPresenter() : SectionPresenter {
             Platform.runLater {
                 viewState.showErrorMessage("Couldn't login. No connection with server")
             }
-        }.subscribe { account ->
+        }.subscribe { account -> //TODO ON ERROR
             Platform.runLater {
                 viewState.initializeUserInfo(account)
                 viewState.showAccountUI()
@@ -38,7 +38,7 @@ class AccountPresenter() : SectionPresenter {
 
     fun logOut() {
         accountInteractor.logOut().onErrorResumeWith {
-
+            //TODO ON ERROR
         }.subscribe { result ->
             if (result) {
                 Platform.runLater {
@@ -56,8 +56,8 @@ class AccountPresenter() : SectionPresenter {
         }.subscribe { result ->
             Platform.runLater {
                 if (result.status) {
-                    viewState.initializeUserInfo(Account(result.id, nick, login, password))
                     viewState.showAccountUI()
+                    viewState.initializeUserInfo(Account(result.id, nick, login, password))
                 } else {
                     viewState.showErrorMessage(result.message)
                 }
@@ -72,6 +72,14 @@ class AccountPresenter() : SectionPresenter {
                     viewState.initializeUserInfo(Account(100, nick, login, password))
                     viewState.showAccountUI()
                 }
-            }
+            } //TODO ON ERROR
     }
+
+    fun changePassword(newPassword:String){
+        accountInteractor.getCurrentAccount().subscribe {
+            it->it.password = newPassword
+        }
+        //TODO ON ERROR
+    }
+
 }

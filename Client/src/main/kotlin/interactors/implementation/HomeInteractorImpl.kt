@@ -24,7 +24,9 @@ class HomeInteractorImpl @Inject constructor(
     }
 
     override fun createPlaylist(playlist: Playlist): Single<Boolean> {
-        return playlistRepository.updatePlaylist(playlist)
+        return accountRepository.getCurrentUser().flatMap {
+            return@flatMap playlistRepository.updatePlaylist(it.id,playlist)
+        }
     }
 
     override fun filterPlaylists(text: String): Single<List<Playlist>> {
@@ -32,7 +34,9 @@ class HomeInteractorImpl @Inject constructor(
     }
 
     override fun updatePlaylist(playlist: Playlist): Single<Boolean> {
-        return playlistRepository.updatePlaylist(playlist)
+        return accountRepository.getCurrentUser().flatMap {
+            return@flatMap playlistRepository.updatePlaylist(it.id,playlist)
+        }
     }
 
 

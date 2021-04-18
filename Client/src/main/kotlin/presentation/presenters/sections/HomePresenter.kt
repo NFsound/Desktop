@@ -26,29 +26,35 @@ class HomePresenter : SectionPresenter {
 
     override fun filter(text: String) {
         homeInteractor.filterPlaylists(text)
-            .onErrorResumeWith {  }//TODO ON ERROR
-            .subscribe {
-                lists->
+            .onErrorResumeWith {
+                viewState.showErrorMessage("Nothing found")
+            }
+            .subscribe { lists ->
 
             }
     }
 
 
     override fun onInitialLoad() {
-        homeInteractor.getMyPlaylists().subscribe { list ->
-            Platform.runLater {
-                viewState.renderAccountPlaylists(list)
+            homeInteractor.getMyPlaylists()
+                .onErrorResumeWith {
+                    Platform.runLater {
+                        viewState.showErrorMessage("Couldn't load your playlists")
+                    }
+                }
+                .subscribe { list ->
+                    Platform.runLater {
+                        viewState.renderAccountPlaylists(list)
+                    }
+                }
+            homeInteractor.getPopularPlaylists().subscribe { list ->
+                Platform.runLater {
+                    viewState.renderPopularPlaylists(list)
+                }
             }
-        }
-        homeInteractor.getPopularPlaylists().subscribe { list ->
-            Platform.runLater {
-                viewState.renderPopularPlaylists(list)
-            }
-        }
-        //TODO ON ERROR
     }
 
-    fun onPlaylistCreated(){
+    fun onPlaylistCreated() {
         onInitialLoad()
     }
 

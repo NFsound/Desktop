@@ -32,7 +32,7 @@ class PlaylistRepositoryImpl @Inject constructor(
             }
     }
 
-    fun getPlaylists(listOfLinkPlaylists:ListOfPlaylists, accountId:Int = 0):List<Playlist>{
+    private fun getPlaylists(listOfLinkPlaylists:ListOfPlaylists, accountId:Int = 0):List<Playlist>{
         val allPlaylists = ArrayList<Playlist>()
         listOfLinkPlaylists.list.forEach { linkPlaylist ->
 

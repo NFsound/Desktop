@@ -19,9 +19,9 @@ class AccountInteractorImpl @Inject constructor(
             .registerUser(AccountRegistration(nickName, login, password))
     }
 
-    override fun loginAccount(nickName: String, password: String): Single<LoginResult> {
+    override fun loginAccount(nickName: String, login: String, password: String): Single<LoginResult> {
         return accountRepository
-            .login(AccountLogin(nickName, password))
+            .login(AccountLogin(nickName, login, password))
     }
 
     override fun getCurrentAccount(): Single<Account> {

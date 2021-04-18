@@ -7,6 +7,7 @@ import javafx.scene.Parent
 import javafx.scene.control.Label
 import javafx.scene.control.PasswordField
 import javafx.scene.control.TextField
+import javafx.scene.layout.StackPane
 import javafx.scene.layout.VBox
 import javafx.scene.text.TextAlignment
 import models.core.account.Account
@@ -65,14 +66,17 @@ class AccountViewImpl : View(), AccountView {
     }
 
     override fun showErrorMessage(text: String) {
-        openInternalWindow(
-            MessageWindow(text),
-            owner = this.root.parent.parent
-        )
+        if(root.parent != null) {
+            openInternalWindow(
+                MessageWindow(text),
+                owner = this.root.parent.parent
+            )
+        }
     }
 
 
-    override val root: Parent = stackpane {
+    override val root: StackPane = stackpane {
+
         accountUI = vbox {
 
             addClass(accountStyle)
@@ -294,7 +298,7 @@ class AccountViewImpl : View(), AccountView {
     }
 
     private fun onLogInButtonClicked(){
-        accountPresenter.logIn(nickNameLabel.text,
+        accountPresenter.logIn(nickTextField.text,
             emailTextField.text,
             registerPasswordTextField.text)
     }

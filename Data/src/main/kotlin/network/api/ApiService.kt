@@ -4,6 +4,7 @@ import io.reactivex.rxjava3.core.Single
 import models.core.account.*
 import models.core.music.Playlist
 import models.core.music.PlaylistUpdateResult
+import models.wrappers.account.IdBody
 import models.wrappers.music.*
 import models.wrappers.networks.ListOfNetworks
 import models.wrappers.news.NewsList
@@ -19,10 +20,10 @@ interface ApiService {
     @POST("register_user")
     fun registerUser(@Body accountRegistration: AccountRegistration): Single<RegistrationResult>
 
-    @GET("get_user")
-    fun getUserById(@Body id: Int): Single<UserInfo>
+    @POST("get_user")
+    fun getUserById(@Body idBody: IdBody): Single<UserInfo>
 
-    @GET("authorize")
+    @POST("authorize")
     fun loginUser(@Body accountLogin: AccountLogin): Single<LoginResult>
 
 

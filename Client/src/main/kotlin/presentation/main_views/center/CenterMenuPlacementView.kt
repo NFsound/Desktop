@@ -52,6 +52,7 @@ class CenterMenuPlacementView(): View(), CenterView {
             it.sectionTitle == menuItem.title }
         (placement).replaceWith(section as View)
         placement = section
+        section.getPresenter().onInitialLoad()
     }
 
     override fun filter(text: String) {

@@ -11,7 +11,7 @@ interface AccountInteractor {
     fun registerAccount(nickName: String, login:String, password:String):
             Single<RegistrationResult>
 
-    fun loginAccount(nickName: String, password:String): Single<LoginResult>
+    fun loginAccount(nickName: String, login: String, password:String): Single<LoginResult>
 
     fun getCurrentAccount(): Single<Account>
 

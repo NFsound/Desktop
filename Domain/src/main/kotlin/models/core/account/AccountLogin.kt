@@ -1,4 +1,4 @@
 package models.core.account
 
-class AccountLogin(val nickName:String, val password:String) {
+class AccountLogin(val nickname:String, val login:String, val password:String) {
 }

@@ -11,6 +11,7 @@ import presentation.sections.music.MusicView
 import tornadofx.SVGIcon
 import utils.ImageProvider
 import java.io.File
+import java.lang.Exception
 import javax.inject.Inject
 
 class MusicPresenter : SectionPresenter {
@@ -35,37 +36,56 @@ class MusicPresenter : SectionPresenter {
     }
 
     fun onPlusIconClick(icon: SVGIcon, track: Track) {
-        musicInteractor.getAllPlaylistsByAccount().subscribe { lists ->
-            Platform.runLater {
-                viewState.openPlaylistsView(icon, lists, track)
+        musicInteractor.getAllPlaylistsByAccount()
+            .onErrorResumeWith {
+                Platform.runLater {
+                    viewState.showErrorMessage("Couldn't load your playlists")
+                }
             }
-        }
-        //TODO ON ERROR
+            .subscribe { lists ->
+                Platform.runLater {
+                    viewState.openPlaylistsView(icon, lists, track)
+                }
+            }
     }
 
     fun startTrackGeneration() {
-        val byteArray = currentMusicFile!!.readBytes()
-        musicInteractor
-            .generateTrack(byteArray, GenerationParams("fv", "fv"))
-            .subscribe { track ->
-                Platform.runLater {
-                    viewState.addGeneratedTrack(track)
+        try {
+            val byteArray = currentMusicFile!!.readBytes()
+
+            musicInteractor
+                .generateTrack(byteArray, GenerationParams("fv", "fv"))
+                .subscribe { track ->
+                    Platform.runLater {
+                        viewState.addGeneratedTrack(track)
+                    }
                 }
+        } catch (e: Exception) {
+            Platform.runLater {
+                viewState.showErrorMessage("Couldn't read your file from disk")
             }
-        //TODO ON ERROR
+        }
     }
 
     override fun onInitialLoad() {
-        Platform.runLater{
         musicInteractor.getAvailableNetworks().onErrorResumeWith {
-
+            Platform.runLater {
+                viewState.showErrorMessage(
+                    "Couldn't load available networks for generation. " +
+                            "You should check your connection"
+                )
+            }
         }.subscribe { networks ->
             Platform.runLater {
-            viewState.loadNetworks(networks)
-             }
+                viewState.loadNetworks(networks)
+            }
         }
-        //TODO ON ERROR
         musicInteractor.getAllTracksByAccount()
+            .onErrorResumeWith {
+                Platform.runLater {
+                    viewState.showErrorMessage("Couldn't load your tracks")
+                }
+            }
             .subscribe { tracks ->
                 Platform.runLater {
                     for (track in tracks) {
@@ -73,7 +93,7 @@ class MusicPresenter : SectionPresenter {
                     }
                 }
             }
-        }
+
     }
 
     fun setCurrentFile(file: File) {

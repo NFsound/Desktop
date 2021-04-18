@@ -68,14 +68,12 @@ class NewsViewImpl() : View(), NewsView {
     }
 
     override fun showErrorMessage(text: String) {
-        openInternalWindow(
-            MessageWindow(text),
-            owner = this.root.parent.parent
-        )
-    }
-
-    init {
-
+        if(root.parent != null) {
+            openInternalWindow(
+                MessageWindow(text),
+                owner = this.root.parent.parent
+            )
+        }
     }
 
 }

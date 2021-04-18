@@ -124,10 +124,12 @@ class HomeViewImpl : View(), HomeView {
     }
 
     override fun showErrorMessage(text: String) {
-        openInternalWindow(
-            MessageWindow(text),
-            owner = this.root.parent.parent
-        )
+        if(root.parent != null) {
+            openInternalWindow(
+                MessageWindow(text),
+                owner = this.root.parent.parent
+            )
+        }
     }
 
     private lateinit var homePresenter: HomePresenter

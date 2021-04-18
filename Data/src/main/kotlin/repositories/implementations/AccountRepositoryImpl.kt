@@ -3,6 +3,7 @@ package repositories.implementations
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
 import models.core.account.*
+import models.wrappers.account.IdBody
 import network.api.ApiService
 import repositories.AccountRepository
 import javax.inject.Inject
@@ -23,17 +24,22 @@ class AccountRepositoryImpl @Inject constructor(
     }
 
     override fun login(accountLogin: AccountLogin): Single<LoginResult> {
-        return api.loginUser(accountLogin).doOnSuccess {
-            api.getUserById(it.id).map {
-                userInfo -> Account(it.id,
-                    userInfo.nickname,
-                    userInfo.login,
-                    accountLogin.password)
-            }.subscribe {
-                res->
-                currentAccount = res
+        return api.loginUser(accountLogin)
+            .doAfterSuccess {
+                api.getUserById(IdBody(it.id))
+                    .map { userInfo ->
+                        Account(
+                            it.id,
+                            accountLogin.nickname,
+                            accountLogin.login,
+                            accountLogin.password
+                        )
+                    }
+                    .subscribe { res ->
+                        currentAccount = res
+                        LocalStorageAccessor.storeAccount(currentAccount)
+                    }
             }
-        }
     }
 
     override fun getCurrentUser(): Single<Account> {
@@ -42,7 +48,7 @@ class AccountRepositoryImpl @Inject constructor(
 
     override fun logOut(): Completable {
         return Completable.fromAction {
-            currentAccount = Account(0,"Demo","demo","qwerty")
+            currentAccount = Account(0, "Demo", "demo", "qwerty")
         }
     }
 

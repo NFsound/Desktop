@@ -6,15 +6,21 @@ import models.wrappers.music.LinkPlaylist
 import okhttp3.ResponseBody
 import retrofit2.Response
 import java.io.File
+import java.lang.Exception
 
 object LocalStorageAccessor {
 
     val localStoragePath: String = ""
 
     fun storeAccount(account: Account) {
-
+        if (!File("current_account/").exists()) {
+            File("current_account/").mkdirs()
+        }
+        val accFile = File(getAccountPath())
+        accFile.createNewFile()
+        accFile.writeText("${account.id} ${account.nickname} " +
+                "${account.login} ${account.password}")
     }
-
 
     fun decodeByteArrayFromBody(
         responce: Response<ResponseBody?>
@@ -22,9 +28,23 @@ object LocalStorageAccessor {
         return responce.body()!!.bytes()
     }
 
+
     fun restoreAccount(): Account {
-        return Account(0, "Demo", "demo", "qwerty")
+        return try {
+            val account = File("current_account/info.txt")
+                .readText()
+            val strs = account.split(" ")
+            val id = strs[0].toInt()
+            val nick = strs[1]
+            val login = strs[2]
+            val password = strs[3]
+            Account(id, nick, login, password)
+        }catch (e:Exception){
+            Account(0, "Demo", "demo", "qwerty")
+        }
     }
+
+    fun getAccountPath() = "current_account/info.txt"
 
     fun getPathTrack(accountId: Int, trackId: Int) = "account${accountId}/tracks/${trackId}.wav"
 

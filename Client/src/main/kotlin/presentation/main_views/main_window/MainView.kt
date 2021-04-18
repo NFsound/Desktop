@@ -29,15 +29,17 @@ class MainView() : View() {
 
     @Inject
     lateinit var leftMenuView: LeftMenuView
+
     @Inject
     lateinit var topMenuView: TopMenuView
+
     @Inject
     lateinit var bottomMenuView: BottomMenuView
 
     private var mainPresenter: CenterPresenter? = provideMainPresenter()
 
     fun provideMainPresenter(): CenterPresenter {
-        return mainPresenter?: MainPresenter()
+        return mainPresenter ?: MainPresenter()
     }
 
     override val root: BorderPane = borderpane {
@@ -56,30 +58,23 @@ class MainView() : View() {
     }
     //views
 
-
     init {
         SonusApplication.getInstance().applicationComponent.inject(this)
-        root.bottom{
-            this.add(bottomMenuView.apply {setPresenter(mainPresenter!!)})
+        root.bottom {
+            this.add(bottomMenuView.apply { setPresenter(mainPresenter!!) })
         }
-        root.left{
-            this.add(leftMenuView.apply {setPresenter(mainPresenter!!)})
+        root.left {
+            this.add(leftMenuView.apply { setPresenter(mainPresenter!!) })
         }
         root.top {
-            this.add(topMenuView.apply {setPresenter(mainPresenter!!)})
+            this.add(topMenuView.apply { setPresenter(mainPresenter!!) })
         }
         root.center<CenterMenuPlacementView>()
-        mainPresenter!!.onSectionSelected(menu.menuList[0],0)
-        for (section in sections.sections){
+        mainPresenter!!.onSectionSelected(menu.menuList[0], 0)
+
+        for (section in sections.sections) {
             section.getPresenter().provideCenterPresenter(mainPresenter!!)
         }
     }
-
-
-
-
-
-
-
 
 }

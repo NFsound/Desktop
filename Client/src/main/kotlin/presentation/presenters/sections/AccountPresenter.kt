@@ -4,6 +4,7 @@ import application.SonusApplication
 import interactors.AccountInteractor
 import javafx.application.Platform
 import models.core.account.Account
+import models.core.account.LoginResult
 import presentation.presenters.main.CenterPresenter
 import presentation.sections.account.AccountView
 import javax.inject.Inject
@@ -24,25 +25,43 @@ class AccountPresenter() : SectionPresenter {
 
 
     override fun onInitialLoad() {
-        accountInteractor.getCurrentAccount().onErrorResumeWith {
-            Platform.runLater {
-                viewState.showErrorMessage("Couldn't login. No connection with server")
+        accountInteractor.getCurrentAccount()
+            .onErrorResumeWith {
+                Platform.runLater {
+                    viewState.showErrorMessage("Couldn't restore account info from memory")
+                    viewState.hideAccountUI()
+                }
+            }.subscribe { account ->
+                accountInteractor
+                    .loginAccount(account.nickname, account.login, account.password)
+                    .onErrorResumeWith {
+                        Platform.runLater {
+                            viewState.showErrorMessage("Couldn't login. No connection with server")
+                            viewState.hideAccountUI()
+                        }
+                    }
+                    .subscribe { loginResult ->
+                        if (loginResult.status) {
+                            Platform.runLater {
+                                viewState.initializeUserInfo(account)
+                                viewState.showAccountUI()
+                            }
+                        }
+                    }
             }
-        }.subscribe { account -> //TODO ON ERROR
-            Platform.runLater {
-                viewState.initializeUserInfo(account)
-                viewState.showAccountUI()
-            }
-        }
     }
 
     fun logOut() {
         accountInteractor.logOut().onErrorResumeWith {
-            //TODO ON ERROR
+            Platform.runLater {
+                viewState.showErrorMessage("Couldn't log out. No connection with server")
+            }
         }.subscribe { result ->
-            if (result) {
-                Platform.runLater {
+            Platform.runLater {
+                if (result) {
                     viewState.hideAccountUI()
+                } else {
+                    viewState.showErrorMessage("Couldn't log out. Some error happened")
                 }
             }
         }
@@ -51,7 +70,7 @@ class AccountPresenter() : SectionPresenter {
     fun registerAccount(nick: String, login: String, password: String) {
         accountInteractor.registerAccount(nick, login, password).onErrorResumeWith {
             Platform.runLater {
-                viewState.showErrorMessage("Couldn't login. No connection with server")
+                viewState.showErrorMessage("Couldn't register. No connection with server")
             }
         }.subscribe { result ->
             Platform.runLater {
@@ -66,20 +85,33 @@ class AccountPresenter() : SectionPresenter {
     }
 
     fun logIn(nick: String, login: String, password: String) {
-        accountInteractor.loginAccount(nick, password)
-            .subscribe { account ->
-                Platform.runLater {
-                    viewState.initializeUserInfo(Account(100, nick, login, password))
-                    viewState.showAccountUI()
+        Platform.runLater {
+            accountInteractor.loginAccount(nick, login, password)
+                .onErrorResumeWith {
+                    Platform.runLater {
+                        viewState.showErrorMessage("Couldn't login")
+                    }
                 }
-            } //TODO ON ERROR
+                .subscribe { loginResult ->
+                    Platform.runLater {
+                        if (loginResult.status) {
+                            viewState.initializeUserInfo(Account(loginResult.id, nick, login, password))
+                            viewState.showAccountUI()
+                        } else {
+                            viewState.showErrorMessage(loginResult.message)
+                        }
+                    }
+                }
+        }
     }
 
-    fun changePassword(newPassword:String){
-        accountInteractor.getCurrentAccount().subscribe {
-            it->it.password = newPassword
+    fun changePassword(newPassword: String) {
+        accountInteractor.getCurrentAccount().subscribe { it ->
+            it.password = newPassword
+            Platform.runLater {
+                viewState.showErrorMessage("Couldn't login. No connection with server")
+            }
         }
-        //TODO ON ERROR
     }
 
 }
